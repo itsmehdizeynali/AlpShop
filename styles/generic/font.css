@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-ExtraLight.woff');
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-Light.woff');
+  font-weight: 300;
+  font-display: swap;
+
+}
+
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-Medium.woff');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-SemiBold.woff');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-Bold.woff');
+  font-weight: 700;
+  font-display: swap;
+
+}
+
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-ExtraBold.woff');
+  font-weight: 800;
+  font-display: swap;
+
+}
+
+@font-face {
+  font-family: "Muil";
+  src: url('/fonts/Muil/Muil-Black.woff');
+  font-weight: 900;
+  font-display: swap;
+
+}
+

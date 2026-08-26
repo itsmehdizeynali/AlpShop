@@ -1,0 +1,209 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./prisma/dev.db"
+}
+
+// =======================
+// Users & Profile
+// =======================
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  password      String
+  avatar        String?
+  bio           String?         // اضافه شده برای بیوگرافی کاربر در پروفایل
+  theme         String          @default("dark") // جایگزین مود light/dark (مستقیماً در مدل یوزر)
+  role          Role            @default(USER)
+  
+  wallet        Wallet?
+  challenges    UserChallenge[]
+  notes         Note[]
+  calendar      CalendarEvent[]
+  notifications Notification[]
+  chats         Chat[]          @relation("ChatUsers")
+  messages      Message[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([email])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// =======================
+// Wallet & Transactions
+// =======================
+model Wallet {
+  id           String        @id @default(cuid())
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String        @unique
+  balance      Float         @default(0)
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  wallet      Wallet            @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  walletId    String
+  amount      Float
+  type        TransactionType
+  status      TransactionStatus @default(SUCCESS) // در سایت تمرینی مستقیم SUCCESS فرض میکنیم
+  description String?
+  createdAt   DateTime          @default(now())
+
+  @@index([walletId])
+  @@index([createdAt])
+}
+
+enum TransactionType {
+  DEPOSIT            // شارژ کیف پول
+  WITHDRAW           // برداشت از کیف پول
+  CHALLENGE_PURCHASE // خرید چالش
+  CHALLENGE_PAYMENT  // کسر مبلغ جزئی در داخل چالش
+  REWARD             // دریافت پاداش چالش موفق
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+// =======================
+// Challenges
+// =======================
+model Challenge {
+  id          String          @id @default(cuid())
+  title       String
+  description String
+  price       Float           // هزینه خرید چالش
+  target      Float           // هدفی که کاربر باید به آن برسد (مثلا ۵۰۰ هزار تومن)
+  duration    Int             // مدت زمان چالش به روز (مثلا ۳۰ روز)
+  reward      Float           // پاداش موفقیت در چالش
+  isActive    Boolean         @default(true) // برای ادمین که بتواند چالش را غیرفعال کند
+  users       UserChallenge[]
+  createdAt   DateTime        @default(now())
+}
+
+model UserChallenge {
+  id          String          @id @default(cuid())
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  challenge   Challenge       @relation(fields: [challengeId], references: [id], onDelete: Restrict)
+  challengeId String
+  status      ChallengeStatus @default(ACTIVE)
+  
+  // لایو محاسبات پیشرفت
+  totalPaid   Float           @default(0)      // مبالغی که کاربر خرد خرد واریز کرده
+  progress    Float           @default(0)      // درصد پیشرفت (فرمول: totalPaid / target * 100)
+  
+  startDate   DateTime        @default(now())
+  endDate     DateTime                         // تاریخ اتمام (فرمول: startDate + duration)
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([userId, status])
+}
+
+enum ChallengeStatus {
+  ACTIVE
+  COMPLETED // موفق
+  FAILED    // ناموفق
+}
+
+// =======================
+// Notes
+// =======================
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+}
+// =======================
+// Calendar & Events
+// =======================
+model CalendarEvent {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  color       String     @default("#3b82f6")
+  type        EventType  @default(CUSTOM) // نوع رویداد برای تفکیک خودکار و دستی
+  
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime   @default(now())
+
+  @@index([userId, startDate])
+}
+
+enum EventType {
+  CHALLENGE_BUY     // خرید چالش
+  CHALLENGE_START   // شروع چالش
+  CHALLENGE_END     // اتمام چالش
+  WALLET_DEPOSIT    // شارژ کیف پول
+  WALLET_WITHDRAW   // برداشت از کیف پول
+  NOTE_CREATE       // ایجاد نوت
+  CHAT_CREATE       // ایجاد چت با کسی
+  CUSTOM            // رویدادی که خود کاربر دستی اضافه میکند
+}
+
+// =======================
+// Notifications
+// =======================
+model Notification {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+// =======================
+// Chats & Messages
+// =======================
+model Chat {
+  id        String    @id @default(cuid())
+  users     User[]    @relation("ChatUsers")
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  senderId  String
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId    String
+  isRead    Boolean  @default(false)
+  isEdited  Boolean  @default(false) // برای نمایش برچسب (ویرایش شده) در فرانت
+  isDeleted Boolean  @default(false) // برای حذف نرم (اگر ترو بود، متن پیام رو در فرانت نشون نده و بنویس پیام حذف شده)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
+}
