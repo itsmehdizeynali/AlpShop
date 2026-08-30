@@ -6,9 +6,9 @@ export default function HeaderSection({
   children,
   className = "",
   endSide,
-  border = true,
-  shape = true,
-  size = "h1",
+  border = false,
+  shape = false,
+  size = "h2",
   icon,
   ...props
 }: HeaderSectionPropsType) {
@@ -24,7 +24,7 @@ export default function HeaderSection({
       {shape && <div className="w-0.5 h-9 bg-primary me-3.5"></div>}
       {
         icon&&
-        <i className="icon icon-user me-4 text-primary text-xl"></i>
+        <i className={clsx(icon,"me-3 text-secondary text-xl")}></i>
       }
       <Heading variant={size} className="me-4">
         {children}

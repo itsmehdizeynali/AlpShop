@@ -5,7 +5,7 @@ import type { ElementType } from "react";
 export default function Heading<T extends ElementType>({
   as,
   variant = "h3",
-  color = "dim-dark",
+  color = "black",
   weight = "bold",
   children,
   className = "",
@@ -14,6 +14,7 @@ export default function Heading<T extends ElementType>({
   const Component = as || "div";
   const colors = {
     white: "text-white",
+    black: "text-black",
     "dim-dark": "text-dim-dark",
     "dim-light": "text-dim-light",
     "primary": "text-primary",

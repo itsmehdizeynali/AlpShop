@@ -27,7 +27,7 @@ export default function Input({
     primary: "!border-primary",
   };
   return (
-    <div className={wrapClasses}>
+    <div className={clsx(wrapClasses,"rounded-md")}>
       {(label?.length || endSideLabel) && (
         <div className="w-full mb-2 flex items-center">
           <Text

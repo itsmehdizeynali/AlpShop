@@ -5,11 +5,24 @@ import Btn from "../generic/btn";
 import Input from "../generic/input";
 import Logo from "../generic/logo";
 import Text from "../generic/text";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
+import LayoutSearchBox from "./searchBox";
 
 export default function LayoutHeader() {
+  const route=usePathname()
+  
+  const links = [
+    { title: "Home", href: "/" },
+    { title: "About", href: "/about" },
+    { title: "About", href: "/about" },
+    { title: "About", href: "/about" },
+    { title: "About", href: "/about" },
+    { title: "About", href: "/about" },
+  ];
   return (
-    <header>
-      <div className="border-b border-neutral-light">
+    <header className="max-lg:shadow-card">
+      <div className="border-b border-neutral-light max-lg:hidden">
         <div className="container">
           <ul className="flex -mx-5">
             <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
@@ -29,7 +42,7 @@ export default function LayoutHeader() {
               >
                 <i className="icon-email me-4 text-primary text-2xl font-medium"></i>
                 <b className="me-1.5 font-bold">Email</b>
-                info@shopik.com
+                info@alpShop.com
               </Link>
             </li>
             <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
@@ -62,30 +75,14 @@ export default function LayoutHeader() {
           </ul>
         </div>
       </div>
-      <div className="container py-sm-section flex items-center">
+      <div className="container py-sm-section flex flex-wrap items-center">
         <Logo className="me-auto" />
-        <form className="me-auto flex">
-          <Input
-            wrapClasses=""
-            className="!w-[350px]"
-            placeholder="Search for tech products . . ."
-            endSide={
-              <Btn
-                size="lg"
-                color="transparent"
-                className="rounded-s-none rounded-e-md"
-                square
-                icon="icon-search-svgrepo-com-2"
-              ></Btn>
-            }
-          />
-        </form>
+        <LayoutSearchBox/>
         <ul className="flex items-center">
-          <li className="me-3 last:me-0">
+          <li className="lg:me-3 me-2 last:me-0 max-lg:hidden">
             <Btn
               className="after:content-['4'] after:leading-none after:absolute after:top-0 after:-translate-y-1/2 after:end-0 after:translate-x-1/2 after:w-5 after:h-5 after:text-xs after:text-white after:bg-primary-dark after:rounded-full after:flex after:items-center after:justify-center"
               href="/backet"
-              size="lg"
               as={Link}
               color="primary"
               variant="lightness"
@@ -93,10 +90,9 @@ export default function LayoutHeader() {
               square
             />
           </li>
-          <li className="me-3 last:me-0">
+          <li className="lg:me-3 me-2 last:me-0 max-lg:hidden">
             <Btn
               href="/heart"
-              size="lg"
               as={Link}
               color="primary"
               variant="lightness"
@@ -104,78 +100,50 @@ export default function LayoutHeader() {
               square
             />
           </li>
+          <li className="lg:me-3 me-2 last:me-0 lg:hidden">
+            <Btn
+              href="/call"
+              as={Link}
+              color="primary"
+              variant="lightness"
+              icon="icon-telephone"
+              square
+            />
+          </li>
+          <li className="lg:me-3 me-2 last:me-0 lg:hidden">
+            <Btn
+              href="/auth/login"
+              as={Link}
+              color="primary"
+              variant="lightness"
+              icon="icon-add-user"
+              square
+            />
+          </li>
         </ul>
       </div>
-      <div className="bg-primary">
+      <div className="max-lg:py-4 max-lg:hidden">
         <div className="container">
-          <div className="overflow-hidden">
-            <ul className="flex items-center overflow-x-auto py-4 -mx-8 hide-scrollbar">
-              <li className="border-e border-e-white/20 last:border-0">
-                <Text
-                  as={Link}
-                  size="base"
-                  color="primary-light"
-                  href="/"
-                  className="hover:text-white py-1 px-8 text-nowrap"
+          <div className="flex items-center border-b border-b-neutral-light !overflow-visible">
+            <Btn className="me-8" icon="icon-burger-menu">
+              categories
+            </Btn>
+            <ul className="flex items-center grow overflow-x-auto hide-scrollbar">
+              {links.map((item, index) => (
+                <li
+                  key={index}
                 >
-                  All Categories
-                </Text>
-              </li>
-              <li className="border-e border-e-white/20 last:border-0">
-                <Text
-                  as={Link}
-                  size="base"
-                  color="primary-light"
-                  href="/"
-                  className="hover:text-white py-1 px-8 text-nowrap"
-                >
-                  Electronics
-                </Text>
-              </li>
-              <li className="border-e border-e-white/20 last:border-0">
-                <Text
-                  as={Link}
-                  size="base"
-                  color="primary-light"
-                  href="/"
-                  className="hover:text-white py-1 px-8 text-nowrap"
-                >
-                  Beauty
-                </Text>
-              </li>
-              <li className="border-e border-e-white/20 last:border-0">
-                <Text
-                  as={Link}
-                  size="base"
-                  color="primary-light"
-                  href="/"
-                  className="hover:text-white py-1 px-8 text-nowrap"
-                >
-                  Fashion
-                </Text>
-              </li>
-              <li className="border-e border-e-white/20 last:border-0">
-                <Text
-                  as={Link}
-                  size="base"
-                  color="primary-light"
-                  href="/"
-                  className="hover:text-white py-1 px-8 text-nowrap"
-                >
-                  Tools
-                </Text>
-              </li>
-              <li className="border-e border-e-white/20 last:border-0">
-                <Text
-                  as={Link}
-                  size="base"
-                  color="primary-light"
-                  href="/"
-                  className="hover:text-white py-1 px-8 text-nowrap"
-                >
-                  Deals
-                </Text>
-              </li>
+                  <Text
+                    as={Link}
+                    size="base"
+                    color="dim"
+                    href={item.href}
+                    className={clsx("py-4 px-6 text-nowrap block relative navbar-item-after",{"active":route===item.href})}
+                  >
+                    {item.title}
+                  </Text>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

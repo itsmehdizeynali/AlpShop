@@ -4,7 +4,7 @@ import { ChipPropsType } from "./types";
 export default function Chip({
   children,
   variant = "filled",
-  color = "success",
+  color = "primary",
   className = "",
   icon,
 }: ChipPropsType) {
@@ -35,7 +35,7 @@ export default function Chip({
     },
   };
   const baseClasses =
-    "!flex items-center inline-block relative w-fit px-3 py-1.5 rounded-full text-xs font-semibold transition-all";
+    "flex items-center relative w-fit px-3 py-1 rounded text-xs font-semibold transition-all";
   return (
     <div className={clsx(baseClasses, className, colors[variant][color])}>
       {children}

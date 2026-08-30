@@ -1,4 +1,5 @@
 import LayoutHeader from "@/components/layout/header";
+import LayoutToolbar from "@/components/layout/toolbar";
 
 export default function RootLayout({
   children,
@@ -7,8 +8,12 @@ export default function RootLayout({
 }>) {
   return (
     <>
+      <LayoutToolbar/>
       <LayoutHeader/>
       {children}
+      <footer className="pb-20">
+
+      </footer>
     </>
   );
 }

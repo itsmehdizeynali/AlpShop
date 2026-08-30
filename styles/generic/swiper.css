@@ -1,0 +1,22 @@
+.swiper-pagination{
+    @apply text-primary !start-1/2 -translate-x-1/2 bg-white/10 backdrop-blur !w-fit px-2 py-1.5 rounded-full !flex items-center !h-fit max-lg:!hidden
+}
+.swiper-pagination-bullet{
+    @apply !w-1.5 !h-1.5 !rounded-full !bg-neutral-dark !opacity-100
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active{
+    @apply !w-6 !bg-primary
+}
+
+.swiper-button-prev,.swiper-button-next{
+    @apply !w-8 !h-8 max-lg:!hidden rounded-full bg-black/10 backdrop-blur-xs hover:bg-black/20 !text-white hover:!text-white transition-all
+}
+.swiper-button-prev .swiper-navigation-icon,.swiper-button-next .swiper-navigation-icon{
+    @apply !w-2.5 !h-2.5
+}
+.swiper-hero .swiper-button-prev {
+    @apply !start-2.5
+}
+.swiper-hero .swiper-button-next {
+    @apply !end-2.5
+}

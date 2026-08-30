@@ -21,6 +21,7 @@ export default function UiHeaderSection() {
             icon="icon-right-arrow"
             iconPlace="end"
             className="ms-auto"
+            variant="outline"
           >
             show all
           </Btn>

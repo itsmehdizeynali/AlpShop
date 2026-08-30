@@ -4,7 +4,7 @@ import { BtnColors } from "../generic/types";
 
 export default function UiBtns() {
   const text = "continue";
-  const colors:BtnColors[] = ["primary" , "success" , "warning" , "danger", "info", "neutral","dim"];
+  const colors:BtnColors[] = ["primary" , "success" , "warning" , "danger", "info", "neutral","dim","black"];
   return (
     <div>
       <div className="container pb-8">

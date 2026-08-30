@@ -22,7 +22,8 @@ export type BtnColors =
   | "warning"
   | "danger"
   | "dim"
-  | "neutral";
+  | "neutral"
+  | "black";
 export type BtnVarients =
   | "normal"
   | "text"
@@ -50,6 +51,7 @@ export type BtnPropsType<T extends ElementType> = Partial<{
 // CARD
 export type CardColors =
   | "transparent"
+  | "white"
   | "primary"
   | "primary-light"
   | "gradient-primary"
@@ -89,12 +91,12 @@ export type ChipPropsType = Partial<{
 }>;
 
 // HEADING
-export type HeadingVarients = "h1" | "h2" | "h3" | "h4" | "h5";
+export type HeadingVarients = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 export type HeadingPropsType<T extends ElementType> = Partial<{
   as: ElementType;
   variant: HeadingVarients;
-  color: "white" | "dim-dark" | "dim-light"|"primary";
+  color: "white" | "dim-dark" | "dim-light" | "primary" | "black";
   weight: "bold" | "medium";
   children: ReactNode;
   className: string;
@@ -188,7 +190,7 @@ export type TabsPropsType<T extends { id: string }> = {
 
 // TEXT
 export type TextSizesType = "lg" | "md" | "base" | "sm" | "xs";
-export type TextWeightsType = "light" | "medium" | "bold";
+export type TextWeightsType = "light" | "medium" | "bold" | "black";
 export type TextColorsType =
   | "dim-dark"
   | "dim-light"
@@ -223,3 +225,8 @@ export type TextareaPropsType = Partial<{
   msg: string | null;
   defaultValue: string;
 }>;
+
+// PRICE
+export interface PricePropsType {
+  children: ReactNode;
+}

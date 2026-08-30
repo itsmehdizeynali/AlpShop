@@ -13,7 +13,7 @@ export default function Card<T extends ElementType>({
   ...props
 }: CardPropsType<T>) {
   const colors = {
-    transparent: `bg-transparent border-none text-dim ${hasHover && "hover:border-primary/60"}`,
+    transparent: `bg-transparent border-neutral-light text-dim ${hasHover && "hover:border-primary/60"}`,
     primary: `bg-primary border-primary-dark text-white ${hasHover && "hover:border-primary/60"}`,
     "primary-light": `bg-primary-light border-primary text-primary ${hasHover && "hover:border-primary/60"}`,
     info: `bg-info-light border-info text-info ${hasHover && "hover:border-primary/60"}`,
@@ -23,6 +23,7 @@ export default function Card<T extends ElementType>({
     "neutral-dark": `bg-dim border-dim-light text-white ${hasHover && "hover:border-primary/60"}`,
     neutral: `bg-neutral-lighter border-neutral text-dim ${hasHover && "hover:border-primary/60"}`,
     "gradient-primary": `bg-gradient-primary border-dim-light text-white ${hasHover && "hover:border-primary/60"}`,
+    "white": `bg-white border-neutral-lighter text-primary ${hasHover && "hover:border-primary/60"}`,
   };
   const baseClasses = "transition-all block rounded-xl text-sm p-4";
   return (
