@@ -15,6 +15,7 @@ export default function Chip({
       danger: "text-danger-light bg-danger",
       success: "text-success-light bg-success",
       primary: "text-primary-light bg-primary",
+      secondary: "text-secondary-light bg-secondary",
       neutral: "text-dim bg-neutral",
     },
     lightness: {
@@ -23,6 +24,7 @@ export default function Chip({
       danger: "text-danger bg-danger-light",
       success: "text-success bg-success-light",
       primary: "text-primary bg-primary-light",
+      secondary: "text-secondary bg-secondary-light",
       neutral: "text-dim bg-neutral-light",
     },
     outline: {
@@ -31,6 +33,7 @@ export default function Chip({
       danger: "text-danger border border-danger",
       success: "text-success border border-success",
       primary: "text-primary border border-primary",
+      secondary: "text-secondary border border-secondary",
       neutral: "text-dim-dark border border-neutral-light",
     },
   };

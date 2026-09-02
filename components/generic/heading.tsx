@@ -25,8 +25,8 @@ export default function Heading<T extends ElementType>({
   };
   const variants = {
     h1: "lg:text-5xl text-3xl",
-    h2: "lg:text-3xl text-xl",
-    h3: "lg:text-xl text-lg",
+    h2: "lg:text-3xl text-md",
+    h3: "lg:text-xl text-md",
     h4: "lg:text-lg text-md",
     h5: "lg:text-base text-sm",
     h6: "lg:text-sm text-xs",

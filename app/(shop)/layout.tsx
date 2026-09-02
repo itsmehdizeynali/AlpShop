@@ -1,3 +1,4 @@
+import LayoutFooter from "@/components/layout/footer";
 import LayoutHeader from "@/components/layout/header";
 import LayoutToolbar from "@/components/layout/toolbar";
 
@@ -6,14 +7,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <>
-      <LayoutToolbar/>
-      <LayoutHeader/>
+      <LayoutToolbar />
+      <LayoutHeader />
       {children}
-      <footer className="pb-20">
-
-      </footer>
+      <LayoutFooter />
     </>
   );
 }

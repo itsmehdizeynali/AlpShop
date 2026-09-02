@@ -28,30 +28,64 @@ const dataShopIndex = () => {
       href: "/category",
     },
   ];
+  const categories = [
+    {
+      alt: "Electronics",
+      href: "/category/Electronics",
+      src: "/img/category-1.jpg",
+    },
+    {
+      alt: "Beauty & Personal Care",
+      href: "/category/Beauty&PersonalCare",
+      src: "/img/category-1.jpg",
+    },
+    {
+      alt: "Fashion & Clothing",
+      href: "/category/Fashion&Clothing",
+      src: "/img/category-1.jpg",
+    },
+    {
+      alt: "Tools & Hardware",
+      href: "/category/Tools&Hardware",
+      src: "/img/category-1.jpg",
+    },
+  ];
   const services = [
     {
-      icon: "icon-basket1",
+      icon: "icon-basket",
       title: "Free Shipping",
-      description: "",
+      subTitle: "On Orders Over $50",
     },
     {
-      icon: "icon-basket1",
+      icon: "icon-basket",
       title: "Free Shipping",
-      description: "",
+      subTitle: "On Orders Over $50",
     },
     {
-      icon: "icon-basket1",
+      icon: "icon-basket",
       title: "Free Shipping",
-      description: "",
+      subTitle: "On Orders Over $50",
     },
     {
-      icon: "icon-basket1",
+      icon: "icon-basket",
       title: "Free Shipping",
-      description: "",
-    }
+      subTitle: "On Orders Over $50",
+    },
   ];
+  const product={
+    id:"ACDC1",
+    img:"/img/product-1.jpg",
+    name:"Smart Watch Series B",
+    rate:{
+      rate:4.6,
+      users:80,
+    },
+    discount:20,
+    price:49.99,
+    realPrice:69.99
+  }
 
-  return { hero };
+  return { hero,categories,services,product };
 };
 
 export default dataShopIndex;

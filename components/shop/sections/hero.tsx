@@ -1,16 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import dataShopIndex from "@/mockData/shop";
 import Image from "next/image";
 import Link from "next/link";
 export default function ShopSectionsHero() {
   const { hero } = dataShopIndex();
   return (
-    <div className="overflow-hidden">
-      <div className="container my-sm-section">
+    <div className="overflow-hidden mt-sm-section mb-section">
+      <div className="container">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           breakpoints={{
@@ -41,7 +39,7 @@ export default function ShopSectionsHero() {
                   src={item.img}
                   height={400}
                   width={600}
-                  className="w-full h-full max-h-[400px]"
+                  className="w-full h-full max-h-[400px] min-h-[170px] max-lg:rounded-lg object-cover object-left"
                 />
               </Link>
             </SwiperSlide>

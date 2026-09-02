@@ -25,7 +25,7 @@ export default function Card<T extends ElementType>({
     "gradient-primary": `bg-gradient-primary border-dim-light text-white ${hasHover && "hover:border-primary/60"}`,
     "white": `bg-white border-neutral-lighter text-primary ${hasHover && "hover:border-primary/60"}`,
   };
-  const baseClasses = "transition-all block rounded-xl text-sm p-4";
+  const baseClasses = "transition-all block rounded-xl text-sm lg:p-4 p-3";
   return (
     <Component
       {...props}

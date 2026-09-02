@@ -1,53 +1,46 @@
 "use client";
 
-import Btn from "@/components/generic/btn";
-import HeaderSection from "@/components/generic/headerSection";
-import ShopProductCard from "@/components/shop/generic/productCard";
 import ShopSectionsCategories from "@/components/shop/sections/categories";
+import ShopSectionsDeals from "@/components/shop/sections/deals";
 import ShopSectionsHero from "@/components/shop/sections/hero";
+import ShopSectionsJoinBox from "@/components/shop/sections/joinBox";
+import ShopSectionsProductsWrap from "@/components/shop/sections/productsWrap";
+import ShopSectionsServices from "@/components/shop/sections/services";
+import ShopSectionsSpacialProducts from "@/components/shop/sections/spacialProducts";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export default function Home() {
   return (
     <div className="">
       <ShopSectionsHero />
-      <ShopSectionsCategories/>
-      <div className="container mb-8">
-        <HeaderSection
-          icon="icon-thunder1"
-          className="mb-sm-section"
-          shape={false}
-          endSide={
-            <Btn
-              size="sm"
-              icon="icon-right-arrow"
-              iconPlace="end"
-              className="ms-auto"
-              variant="outline-lightness"
-            >
-              View All
-            </Btn>
-          }
-        >
-          Flash Deals
-        </HeaderSection>
-        <div className="flex -m-1">
-          <div className="w-1/5 p-1">
-            <ShopProductCard/>
-          </div>
-          <div className="w-1/5 p-1">
-            <ShopProductCard/>
-          </div>
-          <div className="w-1/5 p-1">
-            <ShopProductCard/>
-          </div>
-          <div className="w-1/5 p-1">
-            <ShopProductCard/>
-          </div>
-          <div className="w-1/5 p-1">
-            <ShopProductCard/>
-          </div>
-        </div>
-      </div>
+      <ShopSectionsDeals />
+      <ShopSectionsCategories />
+      <ShopSectionsSpacialProducts />
+      <ShopSectionsProductsWrap
+        className="mb-section"
+        headerTitle="Electronics"
+        headerLink="/catigory/electronics"
+      />
+      <ShopSectionsProductsWrap
+        className="mb-section"
+        headerTitle="Beauty & Personal Care"
+        headerLink="/catigory/Beauty&PersonalCare"
+      />
+      <ShopSectionsProductsWrap
+        className="mb-section"
+        headerTitle="Fashion & Clothing"
+        headerLink="/catigory/Fashion&Clothing"
+      />
+      <ShopSectionsProductsWrap
+        className="mb-section"
+        headerTitle="Tools & Hardware"
+        headerLink="/catigory/Tools&Hardware"
+      />
+
+      <ShopSectionsJoinBox />
+
+      <ShopSectionsServices />
     </div>
   );
 }

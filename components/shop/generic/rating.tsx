@@ -1,15 +1,15 @@
+"use client"
+
 import Text from "@/components/generic/text";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import type { RatingPropsType } from "./types";
 
-export default function ShopRating({productRate=0,users=0,className=""}:RatingPropsType) {
+export default function ShopRating({productRate=0,users=0,className="",disabled=false}:RatingPropsType) {
   const [rate, setRate] = useState(productRate);
   const [activeStar, setActiveStar] = useState(productRate);
-  useEffect(() => {
-    console.log(activeStar);
-  }, [activeStar]);
   return (
-    <div className={clsx(className,"flex items-center")}>
+    <div className={clsx(className,"flex items-center",{"pointer-events-none":disabled})}>
       <div
         className="flex items-center"
         onMouseLeave={() => setActiveStar(rate)}

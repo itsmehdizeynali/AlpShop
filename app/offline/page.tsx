@@ -5,7 +5,7 @@ export default function OfflinePage() {
     <div
       className="flex items-center justify-center w-full h-screen"
     >
-      <Image alt="offline" width={600} height={336} src={"/img/offline.jfif"} />
+      <Image alt="offline" width={600} height={336} className="w-full h-screen" src={"/img/offline.jfif"} />
     </div>
   );
 }

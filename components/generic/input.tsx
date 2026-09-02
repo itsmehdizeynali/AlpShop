@@ -43,8 +43,8 @@ export default function Input({
       )}
       <div
         className={clsx(
-          "w-full lg:h-11 h-10 border border-solid border-neutral-light flex items-center focus-within:!border-primary transition-all",
-          rounded?"rounded-full":"rounded-md",
+          "w-full lg:h-11 h-10 border border-neutral-light bg-white flex items-center transition-all",
+          className,rounded?"rounded-full":"rounded-md",
           showMsg && generateBorderColor[msgType],
         )}
       >
@@ -54,7 +54,7 @@ export default function Input({
         <input
           type="text"
           defaultValue={defaultValue}
-          className={clsx(className,"w-full h-full bg-transparent border-0 outline-none shadow-none px-3 text-primary placeholder:text-neutral text-sm")}
+          className={clsx("w-full h-full bg-transparent border-0 outline-none shadow-none px-3 text-primary placeholder:text-neutral text-sm")}
           {...props}
         />
         {endSide && (

@@ -15,17 +15,7 @@ export default function UiHeaderSection() {
       <HeaderSection
       icon="icon-user"
       shape={false}
-        endSide={
-          <Btn
-            size="sm"
-            icon="icon-right-arrow"
-            iconPlace="end"
-            className="ms-auto"
-            variant="outline"
-          >
-            show all
-          </Btn>
-        }
+        link="/"
       >
         test text
       </HeaderSection>
@@ -33,43 +23,10 @@ export default function UiHeaderSection() {
     
     <div className="container mb-8">
       <HeaderSection
-        endSide={
-          <Chip color="neutral" className="ms-auto">
-            account number:  553526875
+        mainSide={
+          <Chip color="neutral" variant="lightness" className="ms-auto">
+            product number:  553526875
           </Chip>
-        }
-      >
-        test text
-      </HeaderSection>
-    </div>
-    
-    <div className="container mb-8">
-      <HeaderSection
-        endSide={
-          <Chip color="primary">
-            spacial
-          </Chip>
-        }
-      >
-        test text
-      </HeaderSection>
-    </div>
-    
-    <div className="container mb-8">
-      <HeaderSection
-        endSide={
-          <>
-          <Chip color="primary" className="me-auto">
-            spacial
-          </Chip>
-          <Btn
-            size="sm"
-            icon="icon-right-arrow"
-            iconPlace="end"
-          >
-            show all
-          </Btn>
-          </>
         }
       >
         test text

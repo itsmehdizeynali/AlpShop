@@ -17,12 +17,14 @@ export type AlertPropsType = Partial<{
 export type BtnColors =
   | "transparent"
   | "primary"
+  | "secondary"
   | "success"
   | "info"
   | "warning"
   | "danger"
   | "dim"
   | "neutral"
+  | "white"
   | "black";
 export type BtnVarients =
   | "normal"
@@ -80,6 +82,7 @@ export type ChipColors =
   | "danger"
   | "success"
   | "primary"
+  | "secondary"
   | "neutral";
 export type ChipVarients = "filled" | "lightness" | "outline";
 export type ChipPropsType = Partial<{
@@ -137,11 +140,12 @@ export type PaginationPropsType = {
 export type HeaderSectionPropsType = Partial<{
   children: ReactNode;
   className: string;
-  endSide: ReactNode;
+  mainSide: ReactNode;
   badge: string;
   border: boolean;
   shape: boolean;
   size: HeadingVarients;
+  link: string;
   icon: string;
 }> &
   ComponentPropsWithoutRef<"div">;
@@ -230,3 +234,22 @@ export type TextareaPropsType = Partial<{
 export interface PricePropsType {
   children: ReactNode;
 }
+
+
+// COUNTDOWN
+export type CountdownBoxColorsType ="neutral"|"white"
+export interface CountdownTimerPropsType {
+  endDate: string | Date;
+  className?:string
+  color?:CountdownBoxColorsType
+} 
+export interface CountdownTimeBoxPropsType {
+  value: number;
+  label: string;
+  color?:CountdownBoxColorsType
+}
+
+// BACKDROP
+export type BackdropPropsType= {
+  isShow:boolean
+}& ComponentPropsWithoutRef<"div">

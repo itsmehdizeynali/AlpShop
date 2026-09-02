@@ -26,9 +26,9 @@
   --primary-light: #e4f1ff;
 
    --red: #cb3030;
-  --secondary: #ffe600;
-  --secondary-dark: #dac90c;
-  --secondary-light: #fff2ba;
+  --secondary: #82b415;
+  --secondary-dark: #60870d;
+  --secondary-light: #edffc7;
 
   --neutral: #c3c3c3;
   --neutral-dark: #afafaf;
@@ -177,12 +177,7 @@
 
 
   .backdrop {
-    @apply bg-black/30 z-[35] w-full h-full fixed top-0 right-0
-  }
-
-  .loading {
-    animation: rotatePause 2s linear infinite;
-    transform-origin: center;
+    @apply bg-black/30 backdrop-blur-sm z-[35] w-full h-full fixed top-0 right-0 transition-all
   }
 
   .navbar-item-after{
@@ -192,18 +187,32 @@
     @apply !text-primary pointer-events-none after:!w-2/5 after:!h-0.5 after:bg-primary after:left-1/2 after:-translate-x-1/2
   }
 
+  .countdown-time-box-after{
+    @apply after:text-xs after:content-[':'] after:absolute after:-end-1 after:translate-x-1/2 after:top-1/2 after:-translate-y-1/2 after:lg:hidden last:after:hidden
+  }
+
+
+  .loading {
+    animation: rotatePause 4s linear infinite;
+    transform-origin: center;
+  }
+
   @keyframes rotatePause {
 
     0% {
-      transform: rotate(0deg);
+      transform: scale(1);
     }
 
-    40% {
-      transform: rotate(0deg);
+    20% {
+      transform: scale(1);
+    }
+
+    60% {
+      transform: scale(1.5);
     }
 
     100% {
-      transform: rotate(360deg);
+      transform: scale(1);
     }
   }
 
@@ -346,7 +355,7 @@ html {
 
 body,
 html {
-  @apply text-left font-medium font-Muil text-dim min-h-screen bg-white;
+  @apply text-left font-medium font-Muil text-black min-h-screen bg-white;
   direction: ltr;
 }
 
