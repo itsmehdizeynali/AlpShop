@@ -34,6 +34,7 @@ export default function Logo({
         alt="logo"
         width={setSize[size]["width"]}
         height={setSize[size]["height"]}
+        className="max-lg:h-[22px] max-lg:w-fit"
       />
     </Link>
   );

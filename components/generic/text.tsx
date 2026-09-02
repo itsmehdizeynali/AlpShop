@@ -29,6 +29,7 @@ export default function Text<T extends ElementType = "div">({
     light: "font-light",
     medium: "font-medium",
     bold: "font-bold",
+    black: "font-black",
   };
   const sizes = {
     lg: "lg:text-lg text-md",

@@ -4,7 +4,8 @@
 @import "./generic/font.css";
 @import "./generic/font-icon.css";
 @import "./generic/select.css";
-@import "./generic/select.css";
+@import "./generic/swiper.css";
+@import "./generic/swiper.css";
 
 /* ===================== */
 /*  Base CSS Variables   */
@@ -24,16 +25,10 @@
   --primary-dark: #032956;
   --primary-light: #e4f1ff;
 
-   --red: #c37272;
-  /* --dim: #343434;
-  --dim-dark: #1a1a1a;
-  --dim-light: #545454;
-  --dim-lighter: #7b7b7b;
-
-  --neutral: #e0e0e0;
-  --neutral-dark: #d6d6d6;
-  --neutral-darker: #c8c8c8;
-  --neutral-light: #ededed; */
+   --red: #cb3030;
+  --secondary: #82b415;
+  --secondary-dark: #60870d;
+  --secondary-light: #edffc7;
 
   --neutral: #c3c3c3;
   --neutral-dark: #afafaf;
@@ -112,6 +107,10 @@
   --color-dim-dark: var(--dim-dark);
   --color-dim-light: var(--dim-light);
 
+  --color-secondary: var(--secondary);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-secondary-light: var(--secondary-light);
+
   --color-neutral: var(--neutral);
   --color-neutral-light: var(--neutral-light);
   --color-neutral-lighter: var(--neutral-lighter);
@@ -178,26 +177,42 @@
 
 
   .backdrop {
-    @apply bg-black/30 z-40 w-full h-full fixed top-0 right-0
+    @apply bg-black/30 backdrop-blur-sm z-[35] w-full h-full fixed top-0 right-0 transition-all
   }
 
+  .navbar-item-after{
+    @apply after:absolute after:start-0 after:w-0 hover:after:w-full after:transition-all after:h-[1px] after:bottom-0 after:z-10 after:bg-primary after:content-['']
+  }
+  .navbar-item-after.active{
+    @apply !text-primary pointer-events-none after:!w-2/5 after:!h-0.5 after:bg-primary after:left-1/2 after:-translate-x-1/2
+  }
+
+  .countdown-time-box-after{
+    @apply after:text-xs after:content-[':'] after:absolute after:-end-1 after:translate-x-1/2 after:top-1/2 after:-translate-y-1/2 after:lg:hidden last:after:hidden
+  }
+
+
   .loading {
-    animation: rotatePause 2s linear infinite;
+    animation: rotatePause 4s linear infinite;
     transform-origin: center;
   }
 
   @keyframes rotatePause {
 
     0% {
-      transform: rotate(0deg);
+      transform: scale(1);
     }
 
-    40% {
-      transform: rotate(0deg);
+    20% {
+      transform: scale(1);
+    }
+
+    60% {
+      transform: scale(1.5);
     }
 
     100% {
-      transform: rotate(360deg);
+      transform: scale(1);
     }
   }
 
@@ -215,15 +230,15 @@
   }
 
   .my-sm-section {
-    @apply lg:my-8 my-4
+    @apply lg:my-6 my-4
   }
 
   .mt-sm-section {
-    @apply lg:mt-8 mt-4
+    @apply lg:mt-6 mt-4
   }
 
   .mb-sm-section {
-    @apply lg:mb-8 mb-4
+    @apply lg:mb-6 mb-4
   }
 
 
@@ -241,15 +256,15 @@
   }
 
   .py-sm-section {
-    @apply lg:py-8 py-4
+    @apply lg:py-6 py-4
   }
 
   .pt-sm-section {
-    @apply lg:pt-8 pt-4
+    @apply lg:pt-6 pt-4
   }
 
   .pb-sm-section {
-    @apply lg:pb-8 pb-4
+    @apply lg:pb-6 pb-4
   }
 
 
@@ -340,7 +355,7 @@ html {
 
 body,
 html {
-  @apply text-left font-medium font-Muil text-dim min-h-screen bg-white;
+  @apply text-left font-medium font-Muil text-black min-h-screen bg-white;
   direction: ltr;
 }
 
