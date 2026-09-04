@@ -15,7 +15,7 @@ export default function ShopSectionsSpacialProducts() {
           icon="icon-basket"
           className="mb-sm-section"
           shape={false}
-          link="/"
+          link="/deals"
           mainSide={
             <Countdown endDate="2026-09-10T23:59:59" className="me-4" />
           }

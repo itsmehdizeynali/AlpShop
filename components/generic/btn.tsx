@@ -106,12 +106,12 @@ export default function Btn<T extends ElementType = "button">({
     }
   };
   const baseClasses =
-    "flex cursor-pointer items-center justify-center w-fit relative px-6 rounded-lg font-semibold transition-all leading-none";
+    "flex cursor-pointer items-center justify-center w-fit relative rounded-lg font-semibold transition-all leading-none";
   const btnSize = {
-    lg: "lg:h-12 h-11 lg:text-md text-base",
-    base: "lg:h-11 h-10 lg:text-sm text-xs",
-    sm: "lg:h-9 h-8 lg:text-xs-plus text-xs",
-    xs: "lg:h-8 h-7 lg:text-sm text-xs",
+    lg: "lg:h-12 h-11 lg:text-md text-base px-8",
+    base: "lg:h-11 h-10 lg:text-sm text-xs px-6",
+    sm: "lg:h-9 h-8 lg:text-xs-plus text-xs px-4",
+    xs: "lg:h-8 h-7 lg:text-xs-plus text-xs px-4",
   };
   const iconSizes = {
     lg: "lg:text-xl text-lg",

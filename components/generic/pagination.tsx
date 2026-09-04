@@ -61,8 +61,8 @@ export default function Pagination({
         as="li"
         className="sm:me-2 me-1.5 last:!me-0"
         square
-        rounded
         size="sm"
+        color="black"
         variant="lightness"
         onClick={handlePrev}
         disabled={current === 1}
@@ -73,13 +73,11 @@ export default function Pagination({
       {totalPages.map((item, index) => (
         <Btn
           as="li"
-          className="sm:me-2 me-1.5 last:!me-0"
+          className={clsx({"pointer-events-none":item === current},"sm:me-2 me-1.5 last:!me-0")}
           square
           key={index}
-          color="neutral"
-          variant="lightness"
-          disabled={item === current}
-          rounded
+          color={item === current?"primary":"black"}
+          variant={item === current?"normal":"lightness"}
           size="sm"
           onClick={() => reFetch(item)}
         >
@@ -90,8 +88,8 @@ export default function Pagination({
         as="li"
         className="sm:me-2 me-1.5 last:!me-0"
         square
-        rounded
         size="sm"
+        color="black"
         variant="lightness"
         onClick={handleNext}
         disabled={current === total}

@@ -235,21 +235,26 @@ export interface PricePropsType {
   children: ReactNode;
 }
 
-
 // COUNTDOWN
-export type CountdownBoxColorsType ="neutral"|"white"
+export type CountdownBoxColorsType = "neutral" | "white"|"primary-light";
 export interface CountdownTimerPropsType {
   endDate: string | Date;
-  className?:string
-  color?:CountdownBoxColorsType
-} 
+  className?: string;
+  color?: CountdownBoxColorsType;
+}
 export interface CountdownTimeBoxPropsType {
   value: number;
   label: string;
-  color?:CountdownBoxColorsType
+  color?: CountdownBoxColorsType;
 }
 
 // BACKDROP
-export type BackdropPropsType= {
-  isShow:boolean
-}& ComponentPropsWithoutRef<"div">
+export type BackdropPropsType = {
+  isShow: boolean;
+} & ComponentPropsWithoutRef<"div">;
+
+// CHECKBOX
+export type CheckboxPropsType = {
+  name: string;
+  className: string;
+} & ComponentPropsWithoutRef<"li">;

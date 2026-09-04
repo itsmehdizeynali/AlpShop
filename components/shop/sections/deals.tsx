@@ -29,7 +29,7 @@ export default function ShopSectionsDeals() {
           />
           <Btn
             as={Link}
-            href="/"
+            href="/deals"
             color="white"
             size="xs"
             icon="icon-right-arrow"
@@ -72,7 +72,7 @@ export default function ShopSectionsDeals() {
             ))}
             <SwiperSlide className="lg:!max-w-[150px] !max-w-[120px] !h-auto">
               <Link
-                href="/"
+                href="/deals"
                 className="flex flex-col items-center justify-center transition-all hover:bg-white/30 bg-white/20 w-full h-full rounded-xl"
               >
                 <i className="icon-right-arrow mb-2 text-white"></i>
