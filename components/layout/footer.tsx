@@ -3,10 +3,12 @@ import Btn from "../generic/btn";
 import Heading from "../generic/heading";
 import Logo from "../generic/logo";
 import Text from "../generic/text";
+import clsx from "clsx";
+import type { FooterPropsType } from "./types";
 
-export default function LayoutFooter() {
+export default function LayoutFooter({ className = "" }: FooterPropsType) {
   return (
-    <footer className="py-section bg-neutral-lighter max-lg:mb-15">
+    <footer className={clsx(className, "py-section bg-neutral-lighter")}>
       <div className="container">
         <div className="lg:-m-6 -m-3 flex max-lg:flex-wrap items-start justify-between">
           <div className="lg:w-[300px] shrink-0 w-full lg:p-6 p-3">
@@ -67,7 +69,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/aboutUs"
+                  href="/about"
                   className="block hover:text-primary p-1"
                 >
                   About Us
@@ -87,7 +89,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/electronics"
+                  href="/products?category=electronics"
                   className="block hover:text-primary p-1"
                 >
                   Electronics
@@ -97,7 +99,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/acount"
+                  href="/account"
                   className="block hover:text-primary p-1"
                 >
                   My Acount
@@ -117,7 +119,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/category/Beauty&PersonalCare"
+                  href="/products?category=BeautyAndPersonalCare"
                   className="block hover:text-primary p-1"
                 >
                   Beauty & Personal Care
@@ -127,7 +129,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/Shipping&Delivery"
+                  href="/shippingAndDelivery"
                   className="block hover:text-primary p-1"
                 >
                   Shipping & Delivery
@@ -147,7 +149,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/category/Fashion&Clothing"
+                  href="/products?category=FashionAndClothing"
                   className="block hover:text-primary p-1"
                 >
                   Fashion & Clothing
@@ -160,7 +162,7 @@ export default function LayoutFooter() {
                   href="/products"
                   className="block hover:text-primary p-1"
                 >
-                  Products
+                  Shop
                 </Text>
               </li>
               <li className="sm:w-1/3 w-1/2">
@@ -177,7 +179,7 @@ export default function LayoutFooter() {
                 <Text
                   as={Link}
                   color="dim-dark"
-                  href="/category/Tools&Hardware"
+                  href="/products?category=ToolsAndHardware"
                   className="block hover:text-primary p-1"
                 >
                   Tools & Hardware
@@ -185,21 +187,32 @@ export default function LayoutFooter() {
               </li>
             </ul>
           </div>
-          <div className="lg:w-[200px] w-full lg:p-6 p-3">
+          <div className="lg:w-[200px] w-full lg:p-6 p-3 shrink-0">
             <Heading variant="h4" className="mb-3">
               Contact Us
             </Heading>
-            <Text color="dim-dark" className="mb-3">
-              info@alpShop.com
-            </Text>
-            <Text
-              as={Link}
-              href="tel:+999999999"
-              color="dim-dark"
-              className="mb-2 hover:text-primary"
-            >
-              +99 999 9999
-            </Text>
+            <ul>
+              <li className="mb-3 last:mb-0 ">
+                <Text
+                  as={Link}
+                  href="info@alpShop.com"
+                  color="dim-dark"
+                  className="block hover:text-primary"
+                >
+                  info@alpShop.com
+                </Text>
+              </li>
+              <li className="mb-3 last:mb-0 ">
+                <Text
+                  as={Link}
+                  href="tel:+999999999"
+                  color="dim-dark"
+                  className="block hover:text-primary"
+                >
+                  +99 999 9999
+                </Text>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

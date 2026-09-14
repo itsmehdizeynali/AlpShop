@@ -8,6 +8,7 @@ import Image from "next/image";
 import ShopRating from "../shop/generic/rating";
 import Link from "next/link";
 import clsx from "clsx";
+import type { ProductCardPropsType } from "./types";
 
 export default function WidgetProductCard({
   spacial = false,
@@ -15,28 +16,11 @@ export default function WidgetProductCard({
   hasBorder = true,
   product,
   responsive = false,
-}: {
-  spacial?: boolean;
-  color?: "transparent" | "white";
-  hasBorder?: boolean;
-  responsive?: boolean;
-  product: {
-    id: string;
-    img: string;
-    name: string;
-    rate: {
-      users: number;
-      rate: number;
-    };
-    discount?: number;
-    price: number;
-    realPrice: number;
-  };
-}) {
+}: ProductCardPropsType) {
   return (
     <Card
       as={spacial ? "div" : Link}
-      href={spacial ? undefined : "/product"}
+      href={spacial ? undefined : `/products/${product.id}`}
       color={color}
       className={clsx(
         { "max-sm:flex-row": responsive },
@@ -56,7 +40,12 @@ export default function WidgetProductCard({
         </Chip>
       )}
       {spacial ? (
-        <Link href={`/products/${product.id}`} className={clsx("block mb-3",{"max-sm:mb-0 max-sm:me-2": responsive})}>
+        <Link
+          href={`/products/${product.id}`}
+          className={clsx("block mb-3", {
+            "max-sm:mb-0 max-sm:me-2": responsive,
+          })}
+        >
           <Image
             src={product.img}
             width={180}

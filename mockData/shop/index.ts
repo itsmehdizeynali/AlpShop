@@ -29,22 +29,22 @@ const dataShopIndex = () => {
   const categories = [
     {
       alt: "Electronics",
-      href: "/category/Electronics",
+      href: "/products?category=Electronics",
       src: "/img/category-1.jpg",
     },
     {
       alt: "Beauty & Personal Care",
-      href: "/category/Beauty&PersonalCare",
+      href: "/products?category=BeautyAndPersonalCare",
       src: "/img/category-1.jpg",
     },
     {
       alt: "Fashion & Clothing",
-      href: "/category/Fashion&Clothing",
+      href: "/products?category=FashionAndClothing",
       src: "/img/category-1.jpg",
     },
     {
       alt: "Tools & Hardware",
-      href: "/category/Tools&Hardware",
+      href: "/products?category=ToolsAndHardware",
       src: "/img/category-1.jpg",
     },
   ];
@@ -72,7 +72,7 @@ const dataShopIndex = () => {
   ];
   const product={
     id:"ACDC1",
-    img:"/img/product-1.jpg",
+    img:"/img/product-1.png",
     name:"Smart Watch Series B",
     rate:{
       rate:4.6,

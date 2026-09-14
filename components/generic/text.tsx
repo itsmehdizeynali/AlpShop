@@ -40,7 +40,13 @@ export default function Text<T extends ElementType = "div">({
   };
   return (
     <Component
-      className={clsx("transition-all",sizes[size], colors[color], weights[weight], className)}
+      className={clsx(
+        "transition-all",
+        sizes[size],
+        colors[color],
+        weights[weight],
+        className,
+      )}
       {...props}
     >
       {children}

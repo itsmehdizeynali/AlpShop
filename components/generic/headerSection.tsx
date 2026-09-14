@@ -18,21 +18,24 @@ export default function HeaderSection({
   return (
     <div
       className={clsx(
-        "flex sm:items-center items-start justify-between",
+        "flex sm:items-center items-start",
         { "pb-2 border-b border-b-neutral-light": border },
         className,
       )}
       {...props}
     >
-      <div className="me-2 flex max-sm:flex-col">
-        {shape && <div className="w-0.5 h-9 bg-primary me-3.5"></div>}
+      <div
+        className={clsx("me-2 flex max-sm:flex-wrap max-sm:gap-2", {
+          "border-s-4 border-primary lg:ps-3.5 ps-2 grow": shape,
+        })}
+      >
         <Heading variant={size} className="me-4 capitalize flex items-center">
           {icon && (
             <i className={clsx(icon, "me-3 text-secondary text-xl")}></i>
           )}
           {children}
         </Heading>
-        {mainSide && <div className="max-sm:mt-2">{mainSide}</div>}
+        {mainSide}
       </div>
       {link && (
         <Btn

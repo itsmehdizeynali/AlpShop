@@ -24,7 +24,7 @@ export default function ShopSectionsDeals() {
           />
           <Countdown
             color="white"
-            endDate="2026-09-10T23:59:59"
+            endDate="2026-11-10T23:59:59"
             className="max-lg:me-2"
           />
           <Btn

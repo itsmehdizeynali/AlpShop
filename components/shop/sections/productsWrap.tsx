@@ -3,18 +3,22 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import clsx from "clsx";
 import WidgetProductCard from "@/components/widget/productCard";
-import dataShopIndex from "@/mockData/shop";
 import type { ProductsWrapPropsType } from "./types";
 
 export default function ShopSectionsProductsWrap({
   headerTitle,
+  headerLink,
   className = "",
+  products,
 }: ProductsWrapPropsType) {
-  const { product } = dataShopIndex();
   return (
     <div className={clsx(className, "overflow-hidden")}>
       <div className="container">
-        <HeaderSection className="mb-sm-section" shape={false} link="/">
+        <HeaderSection
+          className="mb-sm-section"
+          shape={false}
+          link={headerLink}
+        >
           {headerTitle}
         </HeaderSection>
         <Swiper
@@ -37,16 +41,7 @@ export default function ShopSectionsProductsWrap({
           navigation
           spaceBetween={8}
         >
-          {[
-            product,
-            product,
-            product,
-            product,
-            product,
-            product,
-            product,
-            product,
-          ].map((item, index) => (
+          {products.map((item, index) => (
             <SwiperSlide key={index} className="max-lg:max-w-[170px]">
               <WidgetProductCard product={item} />
             </SwiperSlide>

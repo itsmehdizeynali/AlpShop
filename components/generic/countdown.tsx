@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Text from "./text";
 import type { CountdownTimerPropsType } from "./types";
@@ -13,7 +15,7 @@ type TimeLeftType = {
 export default function Countdown({
   endDate,
   className = "",
-  color="neutral"
+  color = "neutral",
 }: CountdownTimerPropsType) {
   const [timeLeft, setTimeLeft] = useState<TimeLeftType>({
     hours: 0,

@@ -5,7 +5,7 @@
 @import "./generic/font-icon.css";
 @import "./generic/select.css";
 @import "./generic/swiper.css";
-@import "./generic/swiper.css";
+@import "./generic/content-editor.css";
 
 /* ===================== */
 /*  Base CSS Variables   */
@@ -25,7 +25,7 @@
   --primary-dark: #032956;
   --primary-light: #e4f1ff;
 
-   --red: #cb3030;
+  --red: #cb3030;
   --secondary: #82b415;
   --secondary-dark: #60870d;
   --secondary-light: #edffc7;
@@ -180,15 +180,21 @@
     @apply bg-black/30 backdrop-blur-sm z-[35] w-full h-full fixed top-0 right-0 transition-all
   }
 
-  .navbar-item-after{
+  .navbar-item-after {
     @apply after:absolute after:start-0 after:w-0 hover:after:w-full after:transition-all after:h-[1px] after:bottom-0 after:z-10 after:bg-primary after:content-['']
   }
-  .navbar-item-after.active{
+
+  .navbar-item-after.active {
     @apply !text-primary pointer-events-none after:!w-2/5 after:!h-0.5 after:bg-primary after:left-1/2 after:-translate-x-1/2
   }
 
-  .countdown-time-box-after{
+  .countdown-time-box-after {
     @apply after:text-xs after:content-[':'] after:absolute after:-end-1 after:translate-x-1/2 after:top-1/2 after:-translate-y-1/2 after:lg:hidden last:after:hidden
+  }
+
+
+  .swiper-slide.swiper-slide-thumb-active img {
+    @apply bg-primary-light
   }
 
 
@@ -214,57 +220,6 @@
     100% {
       transform: scale(1);
     }
-  }
-
-
-  .my-section {
-    @apply lg:my-12 my-8
-  }
-
-  .mt-section {
-    @apply lg:mt-12 mt-8
-  }
-
-  .mb-section {
-    @apply lg:mb-12 mb-8
-  }
-
-  .my-sm-section {
-    @apply lg:my-6 my-4
-  }
-
-  .mt-sm-section {
-    @apply lg:mt-6 mt-4
-  }
-
-  .mb-sm-section {
-    @apply lg:mb-6 mb-4
-  }
-
-
-
-  .py-section {
-    @apply lg:py-12 py-8
-  }
-
-  .pt-section {
-    @apply lg:pt-12 pt-8
-  }
-
-  .pb-section {
-    @apply lg:pb-12 pb-8
-  }
-
-  .py-sm-section {
-    @apply lg:py-6 py-4
-  }
-
-  .pt-sm-section {
-    @apply lg:pt-6 pt-4
-  }
-
-  .pb-sm-section {
-    @apply lg:pb-6 pb-4
   }
 
 
@@ -345,6 +300,59 @@
 @utility bg-gradient-success {
   background: var(--color-gradient-success);
 }
+
+
+@utility my-section {
+  @apply lg:my-12 my-8;
+}
+
+@utility mt-section {
+  @apply lg:mt-12 mt-8;
+}
+
+@utility mb-section {
+  @apply lg:mb-12 mb-8;
+}
+
+@utility my-sm-section {
+  @apply lg:my-6 my-4;
+}
+
+@utility mt-sm-section {
+  @apply lg:mt-6 mt-4;
+}
+
+@utility mb-sm-section {
+  @apply lg:mb-6 mb-4;
+}
+
+
+
+@utility py-section {
+  @apply lg:py-12 py-8;
+}
+
+@utility pt-section {
+  @apply lg:pt-12 pt-8;
+}
+
+@utility pb-section {
+  @apply lg:pb-12 pb-8;
+}
+
+@utility py-sm-section {
+  @apply lg:py-6 py-4;
+}
+
+@utility pt-sm-section {
+  @apply lg:pt-6 pt-4;
+}
+
+@utility pb-sm-section {
+  @apply lg:pb-6 pb-4;
+}
+
+
 
 /* ===================== */
 /*    Base Page Styles   */

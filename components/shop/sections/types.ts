@@ -1,7 +1,12 @@
+import type { ProductType } from "@/components/genericTypes";
 
-
-export interface ProductsWrapPropsType{
+export interface ProductsWrapPropsType {
   headerTitle: string;
-  headerLink: string;
+  headerLink?: string;
   className: string;
+  products: ProductType[];
+}
+
+export interface CommentBoxPropsType {
+  id?: string;
 }

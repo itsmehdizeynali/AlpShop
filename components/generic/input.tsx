@@ -12,11 +12,12 @@ export default function Input({
   endSideLabel,
   wrapClasses,
   className,
-  rounded=false,
+  rounded = false,
   showMsg = false,
   msgType = "danger",
   msg = null,
   defaultValue,
+  labelColor="black",
   ...props
 }: InputPropsType) {
   const generateBorderColor = {
@@ -25,17 +26,13 @@ export default function Input({
     success: "!border-success",
     warning: "!border-warning",
     primary: "!border-primary",
+    black: "!border-black",
   };
   return (
-    <div className={clsx(wrapClasses,"rounded-md")}>
+    <div className={clsx(wrapClasses, "rounded-md")}>
       {(label?.length || endSideLabel) && (
         <div className="w-full mb-2 flex items-center">
-          <Text
-            as="label"
-            size="sm"
-            color="white"
-            className="block"
-          >
+          <Text as="label" size="sm" color={labelColor} className="block">
             {label}
           </Text>
           {endSideLabel}
@@ -43,23 +40,22 @@ export default function Input({
       )}
       <div
         className={clsx(
-          "w-full lg:h-11 h-10 border border-neutral-light bg-white flex items-center transition-all",
-          className,rounded?"rounded-full":"rounded-md",
+          "w-full lg:h-11 h-10 border border-neutral-light focus-within:border-primary bg-white flex items-center transition-all",
+          className,
+          rounded ? "rounded-full" : "rounded-md",
           showMsg && generateBorderColor[msgType],
         )}
       >
-        {startSide && (
-          startSide
-        )}
+        {startSide && startSide}
         <input
           type="text"
           defaultValue={defaultValue}
-          className={clsx("w-full h-full bg-transparent border-0 outline-none shadow-none px-3 text-primary placeholder:text-neutral text-sm")}
+          className={clsx(
+            "w-full h-full bg-transparent border-0 outline-none shadow-none px-3 text-primary placeholder:text-neutral text-sm",
+          )}
           {...props}
         />
-        {endSide && (
-          endSide
-        )}
+        {endSide && endSide}
       </div>
       {showMsg && (
         <Alert color={msgType} variant="text" className="mt-2">

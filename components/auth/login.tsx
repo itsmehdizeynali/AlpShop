@@ -13,8 +13,6 @@ import { useRouter } from "next/navigation";
 import { authLoginService } from "@/services/auth";
 import Link from "next/link";
 import Alert from "../generic/alert";
-import toast from "react-hot-toast";
-import Heading from "../generic/heading";
 
 export default function AuthLogin() {
   const {
@@ -48,53 +46,51 @@ export default function AuthLogin() {
     loginMutation.mutate(data);
   };
   return (
-    <form
-      className="flex flex-col items-center justify-center min-h-screen py-section"
+    <Card
+      as="form"
       onSubmit={handleSubmit(handelLogin)}
+      color="gradient-primary"
+      className="max-w-[400px] w-full"
     >
-      <Heading color="primary" className="mb-4 flex items-center">
-        <i className="icon-avatar2 text-5xl me-3"></i>
-        Login Page
-      </Heading>
-      <Card color="gradient-primary" className="w-[400px]">
-        <Input
-          wrapClasses="mb-4"
-          {...register("email")}
-          label="email"
-          msg={errors.email?.message}
-          showMsg={!!errors.email?.message}
-        />
-        <Input
-          wrapClasses="mb-6"
-          {...register("password")}
-          label="password"
-          msg={errors.password?.message}
-          showMsg={!!errors.password?.message}
-        />
+      <Input
+        wrapClasses="mb-4"
+        {...register("email")}
+        label="email"
+        labelColor="white"
+        msg={errors.email?.message}
+        showMsg={!!errors.email?.message}
+      />
+      <Input
+        wrapClasses="mb-6"
+        {...register("password")}
+        label="password"
+        labelColor="white"
+        msg={errors.password?.message}
+        showMsg={!!errors.password?.message}
+      />
 
-        {!!errors.root?.message && (
-          <Alert variant="text" className="mb-4" color="danger">
-            {errors.root?.message}
-          </Alert>
-        )}
+      {!!errors.root?.message && (
+        <Alert variant="text" className="mb-4" color="danger">
+          {errors.root?.message}
+        </Alert>
+      )}
 
-        <Btn
-          className="w-full justify-center"
-          icon="icon-right-arrow"
-          iconPlace="end"
+      <Btn
+        className="w-full justify-center"
+        icon="icon-right-arrow"
+        iconPlace="end"
+      >
+        login
+      </Btn>
+      <div className="text-neutral-dark text-center mt-4">
+        i don`t have an acount go to{" "}
+        <Link
+          href="/auth/register"
+          className="text-white text-nowrap transition-all hover:text-primary-light ms-2"
         >
-          login
-        </Btn>
-        <div className="text-neutral-dark text-center mt-4">
-          i don`t have an acount go to{" "}
-          <Link
-            href="/auth/register"
-            className="text-white transition-all hover:text-primary-light ms-2"
-          >
-            create acount
-          </Link>
-        </div>
-      </Card>
-    </form>
+          create acount
+        </Link>
+      </div>
+    </Card>
   );
 }

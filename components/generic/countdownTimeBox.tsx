@@ -16,7 +16,7 @@ import type { CountdownTimeBoxPropsType } from "./types";
     
   return (
     <div className={clsx("flex flex-col items-center relative countdown-time-box-after",colors[color]["after"])}>
-      <div className={clsx(colors[color]["box"],"flex items-center justify-center lg:h-8 h-7 lg:min-w-8 min-w-7 px-0.5 lg:text-sm text-xs rounded-lg")}>
+      <div className={clsx(colors[color]["box"],"flex items-center justify-center lg:h-8 h-7 lg:min-w-8 min-w-7 lg:text-sm text-xs rounded-lg p-1")}>
         {String(value).padStart(2, "0")}
       </div>
       <Text size="xs" color={colors[color]["text"] as "white"|"dim-dark"} weight="light" className="max-lg:hidden">

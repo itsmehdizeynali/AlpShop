@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 // ALERT
-export type AlertColors = "info" | "success" | "danger" | "warning" | "primary";
+export type AlertColors = "info" | "success" | "danger" | "warning" | "primary"|"black";
 export type AlertVarients = "filled" | "lightness" | "text";
 export type AlertSizes = "sm" | "base";
 export type AlertPropsType = Partial<{
@@ -85,13 +85,17 @@ export type ChipColors =
   | "secondary"
   | "neutral";
 export type ChipVarients = "filled" | "lightness" | "outline";
-export type ChipPropsType = Partial<{
+export type ChipSizes = "sm" | "base";
+export type ChipPropsType<T extends ElementType>= Partial<{
   children: ReactNode;
   variant: ChipVarients;
+  size: ChipSizes;
   color: ChipColors;
   className: string;
   icon: string;
-}>;
+  rounded:boolean;
+  as:ElementType;
+}> & ComponentPropsWithoutRef<T>;
 
 // HEADING
 export type HeadingVarients = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -117,6 +121,7 @@ export type InputPropsType = Partial<{
   msgType: AlertColors;
   msg: string | null;
   defaultValue: string;
+  labelColor:TextColorsType;
   rounded: boolean;
 }> &
   ComponentPropsWithoutRef<"input">;
@@ -233,10 +238,19 @@ export type TextareaPropsType = Partial<{
 // PRICE
 export interface PricePropsType {
   children: ReactNode;
+  size?: TextSizesType;
+  className?: string;
+  color?: TextColorsType;
+}
+// PRICE-RANGE
+export interface PriceRangePropsType {
+  min: number;
+  step: number;
+  max: number;
 }
 
 // COUNTDOWN
-export type CountdownBoxColorsType = "neutral" | "white"|"primary-light";
+export type CountdownBoxColorsType = "neutral" | "white" | "primary-light";
 export interface CountdownTimerPropsType {
   endDate: string | Date;
   className?: string;
@@ -258,3 +272,20 @@ export type CheckboxPropsType = {
   name: string;
   className: string;
 } & ComponentPropsWithoutRef<"li">;
+
+// ACCORDION
+export type AccordionPropsType = Partial<{
+  className: string;
+  title: string;
+  paragraph: string;
+}> &
+  ComponentPropsWithoutRef<"li">;
+
+// ACCORDION
+export type CounterPropsType = {
+  loading?: boolean;
+  min?: number;
+  max?: number;
+  num: number;
+  className?: string;
+} & ComponentPropsWithoutRef<"div">;
