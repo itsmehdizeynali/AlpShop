@@ -7,40 +7,77 @@ import ShopSectionsJoinBox from "@/components/shop/sections/joinBox";
 import ShopSectionsProductsWrap from "@/components/shop/sections/productsWrap";
 import ShopSectionsServices from "@/components/shop/sections/services";
 import ShopSectionsSpacialProducts from "@/components/shop/sections/spacialProducts";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import dataShopIndex from "@/mockData/shop";
 
 export default function Home() {
+  const { product } = dataShopIndex();
+
   return (
-    <div className="">
+    <>
       <ShopSectionsHero />
       <ShopSectionsDeals />
       <ShopSectionsCategories />
       <ShopSectionsSpacialProducts />
       <ShopSectionsProductsWrap
+        products={[
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+        ]}
         className="mb-section"
         headerTitle="Electronics"
-        headerLink="/catigory/electronics"
+        headerLink="/products?category=electronics"
       />
       <ShopSectionsProductsWrap
+        products={[
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+        ]}
         className="mb-section"
         headerTitle="Beauty & Personal Care"
-        headerLink="/catigory/Beauty&PersonalCare"
+        headerLink="/products?category=BeautyAndPersonalCare"
       />
       <ShopSectionsProductsWrap
+        products={[
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+        ]}
         className="mb-section"
         headerTitle="Fashion & Clothing"
-        headerLink="/catigory/Fashion&Clothing"
+        headerLink="/products?category=FashionAndClothing"
       />
       <ShopSectionsProductsWrap
+        products={[
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+          product,
+        ]}
         className="mb-section"
         headerTitle="Tools & Hardware"
-        headerLink="/catigory/Tools&Hardware"
+        headerLink="/products?category=ToolsAndHardware"
       />
 
       <ShopSectionsJoinBox />
 
       <ShopSectionsServices />
-    </div>
+    </>
   );
 }

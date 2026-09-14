@@ -20,17 +20,12 @@ export default function Textarea({
     success: "!border-success",
     warning: "!border-warning",
     primary: "!border-primary",
+    black: "!border-black",
   };
   return (
     <div className={wrapClasses}>
       <div className="w-full mb-1.5 flex items-center">
-        <Text
-          as="label"
-          size="sm"
-          htmlFor=""
-          color="dim-light"
-          className="block"
-        >
+        <Text as="label" size="sm" htmlFor="" color="black" className="block">
           {label}
         </Text>
         {endSideLabel}

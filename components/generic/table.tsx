@@ -17,18 +17,21 @@ export default function Table<T>({
 }: TablePropsType<T>) {
   return data?.length ? (
     <>
-      <Card color="primary-light"
-        className="!p-0 !rounded-none md:overflow-x-scroll custom-scroll max-md:!bg-transparent"
+      <Card
+        color="transparent"
+        className="!p-0 !rounded-none sm:overflow-x-scroll custom-scroll"
       >
-        <table className="w-full max-md:!block">
-          <thead className="max-md:!hidden">
+        <table className="w-full max-sm:!block">
+          <thead className="max-sm:!hidden">
             <tr>
               {columns.map((col, index) => (
                 <th
                   key={index}
-                  className={clsx({ "p-3 bg-primary": head })}
+                  className={clsx("first:rounded-s-xl last:rounded-e-xl", {
+                    "p-3 bg-primary-light": head,
+                  })}
                 >
-                  <Text size="sm" color="white" className="capitalize">
+                  <Text size="sm" color="primary" className="capitalize">
                     {col.label}
                   </Text>
                 </th>
@@ -39,23 +42,23 @@ export default function Table<T>({
             {data.map((row, index) => (
               <tr
                 key={index}
-                className="group max-md:!flex max-md:bg-primary-light flex-wrap max-md:mb-2 last:mb-0 rounded-xl"
+                className="group max-sm:!flex flex-wrap max-sm:mb-2 last:mb-0 rounded-xl max-sm:border border-neutral-light"
               >
                 {columns.map((col, key) => (
                   <td
-                    className="p-3 border-b border-white md:group-last:border-b-0 max-md:last:border-b-0 max-md:w-full max-md:flex items-center"
+                    className="p-3 border-b border-neutral-light sm:group-last:border-b-0 max-sm:last:border-b-0 max-sm:w-full max-sm:flex items-center"
                     key={key}
                   >
                     <Text
                       size="sm"
-                      color="dim"
-                      className="capitalize md:hidden me-auto"
+                      color="black"
+                      className="capitalize sm:hidden me-auto"
                     >
-                      {col.label}:
+                      {col.label}
                     </Text>
                     <Text
                       size="sm"
-                      color="dim-light"
+                      color="dim"
                       className="shrink-0 text-nowrap"
                     >
                       {col?.renderCell

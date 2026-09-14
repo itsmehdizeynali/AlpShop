@@ -17,7 +17,7 @@ export default function ShopSectionsSpacialProducts() {
           shape={false}
           link="/deals"
           mainSide={
-            <Countdown endDate="2026-09-10T23:59:59" className="me-4" />
+            <Countdown endDate="2026-11-10T23:59:59" className="me-4" />
           }
         >
           Spacial Products

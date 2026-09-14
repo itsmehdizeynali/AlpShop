@@ -2,21 +2,19 @@
 
 import Backdrop from "@/components/generic/backdrop";
 import Btn from "@/components/generic/btn";
+import Card from "@/components/generic/card";
 import Checkbox from "@/components/generic/checkbox";
 import Heading from "@/components/generic/heading";
 import PriceRange from "@/components/generic/priceRange";
 import clsx from "clsx";
 import { useState } from "react";
+import type { SidebarPropsType } from "./types";
 
 export default function ShopSidebar({
   categories,
   brands,
   price,
-}: {
-  categories?: string[];
-  brands?: string[];
-  price?: { min: number; step: number; max: number };
-}) {
+}: SidebarPropsType) {
   const [openFilterModal, setOpenFilterModal] = useState(false);
   return (
     <>
@@ -54,11 +52,11 @@ export default function ShopSidebar({
             </Btn>
           </div>
           {!!categories && (
-            <div className="bg-primary-light rounded-xl overflow-hidden mb-4">
-              <Heading variant="h5" className="px-4 py-3">
+            <Card hasBorder color="transparent" className="!p-0 mb-4 overflow-hidden">
+              <Heading variant="h5" className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light">
                 Category
               </Heading>
-              <ul className="bg-neutral-lighter p-4 max-h-[180px] overflow-y-auto custom-scroll">
+              <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
                 {categories.map((item, index) => (
                   <Checkbox
                     key={index}
@@ -67,14 +65,14 @@ export default function ShopSidebar({
                   />
                 ))}
               </ul>
-            </div>
+            </Card>
           )}
           {!!brands && (
-            <div className="bg-primary-light rounded-xl overflow-hidden mb-4">
-              <Heading variant="h5" className="px-4 py-3">
+            <Card hasBorder color="transparent" className="!p-0 mb-4 overflow-hidden">
+              <Heading variant="h5" className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light">
                 Brand
               </Heading>
-              <ul className="bg-neutral-lighter p-4 max-h-[180px] overflow-y-auto custom-scroll">
+              <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
                 {brands.map((item, index) => (
                   <Checkbox
                     key={index}
@@ -83,21 +81,21 @@ export default function ShopSidebar({
                   />
                 ))}
               </ul>
-            </div>
+            </Card>
           )}
           {!!price && (
-            <div className="bg-primary-light rounded-xl overflow-hidden mb-4">
-              <Heading variant="h5" className="px-4 py-3">
+            <Card hasBorder color="transparent" className="!p-0 mb-4 overflow-hidden">
+              <Heading variant="h5" className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light">
                 Price
               </Heading>
-              <div className="bg-neutral-lighter p-4 max-h-[180px] overflow-y-auto custom-scroll">
+              <div className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
                 <PriceRange
                   min={price?.min}
                   step={price?.step}
                   max={price?.max}
                 />
               </div>
-            </div>
+            </Card>
           )}
           <Btn className="w-full">Filter</Btn>
         </div>

@@ -83,8 +83,7 @@ export default function Btn<T extends ElementType = "button">({
       dim: "text-white bg-dim-light hover:bg-dim hover:text-white",
       black: "text-black bg-neutral-light hover:bg-black hover:text-white",
       white: "text-black bg-neutral-light hover:bg-white",
-      neutral:
-        "text-dim bg-neutral-light hover:bg-neutral hover:text-white",
+      neutral: "text-dim bg-neutral-light hover:bg-neutral hover:text-white",
     },
     "outline-lightness": {
       transparent: "hover:bg-primary text-primary hover:text-white",
@@ -100,10 +99,11 @@ export default function Btn<T extends ElementType = "button">({
       danger: "text-danger border-2 border-danger-light hover:bg-danger-light",
       dim: "text-dim border-2 border-dim-light hover:bg-dim-light hover:text-white",
       black: "text-black border-2 border-dim hover:bg-dim hover:text-white",
-      white: "text-white border-2 border-neutral-lighter hover:bg-neutral-lighter hover:text-black",
+      white:
+        "text-white border-2 border-neutral-lighter hover:bg-neutral-lighter hover:text-black",
       neutral:
         "text-dim border-2 border-neutral-light hover:text-black hover:bg-neutral-light",
-    }
+    },
   };
   const baseClasses =
     "flex cursor-pointer items-center justify-center w-fit relative rounded-lg font-semibold transition-all leading-none";
@@ -114,11 +114,11 @@ export default function Btn<T extends ElementType = "button">({
     xs: "lg:h-8 h-7 lg:text-xs-plus text-xs px-4",
   };
   const iconSizes = {
-    lg: "lg:text-xl text-lg",
-    md: "lg:text-lg text-md",
-    base: "lg:text-md text-base",
-    sm: "lg:text-base text-sm",
-    xs: "text-xs",
+    lg: "lg:text-xl text-lg ms-4 me-4",
+    md: "lg:text-lg text-md ms-3 me-3",
+    base: "lg:text-md text-base ms-3 me-3",
+    sm: "lg:text-base text-sm ms-2 me-2",
+    xs: "text-xs ms-2 me-2",
   };
   const variants = {
     normal: "",
@@ -154,13 +154,13 @@ export default function Btn<T extends ElementType = "button">({
       )}
       {icon && iconPlace === "start" && (
         <i
-          className={clsx(icon, iconSizes[size], "me-3", square && "!m-0")}
+          className={clsx(icon, iconSizes[size], "!ms-0", square && "!m-0")}
         ></i>
       )}
       {children}
       {icon && iconPlace === "end" && (
         <i
-          className={clsx(icon, iconSizes[size], "ms-3", square && "!m-0")}
+          className={clsx(icon, iconSizes[size], "!me-0", square && "!m-0")}
         ></i>
       )}
     </Component>

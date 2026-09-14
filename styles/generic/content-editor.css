@@ -1,0 +1,41 @@
+.content-editor h1 ,
+.content-editor h2, 
+.content-editor h3 ,
+.content-editor h4 ,
+.content-editor h5 ,
+.content-editor h6{
+    @apply text-dim font-bold mb-2
+}
+.content-editor h1{
+    @apply text-3xl lg:text-xl
+}
+.content-editor h2{
+    @apply text-xl lg:text-lg
+}
+.content-editor h3{
+    @apply text-lg lg:text-md
+}
+.content-editor h4{
+    @apply text-md lg:text-base
+}
+.content-editor h5{
+    @apply text-base lg:text-sm
+}
+.content-editor h6{
+    @apply text-sm lg:text-xs
+}
+.content-editor ul{
+    @apply mb-4
+}
+.content-editor ul li{
+    @apply text-sm text-dim-light list-disc list-inside text-justify mb-1
+}
+.content-editor li{
+    @apply text-sm text-dim-light list-decimal list-inside text-justify mb-2
+}
+.content-editor p{
+    @apply text-sm text-dim-light text-justify mb-2
+}
+.content-editor img{
+    @apply mb-2 rounded-xl
+}

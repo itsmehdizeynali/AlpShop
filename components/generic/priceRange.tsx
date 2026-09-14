@@ -3,17 +3,13 @@
 import { Range, getTrackBackground } from "react-range";
 import { useState } from "react";
 import Text from "./text";
-
+import type { PriceRangePropsType } from "./types";
 
 export default function PriceRange({
-  min=0,
-  step=10,
-  max=100,
-}: {
-  min: number;
-  step: number;
-  max: number;
-}) {
+  min = 0,
+  step = 10,
+  max = 100,
+}: PriceRangePropsType) {
   const [values, setValues] = useState([min, max]);
 
   return (

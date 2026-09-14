@@ -8,7 +8,7 @@ import { LogoPropsType } from "./types";
 export default function Logo({
   className = "",
   size = "base",
-  whiteLogo=false,
+  whiteLogo = false,
 }: LogoPropsType) {
   const setSize = {
     sm: {
@@ -30,7 +30,7 @@ export default function Logo({
   return (
     <Link href="/" className={clsx("w-fit flex items-center", className)}>
       <Image
-        src={whiteLogo?logoWhite:logo}
+        src={whiteLogo ? logoWhite : logo}
         alt="logo"
         width={setSize[size]["width"]}
         height={setSize[size]["height"]}

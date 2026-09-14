@@ -10,24 +10,28 @@ import LayoutSearchBox from "./searchBox";
 import { useState } from "react";
 import LayoutHeaderCategoryModal from "./categoryModal";
 import dataLayoutHeader from "@/mockData/layout/header";
+import type { HeaderPropsType } from "./types";
 
-export default function LayoutHeader() {
+export default function LayoutHeader({ className = "" }: HeaderPropsType) {
   const route = usePathname();
 
-  const {links}=dataLayoutHeader()
-  
+  const { links } = dataLayoutHeader();
+
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <LayoutHeaderCategoryModal isOpenModal={showModal} closeModal={()=>setShowModal(false)} />
-      <header className="max-lg:shadow-card">
+      <LayoutHeaderCategoryModal
+        isOpenModal={showModal}
+        closeModal={() => setShowModal(false)}
+      />
+      <header className={clsx(className, "max-lg:shadow-card")}>
         <div className="border-b border-neutral-light max-lg:hidden">
           <div className="container">
             <ul className="flex -mx-5">
               <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
                 <Link
                   href="tel:+99101040"
-                  className="flex items-center text-base font-light py-5 px-5"
+                  className="flex items-center text-base font-light py-5 px-5 hover:bg-neutral-lighter transition-all"
                 >
                   <i className="icon-telephone me-4 text-primary text-2xl font-medium"></i>
                   <b className="me-1.5 font-bold">Phone</b>
@@ -36,8 +40,8 @@ export default function LayoutHeader() {
               </li>
               <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
                 <Link
-                  href="email:info@alpshop.com"
-                  className="flex items-center text-base font-light py-5 px-5"
+                  href="info@alpShop.com"
+                  className="flex items-center text-base font-light py-5 px-5 hover:bg-neutral-lighter transition-all"
                 >
                   <i className="icon-email me-4 text-primary text-2xl font-medium"></i>
                   <b className="me-1.5 font-bold">Email</b>
@@ -46,8 +50,8 @@ export default function LayoutHeader() {
               </li>
               <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
                 <Link
-                  href="email:info@alpshop.com"
-                  className="flex items-center text-base font-bold text-primary py-5 px-5"
+                  href="/auth/register"
+                  className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
                 >
                   <i className="icon-avatar2 me-4 text-2xl font-medium"></i>
                   Register Now
@@ -55,8 +59,8 @@ export default function LayoutHeader() {
               </li>
               <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
                 <Link
-                  href="email:info@alpshop.com"
-                  className="flex items-center text-base font-bold text-primary py-5 px-5"
+                  href="/auth/login"
+                  className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
                 >
                   <i className="icon-padlock me-4 text-2xl font-medium"></i>
                   Login
@@ -64,7 +68,7 @@ export default function LayoutHeader() {
               </li>
               <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0 hidden">
                 <Link
-                  href="email:info@alpshop.com"
+                  href="/account"
                   className="flex items-center text-base font-bold text-primary py-5 px-5"
                 >
                   <i className="icon-avatar2 me-4 text-2xl font-medium"></i>
@@ -81,7 +85,7 @@ export default function LayoutHeader() {
             <li className="max-lg:hidden">
               <Btn
                 className="after:content-['4'] after:leading-none after:absolute after:top-0 after:-translate-y-1/2 after:end-0 after:translate-x-1/2 after:w-5 after:h-5 after:text-xs after:text-white after:bg-primary-dark after:rounded-full after:flex after:items-center after:justify-center"
-                href="/backet"
+                href="/cart"
                 as={Link}
                 color="primary"
                 variant="lightness"
@@ -91,7 +95,7 @@ export default function LayoutHeader() {
             </li>
             <li className="max-lg:hidden">
               <Btn
-                href="/heart"
+                href="/liked"
                 as={Link}
                 color="primary"
                 variant="lightness"
@@ -101,7 +105,7 @@ export default function LayoutHeader() {
             </li>
             <li className="lg:hidden">
               <Btn
-                href="/call"
+                href="/contactUs"
                 as={Link}
                 color="primary"
                 variant="lightness"

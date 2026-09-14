@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import { useState } from "react";
 import { AlertPropsType } from "./types";
 
 export default function Alert({
@@ -12,8 +11,6 @@ export default function Alert({
   size = "base",
   hasIcon = true,
 }: AlertPropsType) {
-  const [show, setShow] = useState<boolean>(true);
-
   const colors = {
     filled: {
       info: "bg-info text-white",
@@ -21,6 +18,7 @@ export default function Alert({
       danger: "bg-danger text-white",
       warning: "bg-warning text-white",
       primary: "bg-primary text-white",
+      black: "bg-black text-white",
     },
     lightness: {
       info: "bg-info-light text-info",
@@ -28,6 +26,7 @@ export default function Alert({
       danger: "bg-danger-light text-danger",
       warning: "bg-warning-light text-warning",
       primary: "bg-primary-light text-primary",
+      black: "bg-dim text-white",
     },
     text: {
       info: "text-info !p-0",
@@ -35,6 +34,7 @@ export default function Alert({
       danger: "text-danger !p-0",
       warning: "text-warning !p-0",
       primary: "text-primary !p-0",
+      black: "text-black !p-0",
     },
   };
   const icons = {
@@ -44,6 +44,7 @@ export default function Alert({
       danger: "icon-close-circle",
       warning: "icon-info-circle",
       primary: "icon-info-circle",
+      black: "icon-info-circle",
     },
     wrapper: {
       filled: {
@@ -52,6 +53,7 @@ export default function Alert({
         danger: "text-white bg-black/10",
         warning: "text-white bg-black/10",
         primary: "text-white bg-black/10",
+        black: "text-white bg-white/10",
       },
       lightness: {
         info: "text-white bg-info",
@@ -59,6 +61,7 @@ export default function Alert({
         danger: "text-white bg-danger",
         warning: "text-white bg-warning",
         primary: "text-white bg-primary",
+        black: "text-white bg-dim-dark",
       },
       text: {
         info: "",
@@ -66,6 +69,7 @@ export default function Alert({
         danger: "",
         warning: "",
         primary: "",
+        black: "",
       },
     },
   };
@@ -86,8 +90,8 @@ export default function Alert({
         baseClasses,
         colors[variant][color],
         sizes[size]["box"],
-        { "opacity-0 hidden": !show },
         className,
+        { "items-start": variant === "text" },
       )}
     >
       {hasIcon && (
@@ -96,7 +100,7 @@ export default function Alert({
             "flex items-center justify-center shrink-0 rounded-full me-2 text-xs",
             icons["wrapper"][variant][color],
             sizes[size]["iconCircle"],
-            {"w-fit h-fit":variant==="text"}
+            { "w-fit h-fit mt-1": variant === "text" },
           )}
         >
           <i
@@ -108,12 +112,6 @@ export default function Alert({
         </div>
       )}
       {children}
-      {size && (
-        <i
-          onClick={() => setShow(false)}
-          className="icon-close-circle ms-auto text-base transition-all cursor-pointer hover:text-danger"
-        />
-      )}
     </div>
   );
 }

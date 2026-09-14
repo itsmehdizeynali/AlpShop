@@ -73,11 +73,14 @@ export default function Pagination({
       {totalPages.map((item, index) => (
         <Btn
           as="li"
-          className={clsx({"pointer-events-none":item === current},"sm:me-2 me-1.5 last:!me-0")}
+          className={clsx(
+            { "pointer-events-none": item === current },
+            "sm:me-2 me-1.5 last:!me-0",
+          )}
           square
           key={index}
-          color={item === current?"primary":"black"}
-          variant={item === current?"normal":"lightness"}
+          color={item === current ? "primary" : "black"}
+          variant={item === current ? "normal" : "lightness"}
           size="sm"
           onClick={() => reFetch(item)}
         >

@@ -17,7 +17,7 @@ export default function Heading<T extends ElementType>({
     black: "text-black",
     "dim-dark": "text-dim-dark",
     "dim-light": "text-dim-light",
-    "primary": "text-primary",
+    primary: "text-primary",
   };
   const weights = {
     bold: "font-bold",
@@ -29,12 +29,12 @@ export default function Heading<T extends ElementType>({
     h3: "lg:text-xl text-md",
     h4: "lg:text-lg text-md",
     h5: "lg:text-base text-sm",
-    h6: "lg:text-sm text-xs",
+    h6: "lg:text-sm text-xs leading-4",
   };
   return (
     <Component
       className={clsx(
-        "block",
+        "block transition-all",
         variants[variant],
         colors[color],
         weights[weight],

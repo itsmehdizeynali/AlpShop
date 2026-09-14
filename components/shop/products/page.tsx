@@ -5,7 +5,7 @@ import ShopSidebar from "../generic/sidebar";
 import Pagination from "@/components/generic/pagination";
 import dataShopPages from "@/mockData/shop/pages";
 
-export default function ShopShopPage() {
+export default function ShopProductsPage() {
   const { product } = dataShopPages();
   const refreshData = () => {};
   return (

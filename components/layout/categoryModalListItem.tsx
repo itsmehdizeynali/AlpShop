@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Text from "../generic/text";
 import type { CategoryModalListItemPropsType } from "./types";
@@ -14,7 +16,7 @@ export default function LayoutCategoryModalListItem({
     <li
       className={clsx(
         "bg-neutral-lighter rounded-lg hover:bg-primary-light transition-all overflow-hidden",
-        {"bg-primary-light":showChildrens},
+        { "bg-primary-light": showChildrens },
         className,
       )}
     >
@@ -30,7 +32,7 @@ export default function LayoutCategoryModalListItem({
         <i
           className={clsx(
             !!item?.childrens ? "icon-down" : "icon-right-arrow",
-            {"rotate-180":showChildrens},
+            { "rotate-180": showChildrens },
             "icon-down text-xxs ms-auto transition-all",
           )}
         ></i>

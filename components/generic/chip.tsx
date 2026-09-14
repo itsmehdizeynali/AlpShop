@@ -1,13 +1,19 @@
 import clsx from "clsx";
 import { ChipPropsType } from "./types";
+import type { ElementType } from "react";
 
-export default function Chip({
+export default function Chip<T extends ElementType = "li">({
   children,
   variant = "filled",
   color = "primary",
+  size = "sm",
   className = "",
   icon,
-}: ChipPropsType) {
+  as,
+  rounded=false,
+  ...props
+}: ChipPropsType<T>) {
+  const Component = as || "div";
   const colors = {
     filled: {
       info: "text-info-light bg-info",
@@ -37,12 +43,16 @@ export default function Chip({
       neutral: "text-dim-dark border border-neutral-light",
     },
   };
+  const sizes={
+    sm:"text-xs py-1 font-semibold",
+    base:"text-sm py-2 font-bold",
+  }
   const baseClasses =
-    "flex items-center relative w-fit px-3 py-1 rounded text-xs font-semibold transition-all";
+    "flex items-center px-3 relative w-fit transition-all rounded-md";
   return (
-    <div className={clsx(baseClasses, className, colors[variant][color])}>
+    <Component {...props} className={clsx(baseClasses, className,{"!rounded-full":rounded}, colors[variant][color],sizes[size])}>
+      {icon && <i className={`${icon} text-xs-plus me-2`}></i>}
       {children}
-      {icon && <i className={`${icon} text-xs-plus ms-2`}></i>}
-    </div>
+    </Component>
   );
 }
