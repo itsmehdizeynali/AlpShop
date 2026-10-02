@@ -10,6 +10,8 @@ export default function ShopSectionsProductsWrap({
   headerLink,
   className = "",
   products,
+  isLoading = false,
+  queryKeys
 }: ProductsWrapPropsType) {
   return (
     <div className={clsx(className, "overflow-hidden")}>
@@ -21,32 +23,40 @@ export default function ShopSectionsProductsWrap({
         >
           {headerTitle}
         </HeaderSection>
-        <Swiper
-          className="max-lg:!overflow-visible"
-          modules={[Navigation]}
-          breakpoints={{
-            0: {
-              slidesPerView: "auto",
-              freeMode: true,
-            },
-            992: {
-              slidesPerView: 5,
-              freeMode: false,
-            },
-            1200: {
-              slidesPerView: 6,
-              freeMode: false,
-            },
-          }}
-          navigation
-          spaceBetween={8}
-        >
-          {products.map((item, index) => (
-            <SwiperSlide key={index} className="max-lg:max-w-[170px]">
-              <WidgetProductCard product={item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {isLoading ? (
+          <span className="my-2 w-5 h-5 border-[3px] border-solid border-r-primary border-b-primary border-primary/10 rounded-full block animate-spin m-auto"></span>
+        ) : (
+          <Swiper
+            className="max-lg:!overflow-visible"
+            modules={[Navigation]}
+            breakpoints={{
+              0: {
+                slidesPerView: "auto",
+                freeMode: true,
+              },
+              992: {
+                slidesPerView: 5,
+                freeMode: false,
+              },
+              1200: {
+                slidesPerView: 6,
+                freeMode: false,
+              },
+            }}
+            navigation
+            spaceBetween={8}
+          >
+            {!!products &&
+              products.map((item, index: number) => (
+                <SwiperSlide
+                  key={index}
+                  className="max-lg:max-w-[170px] !h-auto"
+                >
+                  <WidgetProductCard product={item} queryKeys={queryKeys}/>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        )}
       </div>
     </div>
   );

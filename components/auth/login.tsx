@@ -37,7 +37,7 @@ export default function AuthLogin() {
     },
     onSuccess: (data) => {
       if (data) {
-        router.push("/panel");
+        router.push("/");
       }
     },
   });

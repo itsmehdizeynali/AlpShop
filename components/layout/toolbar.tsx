@@ -21,7 +21,7 @@ export default function LayoutToolbar({className=""}:ToolbarPropsType) {
         </li>
         <li className="w-1/5">
           <div onClick={()=>setShowModal(true)} className="w-full flex flex-col items-center justify-center text-xs h-[60px]">
-            <i className="icon-burger-menu text-md mb-1.5"></i>
+            <i className="icon-layout text-md mb-1.5"></i>
             categories
           </div>
         </li>

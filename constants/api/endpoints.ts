@@ -1,39 +1,45 @@
 const API_ENDPOINTS = {
+  LAYOUT: "/layout",
   AUTH: {
     REGISTER: "/auth/register",
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
   },
-  DASHBOARD: {
-    BASE: "/dashboard",
-    PERFORMANCE:"/dashboard/performance",
-
-    
-    CHATS: "/chats",
-    SEEN_MESSAGES: "/chats/seen",
-    MESSAGES: "/messages",
-    USERS: "/users",
-
-    CHALLENGES: "/challenges",
-    BUY_CHALLENGE: "/challenges/buy",
-
-    WALLET: {
-      BASE:"/wallet",
-      TRANSACTIONS:"/wallet/transactions",
-    },
-
-    CALENDAR: "/calendar",
-
-    NOTIFICATIONS: "/notifications",
-    
-    NOTES: "/notes",
-
-    PROFILE: "/profile",
+  PROFILE: "/profile",
+  PRODUCTS: {
+    BASE: "/products",
+    SEARCH: "/products/search",
+    DETAIL: (slug: string) => `/products/${slug}`,
+    REVIEWS: (slug: string) => `/products/${slug}/reviews`,
+    VARIANT: (slug: string) => `/products/${slug}/variant`,
   },
-  ADMIN:{
-    ChallengeS:"/admin/challenges",
-    ADD_Challenge:"/admin/challenges"
-  }
+  CATEGORIES: "/categories",
+  BRANDS: "/brands",
+  CART: {
+    BASE: "/cart",
+    ITEM: (itemId: string) => `/cart/${itemId}`,
+  },
+  WISHLIST: {
+    BASE: "/wishlist",
+    ITEM: (productId: string) => `/wishlist/${productId}`,
+  },
+  ADDRESSES: {
+    BASE: "/addresses",
+    DETAIL: (id: string) => `/addresses/${id}`,
+  },
+  ORDERS: {
+    BASE: "/orders",
+    DETAIL: (id: string) => `/orders/${id}`,
+    RETURN: (id: string) => `/orders/${id}/return`,
+  },
+  BLOG: {
+    BASE: "/blog",
+    CATEGORIES: "/blog/categories",
+    DETAIL: (slug: string) => `/blog/${slug}`,
+  },
+  CONTACT: "/contact",
+  SETTINGS: (key: string) => `/settings/${key}`,
 };
+
 
 export default API_ENDPOINTS;

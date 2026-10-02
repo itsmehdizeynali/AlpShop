@@ -1,3 +1,4 @@
+import type { CommentType } from "@/components/genericTypes";
 import type { ReactNode } from "react";
 
 export interface RatingPropsType {
@@ -15,31 +16,10 @@ export interface ModalPropsType {
 }
 
 export interface CommentPropsType {
-  comment: {
-    id: string;
-    img: string;
-    user: {
-      id: string;
-      name: string;
-    };
-    date: string;
-    paragraph: string;
-    replies?: {
-      id: string;
-      img: string;
-      user: {
-        id: string;
-        name: string;
-      };
-      date: string;
-      paragraph: string;
-    }[];
-  };
+  comment: CommentType;
   className?: string;
 }
 
-export interface SidebarPropsType{
-  categories?: string[];
-  brands?: string[];
-  price?: { min: number; step: number; max: number };
+export interface SidebarPropsType {
+  price?: { min: number; max: number };
 }

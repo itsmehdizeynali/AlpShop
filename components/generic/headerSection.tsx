@@ -42,7 +42,7 @@ export default function HeaderSection({
           size="sm"
           icon="icon-right-arrow"
           iconPlace="end"
-          className="max-lg:text-xxs max-lg:border-none max-lg:px-0 shrink-0 max-lg:hover:bg-transparent"
+          className="max-lg:text-xxs ms-auto max-lg:border-none max-lg:px-0 shrink-0 max-lg:hover:bg-transparent"
           variant="outline-lightness"
           as={Link}
           href={link}

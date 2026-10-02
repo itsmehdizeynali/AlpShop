@@ -6,12 +6,15 @@ export interface ColorRadioPropsType{
   className?: string;
 }
 export interface SizeRadioPropsType{
-  sizes: string[];
+  items: string[];
   className?: string;
 }
 
 export interface SelectionsPropsType{
   className?: string;
-  colors: string[];
-  sizes: string[];
+  colors?: string[];
+  variants?: {title:string,items:string[]}[];
 }
+
+
+

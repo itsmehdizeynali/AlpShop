@@ -5,9 +5,20 @@ import { Navigation } from "swiper/modules";
 import Countdown from "@/components/generic/countdown";
 import WidgetProductCard from "@/components/widget/productCard";
 import dataShopIndex from "@/mockData/shop";
+import { useQuery } from "@tanstack/react-query";
+import { getProductsService } from "@/services/generic";
+import type { ProductType } from "@/components/genericTypes";
+import { getSettingService } from "@/services/settings";
 
 export default function ShopSectionsSpacialProducts() {
-  const { product } = dataShopIndex();
+  const { data } = useQuery({
+    queryKey: ["featured_products"],
+    queryFn: () => getProductsService({ featured: true }),
+  });
+  const { data: countDownData } = useQuery({
+    queryKey: ["setting", "deals-end-date"],
+    queryFn: () => getSettingService("deals-end-date"),
+  });
   return (
     <div className="overflow-hidden">
       <div className="container mb-section">
@@ -17,7 +28,7 @@ export default function ShopSectionsSpacialProducts() {
           shape={false}
           link="/deals"
           mainSide={
-            <Countdown endDate="2026-11-10T23:59:59" className="me-4" />
+            <Countdown endDate={countDownData?.value} className="me-4" />
           }
         >
           Spacial Products
@@ -42,20 +53,12 @@ export default function ShopSectionsSpacialProducts() {
           navigation
           spaceBetween={8}
         >
-          {[
-            product,
-            product,
-            product,
-            product,
-            product,
-            product,
-            product,
-            product,
-          ].map((item, index) => (
-            <SwiperSlide key={index} className="max-lg:max-w-[180px]">
-              <WidgetProductCard product={item} spacial />
-            </SwiperSlide>
-          ))}
+          {!!data?.products &&
+            data?.products.map((item, index: number) => (
+              <SwiperSlide key={index} className="max-lg:max-w-[180px] !h-auto">
+                <WidgetProductCard product={item} spacial queryKeys={["featured_products", "layout_data"]}/>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
     </div>

@@ -12,36 +12,43 @@ import { Mousewheel, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide, type SwiperClass } from "swiper/react";
 import ShopRating from "../generic/rating";
 import HeaderSection from "@/components/generic/headerSection";
-import ShopSectionsProductsWrap from "../sections/productsWrap";
-import dataShopPages from "@/mockData/shop/pages";
-import ShopComment from "../generic/comment";
 import Tabs from "@/components/generic/tabs";
 import clsx from "clsx";
-import ShopSectionsCommentBox from "../sections/commentBox";
 import ShopProductsSelections from "./selections";
+import { getProductService } from "@/services/product";
+import { useParams } from "next/navigation";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Counter from "@/components/generic/counter";
+import { addToCartService } from "@/services/cart";
+import Link from "next/link";
 
 type TabsItemType = { id: string; name: string };
 
 export default function ShopProductsIdPage() {
-  const { product, comment } = dataShopPages();
+  const { id } = useParams<{ id: string }>();
+  const { data: product, isLoading: detailsLoading } = useQuery({
+    queryKey: ["product_details"],
+    queryFn: () => getProductService(id),
+  });
 
-  const colors = ["#82b415", "#cb3030", "#034289"];
-  const sizes = ["small", "medium", "large", "xl"];
-
-  const [activeTab, setActiveTab] = useState<string>("Lorem1");
+  const [activeTab, setActiveTab] = useState<string>("description");
   const tabsItems: TabsItemType[] = [
     {
-      id: "Lorem1",
-      name: "Lorem1",
+      id: "description",
+      name: "description",
     },
     {
-      id: "Lorem2",
-      name: "Lorem2",
+      id: "specifications",
+      name: "specifications",
     },
     {
-      id: "comments",
-      name: "Comments",
+      id: "tags",
+      name: "tags",
     },
+    // {
+    //   id: "comments",
+    //   name: "Comments",
+    // },
   ];
   const renderCell = (item: TabsItemType) => {
     return (
@@ -57,7 +64,29 @@ export default function ShopProductsIdPage() {
     );
   };
 
+  const QueryClient = useQueryClient();
+  const handelQueryKeys = () => {
+    QueryClient.invalidateQueries({ queryKey: ["product_details"] });
+    QueryClient.invalidateQueries({ queryKey: ["layout_data"] });
+  };
+  const addToCartMutation = useMutation({
+    mutationFn: addToCartService,
+    onSuccess: () => {
+      handelQueryKeys();
+    },
+  });
+  const handelAddToCartBtn = () => {
+    if (product?.id) addToCartMutation.mutate({ productId: product?.id });
+  };
+
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+
+  const colors = product?.variantGroups.find(
+    (item) => item.title === "color",
+  )?.items;
+  const variants = product?.variantGroups.filter(
+    (item) => item.title !== "color",
+  );
   return (
     <>
       <div className="container my-section max-sm:mt-sm-section">
@@ -78,51 +107,17 @@ export default function ShopProductsIdPage() {
                 watchSlidesProgress={true}
                 modules={[Mousewheel, Thumbs]}
               >
-                <SwiperSlide className="max-h-16 max-w-16">
-                  <Image
-                    src="/img/product-1.png"
-                    alt="product"
-                    width={300}
-                    height={300}
-                    className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="max-h-16 max-w-16">
-                  <Image
-                    src="/img/img-1-removebg-preview.png"
-                    alt="product"
-                    width={300}
-                    height={300}
-                    className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="max-h-16 max-w-16">
-                  <Image
-                    src="/img/img-2-removebg-preview.png"
-                    alt="product"
-                    width={300}
-                    height={300}
-                    className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="max-h-16 max-w-16">
-                  <Image
-                    src="/img/img-3-removebg-preview.png"
-                    alt="product"
-                    width={300}
-                    height={300}
-                    className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
-                  />
-                </SwiperSlide>
-                <SwiperSlide className="max-h-16 max-w-16">
-                  <Image
-                    src="/img/img-4-removebg-preview.png"
-                    alt="product"
-                    width={300}
-                    height={300}
-                    className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
-                  />
-                </SwiperSlide>
+                {product?.images.map((item, index) => (
+                  <SwiperSlide key={index} className="max-h-16 max-w-16">
+                    <Image
+                      src={product.images[0].url}
+                      alt={item.altText || "product"}
+                      width={300}
+                      height={300}
+                      className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
+                    />
+                  </SwiperSlide>
+                ))}
               </Swiper>
               <div className="sm:grow max-sm:w-full sm:ps-4 max-sm:mb-2">
                 <div className="w-full sm:h-80 h-60 bg-neutral-lighter rounded-lg p-4 overflow-hidden">
@@ -138,102 +133,47 @@ export default function ShopProductsIdPage() {
                     slidesPerView={1}
                     spaceBetween={8}
                   >
-                    <SwiperSlide>
-                      <Image
-                        src="/img/product-1.png"
-                        alt="product"
-                        width={300}
-                        height={300}
-                        className="w-full h-full object-center object-scale-down"
-                      />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <Image
-                        src="/img/img-1-removebg-preview.png"
-                        alt="product"
-                        width={300}
-                        height={300}
-                        className="w-full h-full object-center object-scale-down"
-                      />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <Image
-                        src="/img/img-2-removebg-preview.png"
-                        alt="product"
-                        width={300}
-                        height={300}
-                        className="w-full h-full object-center object-scale-down"
-                      />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <Image
-                        src="/img/img-3-removebg-preview.png"
-                        alt="product"
-                        width={300}
-                        height={300}
-                        className="w-full h-full object-center object-scale-down"
-                      />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <Image
-                        src="/img/img-4-removebg-preview.png"
-                        alt="product"
-                        width={300}
-                        height={300}
-                        className="w-full h-full object-center object-scale-down"
-                      />
-                    </SwiperSlide>
+                    {product?.images.map((item, index) => (
+                      <SwiperSlide key={index}>
+                        <Image
+                          src={product.images[0].url}
+                          alt={item.altText || "product"}
+                          width={300}
+                          height={300}
+                          className="w-full h-full object-center object-scale-down"
+                        />
+                      </SwiperSlide>
+                    ))}
                   </Swiper>
                 </div>
               </div>
             </div>
             <div>
-              <Heading className="mb-2">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam
-              </Heading>
+              <Heading className="mb-2">{product?.name}</Heading>
               <ShopRating
                 size="lg"
                 disabled
                 className="mb-4"
-                productRate={4.6}
-                users={50}
+                productRate={product?.rate.rate}
+                users={product?.rate.users}
               />
               <ShopProductsSelections
                 className="lg:hidden"
                 colors={colors}
-                sizes={sizes}
+                variants={variants}
               />
-              <Text className="mb-4 text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
-                repudiandae rerum asperiores eaque aliquid eveniet facilis iure
-                aliquam voluptatum voluptate aperiam libero ratione saepe
-                consequatur hic excepturi exercitationem, unde laudantium.
-              </Text>
+              <Text className="mb-4 text-justify">{product?.description}</Text>
               <ul className="flex flex-wrap -m-1 mb-4">
-                <li className="p-1 grow">
-                  <div className="p-3 bg-neutral-light rounded-lg">
-                    <Text color="dim" className="mb-1.5">
-                      Country of manufacture
-                    </Text>
-                    <Text color="black">Germany</Text>
-                  </div>
-                </li>
-                <li className="p-1 grow">
-                  <div className="p-3 bg-neutral-light rounded-lg">
-                    <Text color="dim" className="mb-1.5">
-                      Country of manufacture
-                    </Text>
-                    <Text color="black">Germany</Text>
-                  </div>
-                </li>
-                <li className="p-1 grow">
-                  <div className="p-3 bg-neutral-light rounded-lg">
-                    <Text color="dim" className="mb-1.5">
-                      Country of manufacture
-                    </Text>
-                    <Text color="black">Germany</Text>
-                  </div>
-                </li>
+                {product?.specs.map((item, index) => (
+                  <li className="p-1 grow" key={index}>
+                    <div className="p-3 bg-neutral-light rounded-lg">
+                      <Text color="dim" className="mb-1.5">
+                        {item.label}
+                      </Text>
+                      <Text color="black">{item.value}</Text>
+                    </div>
+                  </li>
+                ))}
               </ul>
               <Tabs
                 wrapclass="flex items-center hide-scrollbar overflow-x-auto border border-t-0 border-neutral-light rounded-lg mb-4"
@@ -241,77 +181,52 @@ export default function ShopProductsIdPage() {
                 tabs={tabsItems}
                 changeTab={(id) => setActiveTab(id)}
               />
-              {activeTab === "Lorem1" && (
+              {activeTab === "description" && (
                 <Card color="transparent" hasBorder>
                   <HeaderSection shape size="h4" className="mb-sm-section">
-                    lorem lorem lorem
+                    Description
                   </HeaderSection>
-                  <Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Neque sequi quibusdam, itaque possimus laborum non aliquid
-                    delectus, enim repudiandae quasi quo iure sint minima nemo
-                    ratione eos quia iste! Neque. Lorem ipsum dolor sit amet
-                    consectetur adipisicing elit. Neque sequi quibusdam, itaque
-                    possimus laborum non aliquid delectus, enim repudiandae
-                    quasi quo iure sint minima nemo ratione eos quia iste!
-                    Neque.
-                  </Text>
+                  <Text>{product?.description}</Text>
                 </Card>
               )}
-              {activeTab === "Lorem2" && (
+              {activeTab === "specifications" && (
                 <Card color="transparent" hasBorder>
                   <HeaderSection shape size="h4" className="mb-sm-section">
-                    lorem lorem lorem
+                    Specifications
                   </HeaderSection>
-                  <ul>
-                    <li className="flex group mb-4 last:mb-0 max-sm:flex-wrap">
-                      <Text
-                        color="black"
-                        weight="bold"
-                        className="lg:w-50 sm:w-32 w-full max-sm:mb-3 shrink-0"
-                      >
-                        lorem
-                      </Text>
-                      <Text className="border-b group-last:border-b-0 border-b-neutral-light grow pb-4">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit.
-                      </Text>
-                    </li>
-                    <li className="flex group mb-4 last:mb-0 max-sm:flex-wrap">
-                      <Text
-                        color="black"
-                        weight="bold"
-                        className="lg:w-50 sm:w-32 w-full max-sm:mb-3 shrink-0"
-                      >
-                        lorem
-                      </Text>
-                      <Text className="border-b group-last:border-b-0 border-b-neutral-light grow pb-4">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Lorem ipsum dolor, sit amet consectetur
-                        adipisicing elit. Lorem ipsum dolor, sit amet
-                        consectetur adipisicing elit. Lorem ipsum dolor, sit
-                        amet consectetur adipisicing elit. Lorem ipsum dolor,
-                        sit amet consectetur adipisicing elit. Lorem ipsum
-                        dolor, sit amet consectetur adipisicing elit.
-                      </Text>
-                    </li>
-                    <li className="flex group mb-4 last:mb-0 max-sm:flex-wrap">
-                      <Text
-                        color="black"
-                        weight="bold"
-                        className="lg:w-50 sm:w-32 w-full max-sm:mb-3 shrink-0"
-                      >
-                        lorem
-                      </Text>
-                      <Text className="border-b group-last:border-b-0 border-b-neutral-light grow pb-4">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit.
-                      </Text>
-                    </li>
-                  </ul>
+                  {product?.specs && (
+                    <ul>
+                      {product?.specs.map((item, index) => (
+                        <li key={index} className="flex group mb-4 last:mb-0 max-sm:flex-wrap">
+                          <Text
+                            color="black"
+                            weight="bold"
+                            className="lg:w-50 sm:w-32 w-full max-sm:mb-3 shrink-0"
+                          >
+                            {item.label}
+                          </Text>
+                          <Text className="border-b group-last:border-b-0 border-b-neutral-light grow pb-4">
+                            {item.value}
+                          </Text>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </Card>
               )}
-              {activeTab === "comments" && (
+              {activeTab === "tags" && (
+                <Card color="transparent" hasBorder>
+                  <HeaderSection shape size="h4" className="mb-sm-section">
+                    Tags
+                  </HeaderSection>
+                  {product?.slug && (
+                    <Btn size="sm" variant="lightness" color="black" as={Link} href={`/blog?tags=${product?.slug}`}>
+                      {product?.slug}
+                    </Btn>
+                  )}
+                </Card>
+              )}
+              {/* {activeTab === "comments" && (
                 <>
                   <Card color="transparent" hasBorder className="mb-4">
                     <HeaderSection shape size="h4" className="mb-sm-section">
@@ -321,9 +236,9 @@ export default function ShopProductsIdPage() {
                       <ShopComment comment={item} key={index} />
                     ))}
                   </Card>
-                  <ShopSectionsCommentBox />
+                  <ShopSectionsCommentBox  />
                 </>
-              )}
+              )} */}
             </div>
           </div>
           <div className="lg:p-2 lg:w-78 w-full sticky lg:top-0 shrink-0 max-lg:z-40 max-lg:bg-white max-lg:shadow-card max-lg:bottom-0 max-lg:fixed max-lg:start-0">
@@ -335,25 +250,39 @@ export default function ShopProductsIdPage() {
               <ShopProductsSelections
                 className="max-lg:hidden"
                 colors={colors}
-                sizes={sizes}
+                variants={variants}
               />
-              <div className="flex items-center lg:mb-4">
-                <Price size="lg">520</Price>
+              <div className="flex items-center lg:mb-2">
+                <Price size="lg">{product?.price}</Price>
                 <Text as="del" size="base" className="mx-2">
-                  580$
+                  {product?.realPrice}$
                 </Text>
-                <Chip rounded color="danger">
-                  25%
-                </Chip>
+                {!!product?.discount && (
+                  <Chip rounded color="danger">
+                    {product?.discount}%
+                  </Chip>
+                )}
               </div>
-              <Btn className="lg:w-full max-lg:ms-auto max-sm:w-full">
-                Add To Basket
-              </Btn>
+              {product?.isInCart ? (
+                <Counter
+                  productId={product?.id}
+                  queryKeys={["layout_data", "product_details"]}
+                  num={product?.cartQuantity}
+                  max={product?.stock}
+                />
+              ) : (
+                <Btn
+                  onClick={handelAddToCartBtn}
+                  className="lg:w-full max-lg:ms-auto max-sm:w-full"
+                >
+                  Add To Basket
+                </Btn>
+              )}
             </Card>
           </div>
         </div>
       </div>
-      <ShopSectionsProductsWrap
+      {/* <ShopSectionsProductsWrap
         products={[
           product,
           product,
@@ -365,7 +294,7 @@ export default function ShopProductsIdPage() {
         ]}
         className="mb-section"
         headerTitle="Related Products"
-      />
+      /> */}
     </>
   );
 }

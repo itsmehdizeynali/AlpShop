@@ -9,6 +9,13 @@ import ShopRating from "../shop/generic/rating";
 import Link from "next/link";
 import clsx from "clsx";
 import type { ProductCardPropsType } from "./types";
+import Counter from "../generic/counter";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  addToWishlistService,
+  removeFromWishlistService,
+} from "@/services/wishlist";
+import { addToCartService } from "@/services/cart";
 
 export default function WidgetProductCard({
   spacial = false,
@@ -16,11 +23,48 @@ export default function WidgetProductCard({
   hasBorder = true,
   product,
   responsive = false,
+  queryKeys,
 }: ProductCardPropsType) {
+  const QueryClient = useQueryClient();
+
+  const handelQueryKeys = () => {
+    queryKeys?.map((item) =>
+      QueryClient.invalidateQueries({ queryKey: [item] }),
+    );
+  };
+
+  const addToCartMutation = useMutation({
+    mutationFn: addToCartService,
+    onSuccess: () => {
+      handelQueryKeys()
+    },
+  });
+  const addToWishlistMutation = useMutation({
+    mutationFn: addToWishlistService,
+    onSuccess: () => {
+      handelQueryKeys()
+    },
+  });
+  const removeFromWishlistMutation = useMutation({
+    mutationFn: removeFromWishlistService,
+    onSuccess: () => {
+      handelQueryKeys()
+    },
+  });
+
+  const handelWishlistBtn = () => {
+    if (product.isWishlisted) {
+      removeFromWishlistMutation.mutate(product.id);
+      return;
+    }
+    addToWishlistMutation.mutate(product.id);
+  };
+  const handelAddToCartBtn = () => {
+    addToCartMutation.mutate({productId:product.id});
+  };
+
   return (
     <Card
-      as={spacial ? "div" : Link}
-      href={spacial ? undefined : `/products/${product.id}`}
       color={color}
       className={clsx(
         { "max-sm:flex-row": responsive },
@@ -28,7 +72,7 @@ export default function WidgetProductCard({
       )}
       hasBorder={hasBorder}
     >
-      {product?.discount && (
+      {!!product?.discount && (
         <Chip
           color={spacial ? "primary" : "secondary"}
           className={clsx(
@@ -39,44 +83,40 @@ export default function WidgetProductCard({
           {product.discount}%
         </Chip>
       )}
-      {spacial ? (
-        <Link
-          href={`/products/${product.id}`}
-          className={clsx("block mb-3", {
-            "max-sm:mb-0 max-sm:me-2": responsive,
-          })}
-        >
-          <Image
-            src={product.img}
-            width={180}
-            height={180}
-            className={clsx(
-              "w-full lg:h-[180px] h-[150px] object-scale-down object-center",
-              {
-                "max-sm:!w-20 max-sm:!h-20": responsive,
-              },
-            )}
-            alt="product"
-          />
-        </Link>
-      ) : (
+      <Btn
+        icon={product.isWishlisted ? "icon-heart" : "icon-heart1"}
+        square
+        variant="text"
+        color="danger"
+        className={clsx(
+          product.isWishlisted ? "opacity-100" : "opacity-20",
+          "hover:!opacity-80 lg:top-4 top-3 lg:end-4 end-3 z-10 !absolute",
+        )}
+        onClick={handelWishlistBtn}
+      />
+      <Link
+        href={`/products/${product.slug}`}
+        className={clsx("block mb-3", {
+          "max-sm:mb-0 max-sm:me-2": responsive,
+        })}
+      >
         <Image
-          src={product.img}
+          src={product.images[0].url}
           width={180}
           height={180}
           className={clsx(
-            "w-full lg:h-[180px] h-[150px] object-scale-down object-center mb-3",
+            "w-full lg:h-[180px] h-[150px] object-scale-down object-center",
             {
-              "max-sm:!w-20 max-sm:!h-20 max-sm:mb-0 max-sm:me-2": responsive,
+              "max-sm:!w-20 max-sm:!h-20": responsive,
             },
           )}
           alt="product"
         />
-      )}
+      </Link>
       <div className="flex flex-col grow justify-between">
         <Heading
-          as={spacial ? Link : "h3"}
-          href={spacial ? `/products/${product.id}` : undefined}
+          as={Link}
+          href={`/products/${product.slug}`}
           variant="h6"
           className="mb-2.5 !line-clamp-2"
         >
@@ -91,16 +131,19 @@ export default function WidgetProductCard({
           />
           <div className="flex items-center">
             <Price>{product.price}</Price>
+            {!(product.realPrice - product.price === 0) && (
             <Text as="del" size="xs" className="ms-2">
-              {product.realPrice}
+              ${product.realPrice}
             </Text>
-            {spacial && (
+            )}
+            {!product.isInCart && spacial && (
               <Btn
                 size="xs"
                 square
                 variant="outline"
                 icon="icon-basket1"
                 className="ms-auto"
+                onClick={handelAddToCartBtn}
               />
             )}
           </div>

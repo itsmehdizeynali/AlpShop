@@ -3,13 +3,16 @@ import Link from "next/link";
 import Heading from "../generic/heading";
 import Text from "../generic/text";
 import type { ArticleCardPropsType } from "./types";
+import useFormatDate from "@/utils/format-date";
 
 export default function WidgetArticleRowCard({
   article,
 }: ArticleCardPropsType) {
+
+  const {getFormatDateToDay}=useFormatDate()
   return (
     <Link
-      href={`/blog/${article.id}`}
+      href={`/blog/${article.slug}`}
       className="flex items-center group lg:py-2 py-1 px-4 hover:bg-neutral-lighter transition-all"
     >
       <Image
@@ -17,7 +20,7 @@ export default function WidgetArticleRowCard({
         className="lg:w-14 w-12 lg:h-14 h-12 rounded-lg me-3 shrink-0 object-cover object-center"
         width={40}
         height={40}
-        src={article.img}
+        src={article?.image}
       />
       <div className="grow">
         <Heading
@@ -28,7 +31,7 @@ export default function WidgetArticleRowCard({
         </Heading>
         <Text size="xs" className="flex items-center">
           <i className="icon-calendar me-2"></i>
-          {article.date}
+          {getFormatDateToDay(article.createdAt)}
         </Text>
       </div>
     </Link>

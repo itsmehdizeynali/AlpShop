@@ -1,37 +1,61 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { getAuthUser } from "@/lib/auth-utils";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
+export async function GET() {
+  const authUser = await getAuthUser();
+  if (!authUser) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-function getUserId(req: Request) {
-  const token = req.headers.get("cookie")?.split("access=")[1]?.split(";")[0];
-  return (jwt.verify(token!, JWT_SECRET) as { userId: string }).userId;
+  const user = await prisma.user.findUnique({
+    where: { id: authUser.userId },
+    include: { addresses: true },
+  });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  const { password: _, ...profile } = user;
+  return NextResponse.json({ user: profile }, { status: 200 });
 }
 
 export async function PUT(req: Request) {
-  try {
-    const userId = getUserId(req);
-    const { name, email, bio, theme } = await req.json();
+  const authUser = await getAuthUser();
+  if (!authUser) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-    // بررسی یونیک بودن ایمیل جدید در صورت ویرایش
+  try {
+    const { name, email, bio, avatar, theme } = await req.json();
+
     if (email) {
       const conflictingUser = await prisma.user.findFirst({
-        where: { email, NOT: { id: userId } },
+        where: { email, NOT: { id: authUser.userId } },
       });
       if (conflictingUser) {
-        return NextResponse.json({ error: "Email is already taken" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Email is already taken" },
+          { status: 400 },
+        );
       }
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: { name, email, bio, theme },
+      where: { id: authUser.userId },
+      data: { name, email, bio, avatar, theme },
     });
 
     const { password: _, ...userProfile } = updatedUser;
-    return NextResponse.json({ message: "Profile updated successfully", user: userProfile }, { status: 200 });
+    return NextResponse.json(
+      { message: "Profile updated successfully", user: userProfile },
+      { status: 200 },
+    );
   } catch (error) {
-    return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update profile" },
+      { status: 500 },
+    );
   }
 }

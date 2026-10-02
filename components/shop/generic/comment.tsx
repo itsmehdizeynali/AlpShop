@@ -4,17 +4,20 @@ import Text from "@/components/generic/text";
 import clsx from "clsx";
 import Image from "next/image";
 import type { CommentPropsType } from "./types";
+import useFormatDate from "@/utils/format-date";
 
 export default function ShopComment({
   comment,
   className = "",
 }: CommentPropsType) {
+
+  const {getFormatDateToDay}=useFormatDate()
   return (
     <div className={clsx("lg:mb-8 mb-6 last:mb-0",className)}>
       <div>
         <div className="flex flex-wrap items-center mb-2 lg:gap-3 gap-2">
           <div className="rounded-full overflow-hidden flex items-center justify-center w-12 h-12 bg-primary-light">
-            {comment?.img ? (
+            {comment?.user.avatar ? (
               <Image
                 src={"/img/product-1.png"}
                 width={48}
@@ -31,7 +34,7 @@ export default function ShopComment({
           </Heading>
           <div className="flex items-center">
             <Text className="me-4" color="dim" size="xs">
-              {comment?.date}
+              {getFormatDateToDay(comment?.createdAt)}
             </Text>
             <Btn
               variant="text"
@@ -43,7 +46,7 @@ export default function ShopComment({
             </Btn>
           </div>
         </div>
-        <Text>{comment?.paragraph}</Text>
+        <Text>{comment?.content}</Text>
       </div>
       {!!comment.replies && (
         <div className="sm:ps-12 mt-4">

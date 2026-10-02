@@ -1,22 +1,37 @@
+"use client";
+
 import Text from "@/components/generic/text";
 import dataShopPages from "@/mockData/shop/pages";
 import clsx from "clsx";
-import Link from "next/link";
+import { useState } from "react";
 
-export default function ShopFaqTabBar({className}:{className:string}) {
+export default function ShopFaqTabBar({ className }: { className?: string }) {
   const { faqTabs } = dataShopPages();
+
+  const [activeTab, setActiveTab] = useState<null|number|string>(null);
+
+  const handleScroll = (id: number|string) => {
+    setActiveTab(id);
+    const element = document.getElementById(`tab-${id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+  
   return (
-    <div className={clsx(className,"container")}>
-      <div className="flex items-center hide-scrollbar overflow-x-auto border border-t-0 border-neutral-light rounded-lg">
+    <div className={clsx(className, "max-lg:container lg:w-72 shrink-0")}>
+      <div className="max-lg:flex items-center hide-scrollbar bg-white overflow-x-auto max-lg:shadow-card lg:border max-lg:border-t-0 border-neutral-light rounded-lg">
         {faqTabs.map((item, index) => (
           <Text
-            as={Link}
+            onClick={() => handleScroll(item.id)}
             key={index}
-            href={`?tab=${item.id}`}
             color="black"
-            className="py-4 lg:px-6 px-4 flex items-center shrink-0 hover:bg-neutral-lighter transition-all"
+            className={clsx(
+              "py-4 px-4 cursor-pointer flex items-center shrink-0 hover:bg-neutral-lighter transition-all",
+              {"!bg-primary-light !text-primary max-lg:!bg-primary/10":activeTab===item.id}
+            )}
           >
-            <i className="icon-qr-code lg:text-md text-base me-2.5"></i>
+            <i className={clsx(item.icon,"lg:text-md text-base me-2.5")}></i>
             {item.name}
           </Text>
         ))}

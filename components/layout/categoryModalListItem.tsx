@@ -9,6 +9,7 @@ import clsx from "clsx";
 export default function LayoutCategoryModalListItem({
   item,
   className,
+  closeModal
 }: CategoryModalListItemPropsType) {
   const [showChildrens, setShowChildrens] = useState(false);
 
@@ -21,26 +22,32 @@ export default function LayoutCategoryModalListItem({
       )}
     >
       <Text
-        onClick={() => setShowChildrens(!showChildrens)}
+        onClick={() => {
+          setShowChildrens(!showChildrens)
+          if(!item?.children?.length){
+            closeModal()
+          }
+        }}
         color="black"
-        href={!!item?.childrens ? undefined : item?.href}
-        as={!!item?.childrens ? "div" : Link}
+        href={!!item?.children?.length ? undefined : `/products?category=${item?.slug}`}
+        as={!!item?.children?.length ? "div" : Link}
         className="flex items-center p-3 cursor-pointer"
       >
         <i className="icon-tag me-2"></i>
         {item?.name}
         <i
           className={clsx(
-            !!item?.childrens ? "icon-down" : "icon-right-arrow",
+            !!item?.children?.length ? "icon-down" : "icon-right-arrow",
             { "rotate-180": showChildrens },
             "icon-down text-xxs ms-auto transition-all",
           )}
         ></i>
       </Text>
-      {!!item?.childrens && showChildrens && (
+      {!!item?.children?.length && showChildrens && (
         <ul>
-          {item?.childrens.map((children, index) => (
+          {item?.children.map((children, index) => (
             <LayoutCategoryModalListItem
+              closeModal={closeModal}
               className="ps-2 rounded-none"
               item={children}
               key={index}

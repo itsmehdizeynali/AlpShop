@@ -3,8 +3,16 @@ import Btn from "@/components/generic/btn";
 import Card from "@/components/generic/card";
 import HeaderSection from "@/components/generic/headerSection";
 import Text from "@/components/generic/text";
+import type { ShopCartPaymentPropsType } from "./type";
+import useFormatNumber from "@/utils/format-number";
 
-export default function ShopCartPayment() {
+export default function ShopCartPayment({
+  totalPriceBefore,
+  totalPriceAfter,
+  profit,
+  itemsCount
+}: ShopCartPaymentPropsType) {
+  const { formatNumber } = useFormatNumber();
   return (
     <div className="lg:w-84 w-full p-2 shrink-0 sticky top-0">
       <Card color="transparent" className="mb-3" hasBorder>
@@ -14,7 +22,7 @@ export default function ShopCartPayment() {
         <ul className="mb-4">
           <li className="mb-2 last:mb-0 flex items-center gap-4">
             <Text color="dim" weight="bold" className="capitalize">
-              Total price of goods (1 item)
+              Total price of goods ({itemsCount} item{itemsCount>1&&"s"})
             </Text>
             <Text
               size="base"
@@ -22,7 +30,7 @@ export default function ShopCartPayment() {
               color="primary"
               className="ms-auto capitalize"
             >
-              520$
+              {formatNumber(totalPriceAfter)}$
             </Text>
           </li>
           <li className="mb-2 last:mb-0 flex items-center gap-4 bg-primary-light py-2 px-4 lg:-mx-4 -mx-3">
@@ -40,24 +48,26 @@ export default function ShopCartPayment() {
               color="primary"
               className="ms-auto capitalize"
             >
-              60$
+              {formatNumber(profit)}$
             </Text>
           </li>
           <li className="mb-2 last:mb-0 flex items-center gap-4">
             <Text color="dim" weight="bold" className="capitalize">
               Shopping cart total
             </Text>
-            <Text as="del" size="sm" className="ms-auto capitalize">
-              580$
-            </Text>
-            <Text
-              size="base"
-              weight="bold"
-              color="primary"
-              className="capitalize"
-            >
-              520$
-            </Text>
+            <div className="ms-auto text-end">
+              <Text
+                size="base"
+                weight="bold"
+                color="primary"
+                className="capitalize"
+              >
+                {formatNumber(totalPriceAfter)}$
+              </Text>
+              <Text as="del" size="sm">
+                {formatNumber(totalPriceBefore)}$
+              </Text>
+            </div>
           </li>
         </ul>
         <Alert color="danger" variant="text">

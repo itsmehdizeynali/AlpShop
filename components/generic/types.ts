@@ -1,7 +1,13 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 // ALERT
-export type AlertColors = "info" | "success" | "danger" | "warning" | "primary"|"black";
+export type AlertColors =
+  | "info"
+  | "success"
+  | "danger"
+  | "warning"
+  | "primary"
+  | "black";
 export type AlertVarients = "filled" | "lightness" | "text";
 export type AlertSizes = "sm" | "base";
 export type AlertPropsType = Partial<{
@@ -86,16 +92,17 @@ export type ChipColors =
   | "neutral";
 export type ChipVarients = "filled" | "lightness" | "outline";
 export type ChipSizes = "sm" | "base";
-export type ChipPropsType<T extends ElementType>= Partial<{
+export type ChipPropsType<T extends ElementType> = Partial<{
   children: ReactNode;
   variant: ChipVarients;
   size: ChipSizes;
   color: ChipColors;
   className: string;
   icon: string;
-  rounded:boolean;
-  as:ElementType;
-}> & ComponentPropsWithoutRef<T>;
+  rounded: boolean;
+  as: ElementType;
+}> &
+  ComponentPropsWithoutRef<T>;
 
 // HEADING
 export type HeadingVarients = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -121,8 +128,9 @@ export type InputPropsType = Partial<{
   msgType: AlertColors;
   msg: string | null;
   defaultValue: string;
-  labelColor:TextColorsType;
+  labelColor: TextColorsType;
   rounded: boolean;
+  hasFocus: boolean;
 }> &
   ComponentPropsWithoutRef<"input">;
 
@@ -137,7 +145,6 @@ export type LogoPropsType = Partial<{
 export type PaginationPropsType = {
   total?: number;
   current?: number;
-  reFetch: (num: number) => void;
   className?: string;
 };
 
@@ -245,8 +252,8 @@ export interface PricePropsType {
 // PRICE-RANGE
 export interface PriceRangePropsType {
   min: number;
-  step: number;
   max: number;
+  onChange:(range:number[])=>void
 }
 
 // COUNTDOWN
@@ -270,8 +277,12 @@ export type BackdropPropsType = {
 // CHECKBOX
 export type CheckboxPropsType = {
   name: string;
-  className: string;
-} & ComponentPropsWithoutRef<"li">;
+  slug: string;
+  className?: string;
+  checked?: boolean;
+  changeSelectedList: ({ type,slug }:{type:"add"|"remove",slug:string }) => void;
+} &
+  ComponentPropsWithoutRef<"li">;
 
 // ACCORDION
 export type AccordionPropsType = Partial<{
@@ -283,9 +294,10 @@ export type AccordionPropsType = Partial<{
 
 // ACCORDION
 export type CounterPropsType = {
-  loading?: boolean;
   min?: number;
   max?: number;
   num: number;
   className?: string;
+  queryKeys?:string[]
+  productId:string
 } & ComponentPropsWithoutRef<"div">;

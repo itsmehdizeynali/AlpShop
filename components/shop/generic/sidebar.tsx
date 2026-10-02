@@ -9,13 +9,124 @@ import PriceRange from "@/components/generic/priceRange";
 import clsx from "clsx";
 import { useState } from "react";
 import type { SidebarPropsType } from "./types";
+import Link from "next/link";
+import { getBrandsService, getCategoriesService } from "@/services/generic";
+import { useQuery } from "@tanstack/react-query";
+import type { BrandType, CategoryItemType } from "@/components/genericTypes";
+import { useSetParams } from "@/utils/setParams";
+import { useSearchParams } from "next/navigation";
+import ShopCheckboxWrap from "./checkboxWrap";
 
-export default function ShopSidebar({
-  categories,
-  brands,
-  price,
-}: SidebarPropsType) {
+export default function ShopSidebar({ price }: SidebarPropsType) {
+  // categories
+  const { data: categories, isLoading: categoriesDataLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategoriesService({}),
+  });
+  // brands
+  const { data: brands, isLoading: brandsDataLoading } = useQuery({
+    queryKey: ["brands"],
+    queryFn: getBrandsService,
+  });
+
+  const searchParams = useSearchParams();
+  const { setManyParams, getParamList } = useSetParams();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
+    getParamList("category"),
+  );
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(() =>
+    getParamList("brand"),
+  );
+  const [priceRange, setPriceRange] = useState<number[]>(() => [
+    Number(searchParams.get("minPrice")) || price?.min || 0,
+    Number(searchParams.get("maxPrice")) || price?.max || 10000,
+  ]);
+
+  const handleCheckCategory = ({
+    type,
+    slug,
+  }: {
+    type: "add" | "remove";
+    slug: string;
+  }) => {
+    console.log(slug);
+
+    if (type === "add") {
+      if (!selectedCategories) {
+        setSelectedCategories([slug]);
+        return;
+      }
+      setSelectedCategories([...selectedCategories, slug]);
+    }
+    if (type === "remove") {
+      const list: string[] | undefined = selectedCategories?.filter(
+        (item) => item !== slug,
+      );
+      setSelectedCategories(list);
+    }
+  };
+  const handleCheckBrand = ({
+    type,
+    slug,
+  }: {
+    type: "add" | "remove";
+    slug: string;
+  }) => {
+    if (type === "add") {
+      if (!selectedBrands) {
+        setSelectedBrands([slug]);
+        return;
+      }
+      setSelectedBrands([...selectedBrands, slug]);
+    }
+    if (type === "remove") {
+      const list: string[] | undefined = selectedBrands?.filter(
+        (item) => item !== slug,
+      );
+      setSelectedBrands(list);
+    }
+  };
+
+  console.log(price);
+
+  const handleFilter = () => {
+    setManyParams({
+      category: selectedCategories.join(",") || undefined,
+      brand: selectedBrands.join(",") || undefined,
+      minPrice:
+        price && priceRange[0] !== price.min
+          ? String(priceRange[0])
+          : undefined,
+      maxPrice:
+        price && priceRange[1] !== price.max
+          ? String(priceRange[1])
+          : undefined,
+      page: String(1),
+    });
+  };
+
+  const changePriceRange = (range: number[]) => {
+    setPriceRange(range);
+  };
+
+  const clearFilters = () => {
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+    setManyParams({
+      category: undefined,
+      brand: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+      page: undefined,
+    });
+
+    console.log(selectedBrands);
+  };
+
   const [openFilterModal, setOpenFilterModal] = useState(false);
+
+  console.log(categories);
+
   return (
     <>
       <Backdrop
@@ -33,7 +144,12 @@ export default function ShopSidebar({
           </Btn>
         </div>
         <div className="p-1 w-1/2">
-          <Btn color="danger" variant="lightness" className="!w-full">
+          <Btn
+            onClick={clearFilters}
+            color="danger"
+            variant="lightness"
+            className="!w-full"
+          >
             Clear All
           </Btn>
         </div>
@@ -47,57 +163,86 @@ export default function ShopSidebar({
         <div className="!h-full max-lg:overflow-y-auto lg:p-2 p-3">
           <div className="flex items-center justify-between mb-4">
             <Heading variant="h4">Filters</Heading>
-            <Btn variant="text" color="danger" size="base">
+            <Btn
+              onClick={clearFilters}
+              variant="text"
+              color="danger"
+              size="base"
+            >
               Clear All
             </Btn>
           </div>
           {!!categories && (
-            <Card hasBorder color="transparent" className="!p-0 mb-4 overflow-hidden">
-              <Heading variant="h5" className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light">
+            <Card
+              hasBorder
+              color="transparent"
+              className="!p-0 mb-4 overflow-hidden"
+            >
+              <Heading
+                variant="h5"
+                className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light"
+              >
                 Category
               </Heading>
               <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
-                {categories.map((item, index) => (
-                  <Checkbox
-                    key={index}
-                    name={item}
-                    className="mb-2 last:mb-0"
-                  />
+                {categories.map((item: CategoryItemType, index: number) => (
+                  <ShopCheckboxWrap key={index} item={item} selectedList={selectedCategories} handleCheck={handleCheckCategory}/>
                 ))}
               </ul>
             </Card>
           )}
           {!!brands && (
-            <Card hasBorder color="transparent" className="!p-0 mb-4 overflow-hidden">
-              <Heading variant="h5" className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light">
+            <Card
+              hasBorder
+              color="transparent"
+              className="!p-0 mb-4 overflow-hidden"
+            >
+              <Heading
+                variant="h5"
+                className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light"
+              >
                 Brand
               </Heading>
               <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
-                {brands.map((item, index) => (
+                {brands.map((item: BrandType, index: number) => (
                   <Checkbox
+                    checked={selectedBrands?.includes(item.slug)}
+                    changeSelectedList={handleCheckBrand}
                     key={index}
-                    name={item}
+                    name={item?.name}
+                    slug={item?.slug}
                     className="mb-2 last:mb-0"
                   />
                 ))}
               </ul>
             </Card>
           )}
-          {!!price && (
-            <Card hasBorder color="transparent" className="!p-0 mb-4 overflow-hidden">
-              <Heading variant="h5" className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light">
-                Price
-              </Heading>
-              <div className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
-                <PriceRange
-                  min={price?.min}
-                  step={price?.step}
-                  max={price?.max}
-                />
-              </div>
-            </Card>
-          )}
-          <Btn className="w-full">Filter</Btn>
+          {price?.max !== 0 &&
+            (!!price?.min || price?.min === 0) &&
+            price?.max !== price?.min && (
+              <Card
+                hasBorder
+                color="transparent"
+                className="!p-0 mb-4 overflow-hidden w-full"
+              >
+                <Heading
+                  variant="h5"
+                  className="px-4 py-3 bg-neutral-lighter border-b border-neutral-light"
+                >
+                  Price
+                </Heading>
+                <div className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
+                  <PriceRange
+                    min={price.min}
+                    max={price.max}
+                    onChange={changePriceRange}
+                  />
+                </div>
+              </Card>
+            )}
+          <Btn className="w-full" onClick={handleFilter}>
+            Filter
+          </Btn>
         </div>
       </div>
     </>

@@ -10,7 +10,6 @@ export default function Table<T>({
   columns,
   data,
   head = true,
-  refreshData,
   hasPagination = false,
   paginationTotal = 1,
   paginationCurrent = 1,
@@ -74,7 +73,6 @@ export default function Table<T>({
       </Card>
       {hasPagination && paginationTotal != 1 && (
         <Pagination
-          reFetch={refreshData}
           total={paginationTotal}
           current={paginationCurrent}
           className="justify-center mt-4"

@@ -18,6 +18,7 @@ export default function Input({
   msg = null,
   defaultValue,
   labelColor="black",
+  hasFocus=true,
   ...props
 }: InputPropsType) {
   const generateBorderColor = {
@@ -40,9 +41,10 @@ export default function Input({
       )}
       <div
         className={clsx(
-          "w-full lg:h-11 h-10 border border-neutral-light focus-within:border-primary bg-white flex items-center transition-all",
+          "w-full lg:h-11 h-10 border border-neutral-light bg-white flex items-center transition-all",
           className,
           rounded ? "rounded-full" : "rounded-md",
+          {"focus-within:border-primary":hasFocus},
           showMsg && generateBorderColor[msgType],
         )}
       >

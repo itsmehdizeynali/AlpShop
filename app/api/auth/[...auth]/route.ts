@@ -5,11 +5,11 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-type bodyDataType = {
+type BodyDataType = {
   email: string;
   name: string;
   password: string;
-  role?: "USER" | "ADMIN"; // 👈 اضافه شدن آپشن رول به تایپ بادی
+  role?: "USER" | "ADMIN";
 };
 
 export async function POST(
@@ -20,7 +20,7 @@ export async function POST(
   const action = authParams.auth?.[0];
 
   const contentType = req.headers.get("content-type") || "";
-  let body: bodyDataType = {
+  let body: BodyDataType = {
     email: "",
     name: "",
     password: "",
@@ -32,7 +32,7 @@ export async function POST(
       body.email = formData.get("email") as string;
       body.name = formData.get("name") as string;
       body.password = formData.get("password") as string;
-      body.role = (formData.get("role") as "USER" | "ADMIN") || "USER"; // 👈 دریافت رول از فرم‌دیتا
+      body.role = (formData.get("role") as "USER" | "ADMIN") || "USER";
     } else if (contentType.includes("application/json")) {
       body = await req.json();
     }
@@ -72,15 +72,13 @@ export async function POST(
         email: body.email,
         name: body.name || null,
         password: hashedPassword,
-        role: body.role === "ADMIN" ? "ADMIN" : "USER", // 👈 ذخیره نقش ادمین یا کاربر معمولی در دیتابیس
-        wallet: {
-          create: {
-            balance: 0,
-          },
+        role: body.role === "ADMIN" ? "ADMIN" : "USER",
+        cart: {
+          create: {},
         },
       },
       include: {
-        wallet: true,
+        cart: true,
       },
     });
 
@@ -104,7 +102,6 @@ export async function POST(
 
     const user = await prisma.user.findUnique({
       where: { email: body.email },
-      include: { wallet: true },
     });
 
     if (!user) {
@@ -123,31 +120,8 @@ export async function POST(
       );
     }
 
-    // ۱. ساخت نوتیفیکیشن خودکار لاگین
-    await prisma.notification.create({
-      data: {
-        userId: user.id,
-        title: "New Login Detected",
-        message: "You have successfully logged into your account.",
-      },
-    });
-
-    // ۲. ساخت رویداد تقویم برای لاگین
-    await prisma.calendarEvent.create({
-      data: {
-        userId: user.id,
-        title: "User Login",
-        description: "Logged into the system successfully.",
-        startDate: new Date(),
-        endDate: new Date(),
-        type: "CUSTOM",
-        color: "#10b981",
-      },
-    });
-
-    // 🔑 ۳. قرار دادن نقش کاربر (role) در توکن برای امنیت روت‌های حساس
     const token = jwt.sign(
-      { userId: user.id, role: user.role }, // 👈 اضافه شدن نقش به توکن
+      { userId: user.id, role: user.role },
       JWT_SECRET,
       { expiresIn: "7d" },
     );

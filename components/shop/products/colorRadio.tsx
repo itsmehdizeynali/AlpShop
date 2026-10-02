@@ -4,18 +4,28 @@ import type { ColorRadioPropsType } from "./types";
 
 export default function ShopProductsColorRardio({
   colors,
-  className=""
+  className = "",
 }: ColorRadioPropsType) {
-  const [active, setActive] = useState(colors[0]);
+  const [active, setActive] = useState(colors[0]||"");
+console.log(colors);
 
   return (
-    <ul className={clsx(className,"flex items-center gap-1")}>
+    <ul className={clsx(className, "flex items-center gap-1")}>
       {colors.map((item, index) => (
-        <li key={index}
+        <li
+          key={index}
           onClick={() => setActive(item)}
-          style={{backgroundColor:item}}
-          className={clsx({"after:border-white":active===item},"p-0.5 shrink-0 cursor-pointer rounded-full after:block after:w-4.5 after:h-4.5 after:rounded-full after:border-3 after:border-transparent after:shrink-0 after:transition-all")}
-        ></li>
+          style={{ backgroundColor: item, borderColor: item }}
+          className={clsx(
+            { "!bg-white": active === item },
+            "border-2 p-0.5 shrink-0 cursor-pointer flex items-center relative justify-center rounded-full transition-all w-6 h-6",
+          )}
+        >
+          <div
+            style={{ backgroundColor: item }}
+            className="rounded-full transition-all w-4 h-4"
+          ></div>
+        </li>
       ))}
     </ul>
   );

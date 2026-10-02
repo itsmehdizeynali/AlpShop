@@ -12,8 +12,8 @@ export default function ShopRating({
   disabled = false,
   size = "sm",
 }: RatingPropsType) {
-  const [rate, setRate] = useState(productRate||0);
-  const [activeStar, setActiveStar] = useState(productRate||0);
+  const [rate, setRate] = useState(productRate || 0);
+  const [activeStar, setActiveStar] = useState(productRate || 0);
 
   const sizes = {
     sm: {
@@ -49,21 +49,21 @@ export default function ShopRating({
           ></i>
         ))}
       </div>
-      {productRate && (
-        <Text
-          size={sizes[size]["text"] as "xs" | "sm"}
-          className={clsx("ms-1")}
-        >
-          ({productRate})
-        </Text>
-      )}
-      {users && (
-        <Text
-          size={sizes[size]["text"] as "xs" | "sm"}
-          className={clsx("ms-1")}
-        >
-          ({users})
-        </Text>
+      {disabled && (
+        <>
+          <Text
+            size={sizes[size]["text"] as "xs" | "sm"}
+            className={clsx("ms-1")}
+          >
+            ({productRate})
+          </Text>
+          <Text
+            size={sizes[size]["text"] as "xs" | "sm"}
+            className={clsx("ms-1")}
+          >
+            ({users})
+          </Text>
+        </>
       )}
     </div>
   );

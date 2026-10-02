@@ -4,20 +4,23 @@ import Text from "@/components/generic/text";
 import Image from "next/image";
 import Link from "next/link";
 import type { ArticleRowCardPropsType } from "./types";
+import useFormatDate from "@/utils/format-date";
 
 export default function WidgetArticleCard({
   article,
 }: ArticleRowCardPropsType) {
+
+  const {getFormatDateToDay}=useFormatDate()
   return (
     <Card
       as={Link}
-      href={`/blog/${article.id}`}
+      href={`/blog/${article?.slug}`}
       hasBorder
       color="transparent"
       className="!p-0 overflow-hidden hover:bg-neutral-lighter transition-all group"
     >
       <Image
-        src={article?.img}
+        src={article?.image}
         className="w-full lg:h-[180px] h-[150px] object-center object-cover rounded-lg rounded-bl-none"
         width={300}
         height={180}
@@ -26,8 +29,8 @@ export default function WidgetArticleCard({
       <div className="bg-white group-hover:bg-neutral-lighter transition-all w-fit rounded-xl z-10 relative py-1.5 px-3 -mt-3">
         <div
           style={{
-            backgroundColor: article?.category.backgroundColor,
-            color: article?.category.textColor,
+            backgroundColor: article?.category?.backgroundColor,
+            color: article?.category?.textColor,
           }}
           className="px-2.5 py-1.5 bg-primary-light rounded-lg text-primary text-xs"
         >
@@ -42,16 +45,16 @@ export default function WidgetArticleCard({
           {article?.title}
         </Heading>
         <Text className="line-clamp-2 mb-3 lg:h-10 h-8">
-          {article?.paragraph}
+          {article?.excerpt}
         </Text>
         <div className="flex items-center">
           <Text size="xs" className="flex items-center me-4">
             <i className="icon-calendar text-base me-2"></i>
-            {article?.date}
+            {getFormatDateToDay(article?.createdAt)}
           </Text>
           <Text size="xs" className="flex items-center">
-            <i className="icon-dollar-circle text-base me-2"></i>
-            {article?.time} min read
+            <i className="icon-wall-clock text-base me-2"></i>
+            {article?.readTime} min read
           </Text>
         </div>
       </div>

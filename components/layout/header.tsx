@@ -11,6 +11,8 @@ import { useState } from "react";
 import LayoutHeaderCategoryModal from "./categoryModal";
 import dataLayoutHeader from "@/mockData/layout/header";
 import type { HeaderPropsType } from "./types";
+import { useQuery } from "@tanstack/react-query";
+import { getLayoutDataService } from "@/services/generic";
 
 export default function LayoutHeader({ className = "" }: HeaderPropsType) {
   const route = usePathname();
@@ -18,6 +20,11 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
   const { links } = dataLayoutHeader();
 
   const [showModal, setShowModal] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["layout_data"],
+    queryFn: getLayoutDataService,
+  });
   return (
     <>
       <LayoutHeaderCategoryModal
@@ -48,33 +55,38 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
                   info@alpShop.com
                 </Link>
               </li>
-              <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
-                <Link
-                  href="/auth/register"
-                  className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
-                >
-                  <i className="icon-avatar2 me-4 text-2xl font-medium"></i>
-                  Register Now
-                </Link>
-              </li>
-              <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
-                <Link
-                  href="/auth/login"
-                  className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
-                >
-                  <i className="icon-padlock me-4 text-2xl font-medium"></i>
-                  Login
-                </Link>
-              </li>
-              <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0 hidden">
-                <Link
-                  href="/account"
-                  className="flex items-center text-base font-bold text-primary py-5 px-5"
-                >
-                  <i className="icon-avatar2 me-4 text-2xl font-medium"></i>
-                  profile
-                </Link>
-              </li>
+              {!!data?.user ? (
+                <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
+                  <Link
+                    href="/account"
+                    className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
+                  >
+                    <i className="icon-avatar2 me-4 text-2xl font-medium"></i>
+                    profile
+                  </Link>
+                </li>
+              ) : (
+                <>
+                  <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
+                    <Link
+                      href="/auth/register"
+                      className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
+                    >
+                      <i className="icon-avatar2 me-4 text-2xl font-medium"></i>
+                      Register Now
+                    </Link>
+                  </li>
+                  <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
+                    <Link
+                      href="/auth/login"
+                      className="flex items-center text-base font-bold text-primary py-5 px-5 hover:bg-neutral-lighter transition-all"
+                    >
+                      <i className="icon-padlock me-4 text-2xl font-medium"></i>
+                      Login
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
@@ -82,9 +94,11 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
           <Logo className="me-auto" />
           <LayoutSearchBox />
           <ul className="flex items-center gap-3">
-            <li className="max-lg:hidden">
+            <li className="relative max-lg:hidden">
+              <span className="leading-none absolute z-10 top-0 -translate-y-1/2 end-0 translate-x-1/2 w-5 h-5 text-xs text-white bg-primary-dark rounded-full flex items-center justify-center">
+                {data?.cartCount}
+              </span>
               <Btn
-                className="after:content-['4'] after:leading-none after:absolute after:top-0 after:-translate-y-1/2 after:end-0 after:translate-x-1/2 after:w-5 after:h-5 after:text-xs after:text-white after:bg-primary-dark after:rounded-full after:flex after:items-center after:justify-center"
                 href="/cart"
                 as={Link}
                 color="primary"
@@ -93,17 +107,20 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
                 square
               />
             </li>
-            <li className="max-lg:hidden">
+            <li className="relative max-lg:hidden">
+              <span className="leading-none absolute z-10 top-0 -translate-y-1/2 end-0 translate-x-1/2 w-5 h-5 text-xs text-white bg-danger-dark rounded-full flex items-center justify-center">
+                {data?.wishlistCount}
+              </span>
               <Btn
-                href="/liked"
+                href="/wishlist"
                 as={Link}
-                color="primary"
+                color="danger"
                 variant="lightness"
                 icon="icon-heart1"
                 square
               />
             </li>
-            <li className="lg:hidden">
+            <li className="relative lg:hidden">
               <Btn
                 href="/contactUs"
                 as={Link}
@@ -113,16 +130,29 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
                 square
               />
             </li>
-            <li className="lg:hidden">
-              <Btn
-                href="/auth/login"
-                as={Link}
-                color="primary"
-                variant="lightness"
-                icon="icon-add-user"
-                square
-              />
-            </li>
+            {!!data?.user ? (
+              <li className="relative lg:hidden">
+                <Btn
+                  href="/account"
+                  as={Link}
+                  color="primary"
+                  variant="lightness"
+                  icon="icon-avatar"
+                  square
+                />
+              </li>
+            ) : (
+              <li className="relative lg:hidden">
+                <Btn
+                  href="/auth/login"
+                  as={Link}
+                  color="primary"
+                  variant="lightness"
+                  icon="icon-add-user"
+                  square
+                />
+              </li>
+            )}
           </ul>
         </div>
         <div className="max-lg:py-4 max-lg:hidden">
@@ -131,7 +161,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
               <Btn
                 onClick={() => setShowModal(!showModal)}
                 className="me-8"
-                icon="icon-burger-menu"
+                icon="icon-layout"
               >
                 categories
               </Btn>

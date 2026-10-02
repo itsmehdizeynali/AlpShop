@@ -1,4 +1,5 @@
 import type { ArticleType, ProductType } from "../genericTypes";
+import type { shoppingCartItem } from "../shop/cart/type";
 
 export interface ArticleCardPropsType {
   article: ArticleType;
@@ -12,8 +13,10 @@ export interface ProductCardPropsType {
   hasBorder?: boolean;
   responsive?: boolean;
   product: ProductType;
+  queryKeys?:string[]
 }
 export interface ProductRowCardPropsType {
-  className:string,
-  product: ProductType;
+  className?:string,
+  item: shoppingCartItem;
+  queryKeys?:string[]
 }

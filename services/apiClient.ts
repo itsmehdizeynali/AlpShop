@@ -18,7 +18,7 @@ const apiClient = axios.create({
   baseURL: API_CONFIG.BASE_URL,
   timeout: API_CONFIG.TIMEOUT,
   headers: API_CONFIG.DEFAULT_HEADERS,
-  withCredentials: false,
+  withCredentials: true,
 });
 
 // Request interceptor
