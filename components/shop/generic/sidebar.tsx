@@ -9,7 +9,6 @@ import PriceRange from "@/components/generic/priceRange";
 import clsx from "clsx";
 import { useState } from "react";
 import type { SidebarPropsType } from "./types";
-import Link from "next/link";
 import { getBrandsService, getCategoriesService } from "@/services/generic";
 import { useQuery } from "@tanstack/react-query";
 import type { BrandType, CategoryItemType } from "@/components/genericTypes";
@@ -37,9 +36,12 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
   const [selectedBrands, setSelectedBrands] = useState<string[]>(() =>
     getParamList("brand"),
   );
+
+  const minPrice = Number(searchParams.get("minPrice"));
+  const maxPrice = Number(searchParams.get("maxPrice"));
   const [priceRange, setPriceRange] = useState<number[]>(() => [
-    Number(searchParams.get("minPrice")) || price?.min || 0,
-    Number(searchParams.get("maxPrice")) || price?.max || 10000,
+    minPrice || price?.min || 0,
+    maxPrice || price?.max || 10000,
   ]);
 
   const handleCheckCategory = ({
@@ -49,8 +51,6 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
     type: "add" | "remove";
     slug: string;
   }) => {
-    console.log(slug);
-
     if (type === "add") {
       if (!selectedCategories) {
         setSelectedCategories([slug]);
@@ -87,7 +87,9 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
     }
   };
 
-  console.log(price);
+  const changePriceRange = (range: number[]) => {
+    setPriceRange(range);
+  };
 
   const handleFilter = () => {
     setManyParams({
@@ -105,10 +107,6 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
     });
   };
 
-  const changePriceRange = (range: number[]) => {
-    setPriceRange(range);
-  };
-
   const clearFilters = () => {
     setSelectedBrands([]);
     setSelectedCategories([]);
@@ -119,13 +117,9 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
       maxPrice: undefined,
       page: undefined,
     });
-
-    console.log(selectedBrands);
   };
 
   const [openFilterModal, setOpenFilterModal] = useState(false);
-
-  console.log(categories);
 
   return (
     <>
@@ -165,9 +159,9 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
             <Heading variant="h4">Filters</Heading>
             <Btn
               onClick={clearFilters}
-              variant="text"
+              variant="outline-lightness"
               color="danger"
-              size="base"
+              size="xs"
             >
               Clear All
             </Btn>
@@ -186,7 +180,12 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
               </Heading>
               <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
                 {categories.map((item: CategoryItemType, index: number) => (
-                  <ShopCheckboxWrap key={index} item={item} selectedList={selectedCategories} handleCheck={handleCheckCategory}/>
+                  <ShopCheckboxWrap
+                    key={index}
+                    item={item}
+                    selectedList={selectedCategories}
+                    handleCheck={handleCheckCategory}
+                  />
                 ))}
               </ul>
             </Card>

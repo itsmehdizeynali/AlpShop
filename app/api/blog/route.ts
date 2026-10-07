@@ -81,14 +81,14 @@ export async function POST(req: Request) {
                 create: { name, slug: slugify(name) },
               })),
             }
-          : "undefined",
+          : undefined,
       },
       include: { category: true, tags: true },
     });
     return NextResponse.json({ post }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { error },
+      { error: "Failed to create blog post" },
       { status: 500 },
     );
   }

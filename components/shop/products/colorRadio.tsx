@@ -7,7 +7,6 @@ export default function ShopProductsColorRardio({
   className = "",
 }: ColorRadioPropsType) {
   const [active, setActive] = useState(colors[0]||"");
-console.log(colors);
 
   return (
     <ul className={clsx(className, "flex items-center gap-1")}>
@@ -15,14 +14,14 @@ console.log(colors);
         <li
           key={index}
           onClick={() => setActive(item)}
-          style={{ backgroundColor: item, borderColor: item }}
+          style={{ backgroundColor: item.hex, borderColor: item.hex }}
           className={clsx(
             { "!bg-white": active === item },
             "border-2 p-0.5 shrink-0 cursor-pointer flex items-center relative justify-center rounded-full transition-all w-6 h-6",
           )}
         >
           <div
-            style={{ backgroundColor: item }}
+            style={{ backgroundColor: item.hex }}
             className="rounded-full transition-all w-4 h-4"
           ></div>
         </li>

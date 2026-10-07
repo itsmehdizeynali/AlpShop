@@ -8,7 +8,6 @@ import useFormatDate from "@/utils/format-date";
 export default function WidgetArticleRowCard({
   article,
 }: ArticleCardPropsType) {
-
   const {getFormatDateToDay}=useFormatDate()
   return (
     <Link

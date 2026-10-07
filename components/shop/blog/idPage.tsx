@@ -9,12 +9,11 @@ import Chip from "@/components/generic/chip";
 import HeaderSection from "@/components/generic/headerSection";
 import Link from "next/link";
 import Btn from "@/components/generic/btn";
-import ShopSectionsCommentBox from "../sections/commentBox";
-import ShopComment from "../generic/comment";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getArticleService } from "@/services/blog";
 import useFormatDate from "@/utils/format-date";
+import ShopCommentsWrap from "../generic/commentsWrap";
 
 export default function ShopBlogIdPage() {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +22,7 @@ export default function ShopBlogIdPage() {
     queryFn: () => getArticleService(id),
   });
 
-  const {getFormatDateToDay}=useFormatDate()
+  const { getFormatDateToDay } = useFormatDate();
   return (
     <div className="container my-section">
       <div className="flex max-lg:flex-wrap lg:items-start -m-2">
@@ -92,7 +91,7 @@ export default function ShopBlogIdPage() {
                           size="sm"
                           color="black"
                           variant="lightness"
-                          href={`/blog?tags=${item.slug}`}
+                          href={`/blog?tag=${item.slug}`}
                           as={Link}
                         >
                           {item.name}
@@ -101,20 +100,7 @@ export default function ShopBlogIdPage() {
                     ))}
                 </ul>
               </Card>
-              <Card
-                color="transparent"
-                hasBorder
-                className="w-full mb-sm-section"
-              >
-                <HeaderSection shape size="h4" className="mb-sm-section">
-                  Comments
-                </HeaderSection>
-                {!!article.comments &&
-                  article.comments.map((item, index) => (
-                    <ShopComment comment={item} key={index} />
-                  ))}
-              </Card>
-              <ShopSectionsCommentBox />
+                {!!article?.slug && <ShopCommentsWrap type="article" slug={article.slug} />}
             </>
           )}
         </div>

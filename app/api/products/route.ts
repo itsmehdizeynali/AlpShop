@@ -3,6 +3,7 @@ import { getAuthUser, requireAdmin } from "@/lib/auth-utils";
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { enrichForUser, productInclude, withRate } from "@/lib/product";
+import { slugify } from "@/lib/slug";
 
 // GET /api/products?category=&brand=&search=&minPrice=&maxPrice=&onSale=&featured=&page=&pageSize=
 export async function GET(req: Request) {
@@ -56,14 +57,14 @@ export async function GET(req: Request) {
       : {}),
   };
 
-  // SQLite's contains filter is case-sensitive and Prisma's mode: "insensitive"
+  // SQLite's `contains` filter is case-sensitive and Prisma's `mode: "insensitive"`
   // option isn't supported on SQLite, so case-insensitive search is done with a raw
   // query using SQLite's built-in NOCASE collation (folds ASCII a-z/A-Z), then the
   // matching ids are combined with the rest of the filters above.
   if (search) {
-    const matches = await prisma.$queryRaw<{ id: string }[]>
-      `SELECT id FROM Product WHERE name LIKE ${"%" + search + "%"} COLLATE NOCASE`
-    ;
+    const matches = await prisma.$queryRaw<{ id: string }[]>`
+      SELECT id FROM Product WHERE name LIKE ${"%" + search + "%"} COLLATE NOCASE
+    `;
     where.id = { in: matches.map((m) => m.id) };
   }
 
@@ -100,6 +101,7 @@ export async function GET(req: Request) {
     { status: 200 },
   );
 }
+
 // POST /api/products (admin only)
 export async function POST(req: Request) {
   const admin = await requireAdmin();
@@ -124,6 +126,7 @@ export async function POST(req: Request) {
       images,
       specs,
       variants,
+      tags,
     } = body;
 
     if (!name || !slug || !description || price === undefined) {
@@ -194,8 +197,16 @@ export async function POST(req: Request) {
               ),
             }
           : undefined,
+        tags: tags?.length
+          ? {
+              connectOrCreate: (tags as string[]).map((name) => ({
+                where: { slug: slugify(name) },
+                create: { name, slug: slugify(name) },
+              })),
+            }
+          : undefined,
       },
-      include: { images: true, specs: true, variants: true },
+      include: { images: true, specs: true, variants: true, tags: true },
     });
 
     return NextResponse.json({ product }, { status: 201 });

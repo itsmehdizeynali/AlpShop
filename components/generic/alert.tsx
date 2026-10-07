@@ -94,19 +94,17 @@ export default function Alert({
         { "items-start": variant === "text" },
       )}
     >
-      {hasIcon && (
+      {hasIcon&&variant !== "text" && (
         <div
           className={clsx(
             "flex items-center justify-center shrink-0 rounded-full me-2 text-xs",
             icons["wrapper"][variant][color],
             sizes[size]["iconCircle"],
-            { "w-fit h-fit mt-1": variant === "text" },
           )}
         >
           <i
             className={clsx(
               icons["name"][color],
-              variant === "text" ? "text-base" : "text-md",
             )}
           ></i>
         </div>

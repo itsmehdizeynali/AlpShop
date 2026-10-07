@@ -89,7 +89,8 @@ export type ChipColors =
   | "success"
   | "primary"
   | "secondary"
-  | "neutral";
+  | "neutral"
+  | "black";
 export type ChipVarients = "filled" | "lightness" | "outline";
 export type ChipSizes = "sm" | "base";
 export type ChipPropsType<T extends ElementType> = Partial<{
@@ -131,8 +132,13 @@ export type InputPropsType = Partial<{
   labelColor: TextColorsType;
   rounded: boolean;
   hasFocus: boolean;
+  list?: {
+    active?: string;
+    items: string[];
+    onSelect: (value: string) => void;
+  };
 }> &
-  ComponentPropsWithoutRef<"input">;
+  Omit<ComponentPropsWithoutRef<"input">, "list">;
 
 // LOGO
 export type LogoPropsType = Partial<{
@@ -176,6 +182,11 @@ export type SelectBoxPropsType<T> = {
   endSideLabel?: ReactNode;
   className?: string;
   formatOption?: (option: SelectOption<T>) => ReactNode;
+  msgType?:AlertColors,
+  msg?:string
+  handelChange:(value:string)=>void
+  placeholder?:string
+  isSmall?:boolean
 };
 
 // TABLE
@@ -187,9 +198,9 @@ export type TableColumnsType<T> = {
 
 export type TablePropsType<T> = {
   columns: TableColumnsType<T>[];
-  data: T[];
+  data?: T[];
   head?: boolean;
-  refreshData: (num: number) => void;
+  refreshData: () => void;
   hasPagination?: boolean;
   paginationTotal?: number;
   paginationCurrent?: number;
@@ -253,7 +264,7 @@ export interface PricePropsType {
 export interface PriceRangePropsType {
   min: number;
   max: number;
-  onChange:(range:number[])=>void
+  onChange: (range: number[]) => void;
 }
 
 // COUNTDOWN
@@ -280,9 +291,14 @@ export type CheckboxPropsType = {
   slug: string;
   className?: string;
   checked?: boolean;
-  changeSelectedList: ({ type,slug }:{type:"add"|"remove",slug:string }) => void;
-} &
-  ComponentPropsWithoutRef<"li">;
+  changeSelectedList: ({
+    type,
+    slug,
+  }: {
+    type: "add" | "remove";
+    slug: string;
+  }) => void;
+} & ComponentPropsWithoutRef<"li">;
 
 // ACCORDION
 export type AccordionPropsType = Partial<{
@@ -298,6 +314,6 @@ export type CounterPropsType = {
   max?: number;
   num: number;
   className?: string;
-  queryKeys?:string[]
-  productId:string
+  queryKeys?: string[];
+  productId: string;
 } & ComponentPropsWithoutRef<"div">;

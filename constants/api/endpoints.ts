@@ -6,12 +6,16 @@ const API_ENDPOINTS = {
     LOGOUT: "/auth/logout",
   },
   PROFILE: "/profile",
+  ACCOUNT: {
+    STATS: "/account/stats",
+  },
   PRODUCTS: {
     BASE: "/products",
     SEARCH: "/products/search",
     DETAIL: (slug: string) => `/products/${slug}`,
     REVIEWS: (slug: string) => `/products/${slug}/reviews`,
     VARIANT: (slug: string) => `/products/${slug}/variant`,
+    COMMENTS: (slug: string) => `/products/${slug}/comments`,
   },
   CATEGORIES: "/categories",
   BRANDS: "/brands",
@@ -36,10 +40,10 @@ const API_ENDPOINTS = {
     BASE: "/blog",
     CATEGORIES: "/blog/categories",
     DETAIL: (slug: string) => `/blog/${slug}`,
+    COMMENTS: (slug: string) => `/blog/${slug}/comments`,
   },
   CONTACT: "/contact",
   SETTINGS: (key: string) => `/settings/${key}`,
 };
-
 
 export default API_ENDPOINTS;

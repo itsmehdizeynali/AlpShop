@@ -1,30 +1,20 @@
-export interface CommentType {
+export type CommentType = {
   content: string;
   createdAt: string;
   id: string;
   parentId: null | string;
-  postId: string;
-  replies: {
-    content: string;
-    createdAt: string;
-    id: string;
-    parentId: null | string;
-    postId: string;
-    replies: [];
-    user: {
-      id: string;
-      name: string;
-      avatar: null | string;
-    };
-    userId: string;
-  }[];
+  postId?: string;
   user: {
     id: string;
     name: string;
     avatar: null | string;
   };
   userId: string;
-}
+  rating?: null | number;
+  productId?: string;
+} & {
+  replies: CommentType[];
+};
 
 export interface ArticleType {
   author: string;
@@ -176,7 +166,7 @@ export interface ProductDetailType {
   stock: number;
   updatedAt: string;
   variantGroups: {
-    items: string[];
+    items: string[] & { name: string; hex: string }[];
     title: string;
   }[];
   variants: {
@@ -187,6 +177,14 @@ export interface ProductDetailType {
     size: null | string;
     stock: number;
   }[];
+  tags:
+    | {
+        id: string;
+        name: string;
+        slug: string;
+      }[]
+    | [];
+  comments: [];
 }
 
 export interface PaginationType {
@@ -199,10 +197,10 @@ export interface PaginationType {
 export interface ProductsDataType {
   products: ProductType[];
   pagination: PaginationType;
-  priceRange:{
-    min:number;
-    max:number;
-  }
+  priceRange: {
+    min: number;
+    max: number;
+  };
 }
 
 export interface CategoryItemType {
@@ -239,3 +237,33 @@ export interface BrandType {
   name: string;
   slug: string;
 }
+
+export interface statsDataType {
+  returnRequests: number;
+  totalOrders: number;
+  totalSpent: number;
+  wishlistItems: number;
+}
+
+export interface orderType {
+  addressId: string;
+  createdAt: string;
+  discount: number;
+  id: string;
+  items: {
+    id: string;
+    orderId: string;
+    price: number;
+    product: ProductType;
+    productId: string;
+    quantity: number;
+    variantId: null | string;
+  }[];
+  orderNumber: string;
+  shippingCost: number;
+  status: "DELIVERED";
+  subtotal: number;
+  total: number;
+  updatedAt: string;
+  userId: string;
+};

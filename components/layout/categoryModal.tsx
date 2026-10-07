@@ -15,7 +15,6 @@ export default function LayoutHeaderCategoryModal({
     queryKey:["categories"],
     queryFn:()=>getCategoriesService({pageSize:4})
   })
-  console.log(data);
   
   return (
     <ShopModal isOpenModal={isOpenModal} closeModal={closeModal}>

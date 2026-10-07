@@ -1,20 +1,16 @@
+import type { ComponentPropsWithoutRef } from "react";
 
-
-
-export interface ColorRadioPropsType{
-  colors: string[];
+export interface ColorRadioPropsType {
+  colors: { name: string; hex: string }[];
   className?: string;
 }
-export interface SizeRadioPropsType{
+export type SizeRadioPropsType= {
   items: string[];
   className?: string;
-}
+} & ComponentPropsWithoutRef<"ul">
 
-export interface SelectionsPropsType{
+export interface SelectionsPropsType {
   className?: string;
-  colors?: string[];
-  variants?: {title:string,items:string[]}[];
+  colors?: { name: string; hex: string }[];
+  variants?: { title: string; items: string[] }[];
 }
-
-
-

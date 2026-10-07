@@ -6,11 +6,12 @@ import type { SizeRadioPropsType } from "./types";
 export default function ShopProductsRardio({
   items,
   className = "",
+  ...props
 }: SizeRadioPropsType) {
   const [active, setActive] = useState(items[0]);
 
   return (
-    <ul className={clsx(className, "flex items-center gap-1")}>
+    <ul {...props} className={clsx(className, "flex items-center gap-1")}>
       {items.map((item, index) => (
         <Chip
           onClick={() => setActive(item)}

@@ -14,18 +14,17 @@ export default function ShopBlogPage() {
   const QueryClient = useQueryClient();
 
   const page = params.get("page") || undefined;
-  const tags = params.get("tags") || undefined;
+  const tag = params.get("tag") || undefined;
   const category = params.get("category") || undefined;
   const { data } = useQuery({
     queryKey: ["blog_articles"],
     queryFn: () =>
-      getBlogService({ page: page ? Number(page) : undefined, tags,category }),
+      getBlogService({ page: page ? Number(page) : undefined, tag,category }),
   });
 
   useEffect(() => {
     QueryClient.invalidateQueries({ queryKey: ["blog_articles"] });
-  }, [page, category,tags]);
-  console.log(data);
+  }, [page, category,tag]);
 
   return (
     <div className="container my-section">

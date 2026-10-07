@@ -13,26 +13,38 @@ import Price from "@/components/generic/price";
 import ShopAccountHero from "./hero";
 import ShopAccountInformation from "./information";
 import dataShopPages from "@/mockData/shop/pages";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getAccountStatsService,
+  getOrdersService,
+  getProfileService,
+} from "@/services/account";
+import clsx from "clsx";
+import useStatus from "@/utils/setStatus";
+import useFormatDate from "@/utils/format-date";
 
 export default function ShopAccountPage() {
   const columns: TableColumnsType<TableDataType>[] = [
     {
-      key: "img",
+      key: "images",
       label: "",
       renderCell: (row) =>
-        row?.img && (
-          <Link
-            href={`/products/${row.actions}`}
-            className="w-16 h-16 rounded-xl bg-primary-light flex items-center justify-center"
+        row?.images && (
+          <div
+            className="w-16 h-16 rounded-xl overflow-hidden bg-primary-light flex flex-wrap items-center justify-center"
           >
-            <Image
-              className="object-scale-down object-center w-12 h-12"
-              src={row?.img || ""}
-              width={56}
-              height={56}
-              alt="product"
-            />
-          </Link>
+            {row.images.map((item, index) => (
+                <Image
+                  key={index}
+                  style={{height:`${(100/((Math.ceil(row.images?.length?row.images?.length/2:1))||1))}%`}}
+                  className={clsx("object-scale-down object-center max-w-1/2",)}
+                  src={item || ""}
+                  width={48}
+                  height={48}
+                  alt="product"
+                />
+            ))}
+          </div>
         ),
     },
     {
@@ -76,58 +88,64 @@ export default function ShopAccountPage() {
       ),
     },
   ];
-  const data: TableDataType[] = [
-    {
-      img: "/img/product-1.png",
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "5637578",
-    },
-    {
-      img: "/img/product-1.png",
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "5637578",
-    },
-    {
-      img: "/img/product-1.png",
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "5637578",
-    },
-  ];
 
-  const { accountStats } = dataShopPages();
+  const {setColor}=useStatus()
+  const {getFormatDateToDay}=useFormatDate()
+
+  const { data: information, isLoading: loadingInformation } = useQuery({
+    queryKey: ["profile_information"],
+    queryFn: getProfileService,
+  });
+  const { data: stats, isLoading: loadingStarts } = useQuery({
+    queryKey: ["stats"],
+    queryFn: getAccountStatsService,
+  });
+  const { data: orders, isLoading: loadingOrders } = useQuery({
+    queryKey: ["last_orders"],
+    queryFn: getOrdersService,
+  });
+  const data: TableDataType[] | undefined = !!orders
+    ? orders.map((order) => {
+        return {
+          images: order.items.map((item) => item.product.images[0].url),
+          order: order.orderNumber,
+          date: getFormatDateToDay(order.createdAt),
+          status: { title: order.status, color: setColor(order.status) },
+          total: order.total,
+          actions: order.id,
+        } as TableDataType;
+      })
+    : undefined;
+
+  console.log(data);
+
+  const { accountStats } = dataShopPages({ stats });
 
   const refreshData = () => {};
   return (
     <div className="container my-section">
       <div className="flex items-start max-lg:flex-wrap -m-2">
         <div className="p-2 lg:grow max-lg:w-full">
-          <ShopAccountHero />
+          <ShopAccountHero
+            name={information?.name}
+            isLoading={loadingInformation}
+          />
           <div className="lg:-m-2 -m-1 !mb-sm-section flex flex-wrap">
-            {accountStats.map(
-              (item, index) => (
-                <div
-                  key={index}
-                  className="lg:w-1/2 md:w-1/4 sm:w-1/2 max-sm:grow lg:p-2 p-1"
-                >
-                  <StatAcount
-                    linkText={item.linkText}
-                    link={item.link}
-                    value={item.value}
-                    title={item.title}
-                    icon={item.icon}
-                  />
-                </div>
-              ),
-            )}
+            {accountStats.map((item, index) => (
+              <div
+                key={index}
+                className="lg:w-1/2 md:w-1/4 sm:w-1/2 max-sm:grow lg:p-2 p-1"
+              >
+                <StatAcount
+                  isLoading={loadingStarts}
+                  linkText={item.linkText}
+                  link={item.link}
+                  value={item.value}
+                  title={item.title}
+                  icon={item.icon}
+                />
+              </div>
+            ))}
           </div>
           <Card
             hasBorder
@@ -145,7 +163,7 @@ export default function ShopAccountPage() {
             <Table columns={columns} data={data} refreshData={refreshData} />
           </Card>
         </div>
-        <ShopAccountInformation />
+        <ShopAccountInformation information={information} />
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ export default function Table<T>({
   hasPagination = false,
   paginationTotal = 1,
   paginationCurrent = 1,
+  refreshData
 }: TablePropsType<T>) {
   return data?.length ? (
     <>
@@ -83,9 +84,10 @@ export default function Table<T>({
     <div>
       <Btn
         icon="icon-refresh"
-        color="neutral"
-        className="mx-auto mb-4"
-        onClick={() => refreshData}
+        color="black"
+        variant="lightness"
+        className="mx-auto mb-2"
+        onClick={refreshData}
         rounded
         square
       />

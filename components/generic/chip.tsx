@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ChipPropsType } from "./types";
 import type { ElementType } from "react";
 
-export default function Chip<T extends ElementType = "li">({
+export default function Chip<T extends ElementType>({
   children,
   variant = "filled",
   color = "primary",
@@ -23,6 +23,7 @@ export default function Chip<T extends ElementType = "li">({
       primary: "text-primary-light bg-primary",
       secondary: "text-secondary-light bg-secondary",
       neutral: "text-dim bg-neutral",
+      black: "text-white bg-black",
     },
     lightness: {
       info: "text-info bg-info-light",
@@ -32,6 +33,7 @@ export default function Chip<T extends ElementType = "li">({
       primary: "text-primary bg-primary-light",
       secondary: "text-secondary bg-secondary-light",
       neutral: "text-dim bg-neutral-light",
+      black: "text-black bg-neutral-light",
     },
     outline: {
       info: "text-info border border-info",
@@ -41,6 +43,7 @@ export default function Chip<T extends ElementType = "li">({
       primary: "text-primary border border-primary",
       secondary: "text-secondary border border-secondary",
       neutral: "text-dim-dark border border-neutral-light",
+      black: "text-black border border-black",
     },
   };
   const sizes={

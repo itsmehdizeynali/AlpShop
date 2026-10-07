@@ -7,28 +7,50 @@ interface BlogParamsType {
   pageSize?: number;
   page?: number;
   category?:string
-  tags?:string
+  tag?:string
 }
 
 export const getBlogService = async (params: BlogParamsType) => {
-  console.log(params);
   
   const response = await apiClient.get(API_ENDPOINTS.BLOG.BASE, { params:{...params,pageSize:params.pageSize||10} });
 
   return response?.data;
 };
+
+
+
 export const getBlogCategoriesService = async () => {
   const response = await apiClient.get(API_ENDPOINTS.BLOG.CATEGORIES);
-  console.log(response?.data);
 
   return response?.data?.categories;
 };
 
 export const getArticleService = async (articleId:string) => {    
   const response = await apiClient.get(API_ENDPOINTS.BLOG.DETAIL(articleId));
-  console.log(response?.data);
   
   return response?.data?.post as ArticleDetailsType;
 };
-
+export const getArticleCommentsService = async (slug: string,params?:{pageSize?:number,page?:number}
+) => {
+  
+  const response = await apiClient.get(
+    API_ENDPOINTS.BLOG.COMMENTS(slug),{
+      params
+    });
+    
+  return response.data;
+};
+export const AddArticleCommentService = async ({
+  slug,
+  data,
+}: {
+  slug: string;
+  data: { content: string; parentId?: string };
+}) => {
+  const response = await apiClient.post(
+    API_ENDPOINTS.BLOG.COMMENTS(slug),
+    data,
+  );
+  return response?.data;
+};
 

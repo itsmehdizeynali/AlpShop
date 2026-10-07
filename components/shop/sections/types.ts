@@ -1,4 +1,5 @@
 import type { ProductType } from "@/components/genericTypes";
+import type { Dispatch, SetStateAction } from "react";
 
 export interface ProductsWrapPropsType {
   headerTitle: string;
@@ -10,5 +11,9 @@ export interface ProductsWrapPropsType {
 }
 
 export interface CommentBoxPropsType {
-  id?: string;
+  slug: string;
+  parentId?: string;
+  setParentId: Dispatch<SetStateAction<string | undefined>>;
+  type: "article"|"product";
+  queryKeys:string[]
 }

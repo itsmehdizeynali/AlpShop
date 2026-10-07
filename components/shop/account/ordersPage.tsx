@@ -9,6 +9,10 @@ import Image from "next/image";
 import Chip from "@/components/generic/chip";
 import Price from "@/components/generic/price";
 import Btn from "@/components/generic/btn";
+import useFormatDate from "@/utils/format-date";
+import { getOrdersService } from "@/services/account";
+import useStatus from "@/utils/setStatus";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ShopAccountOrdersPage() {
   const columns: TableColumnsType<TableDataType>[] = [
@@ -53,29 +57,24 @@ export default function ShopAccountOrdersPage() {
       ),
     },
   ];
-  const data: TableDataType[] = [
-    {
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "/5637578",
-    },
-    {
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "/5637578",
-    },
-    {
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "/5637578",
-    },
-  ];
+  const { data: orders, isLoading: loadingOrders } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrdersService,
+  });
+  const {getFormatDateToDay}=useFormatDate()
+  const {setColor}=useStatus()
+  const data: TableDataType[] | undefined = !!orders
+    ? orders.map((order) => {
+        return {
+          images: order.items.map((item) => item.product.images[0].url),
+          order: order.orderNumber,
+          date: getFormatDateToDay(order.createdAt),
+          status: { title: order.status, color: setColor(order.status) },
+          total: order.total,
+          actions: order.id,
+        } as TableDataType;
+      })
+    : undefined;
 
   const refreshData = () => {};
   return (

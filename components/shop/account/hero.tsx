@@ -3,7 +3,13 @@ import Heading from "@/components/generic/heading";
 import Text from "@/components/generic/text";
 import Image from "next/image";
 
-export default function ShopAccountHero() {
+export default function ShopAccountHero({
+  name,
+  isLoading,
+}: {
+  name?: string;
+  isLoading: boolean;
+}) {
   return (
     <Card
       color="gradient-primary"
@@ -13,8 +19,12 @@ export default function ShopAccountHero() {
         <Text color="white" className="mb-1.5">
           welcome Back
         </Text>
-        <Heading color="white" className="lg:mb-3 mb-2 capitalize">
-          Hello, Mehdi!
+        <Heading
+          color="white"
+          className="lg:mb-3 mb-2 capitalize flex items-center"
+        >
+          Hello,{" "}
+          {isLoading ? <div className="bg-loading rounded-full animate-pulse w-16 h-2.5 mx-2"></div> : name}!
         </Heading>
         <Text color="white" weight="light" className="text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla,

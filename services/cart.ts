@@ -3,7 +3,6 @@ import apiClient from "./apiClient";
 
 export const getCartService = async () => {
   const response = await apiClient.get(API_ENDPOINTS.CART.BASE);
-  console.log(response?.data);
   return response?.data?.cart;
 };
 

@@ -115,7 +115,6 @@ export default function Btn<T extends ElementType = "button">({
   };
   const iconSizes = {
     lg: "lg:text-xl text-lg ms-4 me-4",
-    md: "lg:text-lg text-md ms-3 me-3",
     base: "lg:text-md text-base ms-3 me-3",
     sm: "lg:text-base text-sm ms-2 me-2",
     xs: "text-xs ms-2 me-2",
@@ -142,10 +141,11 @@ export default function Btn<T extends ElementType = "button">({
         btnSize[size],
         variants[variant],
         className,
-        loading ? loadingClass : "",
-        square ? squareClasses : "",
-        rounded ? roundedClass : "",
-        disabled ? disabledClass : "",
+        loading && loadingClass ,
+        square && squareClasses ,
+        rounded && roundedClass ,
+        disabled && disabledClass ,
+        loading &&colors.normal[color]
       )}
       {...props}
     >

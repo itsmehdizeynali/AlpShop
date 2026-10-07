@@ -40,14 +40,12 @@ export const getProductsService = async ({pageSize=12,...params}: ProductsParams
   const response = await apiClient.get(API_ENDPOINTS.PRODUCTS.BASE, {
     params:{...params,pageSize}
   });
-  console.log(response?.data);
   
   return response?.data as ProductsDataType;
 };
 
 export const getBrandsService = async () => {
   const response = await apiClient.get(API_ENDPOINTS.BRANDS);
-  console.log(response?.data);
   
   return response?.data?.brands;
 };

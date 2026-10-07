@@ -1,10 +1,20 @@
 import Btn from "@/components/generic/btn";
 import Card from "@/components/generic/card";
+import Chip from "@/components/generic/chip";
 import HeaderSection from "@/components/generic/headerSection";
 import Text from "@/components/generic/text";
 import Link from "next/link";
 
-export default function ShopAccountInformation() {
+export default function ShopAccountInformation({
+  information,
+}: {
+  information: {
+    name: string;
+    lastName?: string;
+    addresses: string[];
+    email: string;
+  };
+}) {
   return (
     <div className="p-2 lg:w-78 w-full shrink-0 lg:sticky lg:top-0">
       <Card color="transparent" className="mb-2" hasBorder>
@@ -32,9 +42,18 @@ export default function ShopAccountInformation() {
             <Text color="black" weight="bold" className="mb-0.5 capitalize">
               Address
             </Text>
-            <Text size="sm" className="ms-auto capitalize">
+            <Text size="sm" className="ms-auto capitalize mb-2">
               Türkiye , istambul , taksim paşa , 3 pilaka , 2 kat
             </Text>
+            <Chip
+              as={Link}
+              href="/account/addresses"
+              className="hover:bg-primary hover:text-white"
+              rounded
+              variant="outline"
+            >
+              Addresses List
+            </Chip>
           </li>
           <li className="mb-2">
             <Text color="black" weight="bold" className="mb-0.5 capitalize">
@@ -54,7 +73,13 @@ export default function ShopAccountInformation() {
           </li>
         </ul>
       </Card>
-      <Btn as={Link} href="/account/information" className="lg:w-full max-sm:w-full" icon="icon-edit1" color="black">
+      <Btn
+        as={Link}
+        href="/account/information"
+        className="lg:w-full max-sm:w-full"
+        icon="icon-edit1"
+        color="black"
+      >
         Edit
       </Btn>
     </div>

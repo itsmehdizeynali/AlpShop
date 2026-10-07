@@ -9,7 +9,6 @@ import ShopRating from "../shop/generic/rating";
 import Link from "next/link";
 import clsx from "clsx";
 import type { ProductCardPropsType } from "./types";
-import Counter from "../generic/counter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   addToWishlistService,
@@ -144,6 +143,7 @@ export default function WidgetProductCard({
                 icon="icon-basket1"
                 className="ms-auto"
                 onClick={handelAddToCartBtn}
+                loading={addToCartMutation.isPending}
               />
             )}
           </div>

@@ -11,10 +11,12 @@ export default function ShopRating({
   className = "",
   disabled = false,
   size = "sm",
+  showDetails = true,
+  handelSetRate,
 }: RatingPropsType) {
+
   const [rate, setRate] = useState(productRate || 0);
   const [activeStar, setActiveStar] = useState(productRate || 0);
-
   const sizes = {
     sm: {
       icon: "text-sm",
@@ -39,17 +41,28 @@ export default function ShopRating({
           <i
             key={index}
             className={clsx(
-              { "text-secondary": item <= activeStar },
-              item <= rate ? "icon-star-1" : "icon-star",
+              !disabled
+                ? item <= activeStar && "text-secondary"
+                : productRate && item <= productRate && "text-secondary",
+              !disabled
+                ? item <= rate
+                  ? "icon-star-1"
+                  : "icon-star"
+                : productRate && item <= productRate
+                  ? "icon-star-1"
+                  : "icon-star",
               sizes[size]["icon"],
               "me-1 last:me-0 cursor-pointer hover:text-secondary transition-all",
             )}
             onMouseEnter={() => setActiveStar(item)}
-            onClick={() => setRate(item)}
+            onClick={() => {
+              setRate(item);
+              if (handelSetRate) handelSetRate(item);
+            }}
           ></i>
         ))}
       </div>
-      {disabled && (
+      {disabled && showDetails && (
         <>
           <Text
             size={sizes[size]["text"] as "xs" | "sm"}

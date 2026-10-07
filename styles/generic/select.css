@@ -1,31 +1,70 @@
 .select-wrap .react-select__control {
     @apply w-full lg:h-11 h-10 border border-solid border-neutral-light rounded-md !outline-primary !shadow-none !bg-transparent hover:border-primary-light cursor-pointer transition-all
 }
+
 .select-wrap .react-select__control.react-select__control--is-focused {
-    @apply !border-primary
+    @apply border-primary
 }
 
 .select-wrap .react-select__dropdown-indicator {
     @apply !px-3
 }
+
 .select-wrap .react-select__input-container input {
-    @apply  text-sm !text-dim-dark placeholder:text-dim-dark !m-0 !p-0
+    @apply text-sm !text-primary placeholder:text-dim-dark !m-0 !p-0
 }
+
 .select-wrap .react-select__value-container {
-    @apply px-3 flex items-center 
+    @apply px-3 flex items-center
 }
+
 .select-wrap .react-select__value-container .react-select__single-value {
-    @apply !text-dim-light
+    @apply !text-primary
 }
+
 .select-wrap .react-select__menu {
-    @apply backdrop-blur-sm bg-white/5 border-solid !py-0 border border-neutral-light/50 !shadow-none
+    @apply !shadow-card bg-white border-0 !py-0
 }
+
 .react-select__option {
-    @apply text-sm !text-dim-dark !bg-transparent !cursor-pointer hover:!bg-primary-light/30
+    @apply text-sm !text-dim-dark !bg-transparent !cursor-pointer hover:!border-transparent !bg-neutral-lighter
 }
+
 .react-select__option.react-select__option--is-selected {
-    @apply !bg-primary/10 !text-primary
+    @apply !bg-primary-light !text-primary
 }
-.react-select__indicator-separator{
+
+.react-select__indicator-separator {
     @apply !hidden
+}
+
+
+
+
+
+.mini-select-wrap .react-select__indicators {
+    @apply !hidden
+}
+
+.mini-select-wrap .react-select__control {
+    @apply !border-transparent
+}
+.mini-select-wrap .react-select__value-container {
+    @apply !flex !items-center !justify-center !py-0 h-full;
+    padding-inline: 0;
+}
+
+
+.mini-select-wrap .react-select__menu {
+    @apply w-40
+}
+
+.mini-select-wrap .react-select__input-container {
+    @apply !m-0 !h-0 !p-0 !w-0 !max-w-0 !max-h-0
+}
+.mini-select-wrap .react-select__input-container::after {
+    @apply !hidden
+}
+.mini-select-wrap .react-select__input-container input {
+    @apply !m-0 !h-0 !p-0 !w-0 !max-w-0
 }

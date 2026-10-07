@@ -6,13 +6,11 @@ import Pagination from "@/components/generic/pagination";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductsService } from "@/services/generic";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ShopProductsPage() {
-  const QueryClient = useQueryClient();
-  const params = useSearchParams();
-
   // params
+  const params = useSearchParams();
   const search = params.get("search");
   const category = params.get("category");
   const brand = params.get("brand");
@@ -22,7 +20,7 @@ export default function ShopProductsPage() {
 
   // products
   const { data, isLoading } = useQuery({
-    queryKey: ["shop_products"],
+    queryKey: ["shop_products",page, search, category, brand, maxPrice, minPrice],
     queryFn: () =>
       getProductsService({
         page: Number(page) || 1,
@@ -33,9 +31,6 @@ export default function ShopProductsPage() {
         minPrice: minPrice ? Number(minPrice) : undefined,
       }),
   });
-  useEffect(() => {
-    QueryClient.invalidateQueries({ queryKey: ["shop_products"] });
-  }, [page, search, category, brand, maxPrice, minPrice]);
 
 
   return (

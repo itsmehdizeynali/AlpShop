@@ -1,5 +1,5 @@
 import type { CommentType } from "@/components/genericTypes";
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface RatingPropsType {
   productRate?: number;
@@ -7,6 +7,8 @@ export interface RatingPropsType {
   className?: string;
   disabled?: boolean;
   size?: "lg" | "sm";
+  showDetails?:boolean
+  handelSetRate?:(rate:number)=>void
 }
 
 export interface ModalPropsType {
@@ -18,6 +20,13 @@ export interface ModalPropsType {
 export interface CommentPropsType {
   comment: CommentType;
   className?: string;
+  handelReply:Dispatch<SetStateAction<string | undefined>>
+  isReply?:boolean
+}
+
+export interface CommentsWrapPropsType {
+  slug:string,
+  type?:"article"|"product",
 }
 
 export interface SidebarPropsType {

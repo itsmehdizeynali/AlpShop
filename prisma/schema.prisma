@@ -29,6 +29,7 @@ model User {
   orders         Order[]
   reviews        Review[]
   comments       Comment[]
+  productComments ProductComment[]
   returnRequests ReturnRequest[]
 
   createdAt      DateTime        @default(now())
@@ -108,6 +109,8 @@ model Product {
   specs        ProductSpec[]
   variants     ProductVariant[]
   reviews      Review[]
+  comments     ProductComment[]
+  tags         BlogTag[]
   cartItems    CartItem[]
   orderItems   OrderItem[]
   wishlistedBy WishlistItem[]
@@ -157,6 +160,26 @@ model ProductVariant {
 
   @@unique([productId, color, size])
   @@index([productId])
+}
+
+// Plain comments on a product (view + reply), separate from Review: a Review
+// always carries a 1-5 rating and is one-per-user: a Comment is just a message
+// and threads with replies, same shape as the blog's Comment model.
+model ProductComment {
+  id        String           @id @default(cuid())
+  product   Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  content   String
+  rating    Int? // 1-5, optional - a reply to another comment typically won't set one
+  parent    ProductComment?  @relation("ProductCommentReplies", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parentId  String?
+  replies   ProductComment[] @relation("ProductCommentReplies")
+  createdAt DateTime         @default(now())
+
+  @@index([productId])
+  @@index([parentId])
 }
 
 model Review {
@@ -292,11 +315,14 @@ model BlogCategory {
   posts           BlogPost[]
 }
 
+// Shared between blog posts and products, so a product's "Tags" tab can link
+// to the blog posts (or other products) carrying the same tag, and vice versa.
 model BlogTag {
-  id    String     @id @default(cuid())
-  name  String     @unique
-  slug  String     @unique
-  posts BlogPost[]
+  id       String     @id @default(cuid())
+  name     String     @unique
+  slug     String     @unique
+  posts    BlogPost[]
+  products Product[]
 }
 
 model BlogPost {

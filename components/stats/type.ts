@@ -4,4 +4,5 @@ export interface AccountStatPropsType {
   icon: string;
   link: string;
   linkText: string;
+  isLoading: boolean;
 }

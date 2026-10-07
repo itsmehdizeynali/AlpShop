@@ -8,10 +8,10 @@ export type TableColumnsType<T> = {
 };
 
 
-export type TableDataStatusesType="cancelled"|"delivered"|"shipped"|"returned";
+export type TableDataStatusesType="CANCELLED"|"DELIVERED"|"SHIPPED"|"RETURNED";
 
 export type TableDataType= {
-  img?: string;
+  images?: string[];
   order: string;
   date: string;
   status: { title: TableDataStatusesType; color: ChipColors };

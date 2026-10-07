@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { getAuthUser, requireAdmin } from "@/lib/auth-utils";
 import { NextResponse } from "next/server";
-import { computePrices, computeRate, enrichForUser, groupVariants } from "@/lib/product";
+import { commentRatings, computePrices, computeRate, enrichForUser, groupVariants } from "@/lib/product";
+import { slugify } from "@/lib/slug";
 
 // GET /api/products/:slug
 export async function GET(
@@ -18,10 +19,15 @@ export async function GET(
       variants: true,
       category: true,
       brand: true,
+      tags: true,
       reviews: {
         include: { user: { select: { id: true, name: true, avatar: true } } },
         orderBy: { createdAt: "desc" },
       },
+      // only for the rate average below - the full comment thread (with replies,
+      // user info, content) is its own endpoint: GET /api/products/:slug/comments
+      comments: { where: { rating: { not: null } }, select: { rating: true } },
+      _count: { select: { comments: true } },
     },
   });
 
@@ -29,15 +35,19 @@ export async function GET(
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
-  // computed { rate, users } average, alongside the full `reviews` list (used for the comments section)
-  const rate = computeRate(product.reviews);
+  // computed { rate, users } average: reviews + any rated comments, combined
+  const { comments, ...productWithoutComments } = product;
+  const rate = computeRate([...product.reviews, ...commentRatings(comments)]);
   const withComputed = {
-    ...product,
+    ...productWithoutComments,
     ...computePrices(product.price, product.discount),
     rate,
     // grouped for the selection UI: [{ title: "color", items: [...] }, { title: "size", items: [...] }]
     // `variants` itself stays too - the raw rows, needed to look up stock/price per exact combination
     variantGroups: groupVariants(product.variants),
+    // `tags` -> the "Tags" tab; each links to /blog?tag=<slug> (same BlogTag model the blog uses)
+    // `_count.comments` -> total comment count (for a "Comments (12)" tab label); fetch the
+    // actual thread from GET /api/products/:slug/comments
   };
 
   const authUser = await getAuthUser();
@@ -110,8 +120,17 @@ export async function PATCH(
               })),
             }
           : undefined,
+        tags: body.tags?.length
+          ? {
+              set: [],
+              connectOrCreate: (body.tags as string[]).map((name: string) => ({
+                where: { slug: slugify(name) },
+                create: { name, slug: slugify(name) },
+              })),
+            }
+          : undefined,
       },
-      include: { images: { orderBy: { position: "asc" } } },
+      include: { images: { orderBy: { position: "asc" } }, tags: true },
     });
     return NextResponse.json({ product }, { status: 200 });
   } catch (error) {

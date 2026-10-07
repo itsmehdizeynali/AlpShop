@@ -24,7 +24,7 @@ export default function WidgetProductRowCard({
 
   
   return (
-    <Card color="neutral" className={clsx(className, "flex w-full")}>
+    <Card color="transparent" hasBorder className={clsx(className, "flex w-full")}>
       <Link
         href={`/products/${item.product.id}`}
         className="block lg:me-4 me-3 shrink-0"
