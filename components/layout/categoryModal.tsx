@@ -17,7 +17,7 @@ export default function LayoutHeaderCategoryModal({
   })
   
   return (
-    <ShopModal isOpenModal={isOpenModal} closeModal={closeModal}>
+    <ShopModal header="categories" isOpenModal={isOpenModal} closeModal={closeModal}>
       <ul>
         {!!data&& data.map((item:CategoryItemType, index:number) => (
           <LayoutCategoryModalListItem

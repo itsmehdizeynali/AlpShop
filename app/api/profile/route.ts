@@ -10,7 +10,7 @@ export async function GET() {
 
   const user = await prisma.user.findUnique({
     where: { id: authUser.userId },
-    include: { addresses: true },
+    include: { addresses: { orderBy: { isDefault: "desc" } } },
   });
 
   if (!user) {
@@ -28,7 +28,7 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const { name, email, bio, avatar, theme } = await req.json();
+    const { name, lastName, email, phone } = await req.json();
 
     if (email) {
       const conflictingUser = await prisma.user.findFirst({
@@ -44,7 +44,7 @@ export async function PUT(req: Request) {
 
     const updatedUser = await prisma.user.update({
       where: { id: authUser.userId },
-      data: { name, email, bio, avatar, theme },
+      data: { name, lastName, email, phone },
     });
 
     const { password: _, ...userProfile } = updatedUser;

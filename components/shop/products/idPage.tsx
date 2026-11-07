@@ -27,6 +27,7 @@ import Link from "next/link";
 import { getProductsService } from "@/services/generic";
 import ShopSectionsProductsWrap from "../sections/productsWrap";
 import ShopCommentsWrap from "../generic/commentsWrap";
+import LoadingProductSingle from "@/components/loading/productSingle";
 
 type TabsItemType = { id: string; name: string };
 
@@ -104,6 +105,10 @@ export default function ShopProductsIdPage() {
 
   return (
     <>
+    {
+      detailsLoading?
+      <LoadingProductSingle/>:
+      <>
       {!!product && (
         <div className="container my-section max-sm:mt-sm-section">
           <div className="-m-2 flex items-start max-lg:flex-wrap">
@@ -308,6 +313,8 @@ export default function ShopProductsIdPage() {
           </div>
         </div>
       )}
+      </>
+    }
       <ShopSectionsProductsWrap
         queryKeys={["layout_data", "related_product"]}
         isLoading={relatedProductsLoading}

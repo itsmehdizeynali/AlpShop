@@ -2,7 +2,7 @@ export interface AccountStatPropsType {
   title: string;
   value: number|string;
   icon: string;
-  link: string;
+  link?: string;
   linkText: string;
   isLoading: boolean;
 }

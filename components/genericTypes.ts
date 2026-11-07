@@ -231,6 +231,8 @@ export interface BlogCategoryItemType {
   _count: { posts: number };
 }
 
+export type OrderStatusesType ="CANCELLED"|"DELIVERED"|"SHIPPED"|"RETURNED";
+
 export interface BrandType {
   id: string;
   logo: null | string;
@@ -261,9 +263,25 @@ export interface orderType {
   }[];
   orderNumber: string;
   shippingCost: number;
-  status: "DELIVERED";
+  status:OrderStatusesType;
   subtotal: number;
   total: number;
   updatedAt: string;
   userId: string;
-};
+}
+
+export interface AddressType {
+  addressLine: string;
+  city: string;
+  country: string;
+  countryPhoneCode: string;
+  createdAt: string;
+  fullName: string;
+  id: string;
+  isDefault: boolean;
+  phone: string;
+  postalCode: string;
+  province: string;
+  updatedAt: string;
+  userId: string;
+}

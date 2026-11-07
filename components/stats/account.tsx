@@ -6,7 +6,7 @@ import Text from "../generic/text";
 import clsx from "clsx";
 import type { AccountStatPropsType } from "./type";
 
-export default function StatAcount({
+export default function StatAccount({
   title,
   value,
   icon,
@@ -20,28 +20,42 @@ export default function StatAcount({
       hasBorder
       className="flex items-start h-full hover:border-primary-light"
     >
-      <div className="lg:w-10 w-8 lg:h-10 h-8 lg:me-4 me-2.5 rounded-full text-primary bg-primary-light transition-all flex items-center justify-center">
-        <i className={clsx(icon, "lg:text-md text-sm")}></i>
-      </div>
+      {isLoading ? (
+        <div className="lg:w-10 w-8 lg:h-10 h-8 lg:me-4 me-2.5 rounded-full bg-loading transition-all animate-pulse"></div>
+      ) : (
+        <div className="lg:w-10 w-8 lg:h-10 h-8 lg:me-4 me-2.5 rounded-full text-primary bg-primary-light transition-all flex items-center justify-center">
+          <i className={clsx(icon, "lg:text-md text-sm")}></i>
+        </div>
+      )}
       <div>
-        <Text className="mb-2">{title}</Text>
+        {isLoading ? (
+          <div className="bg-loading rounded-full animate-pulse w-30 h-3 mb-4"></div>
+        ) : (
+          <Text className="mb-2">{title}</Text>
+        )}
         <Heading variant="h2" className="mb-3">
           {isLoading ? (
-            <div className="bg-loading rounded-full animate-pulse w-12 h-3 my-5"></div>
+            <div className="bg-loading rounded-full animate-pulse w-12 h-5 my-5"></div>
           ) : (
             value
           )}
         </Heading>
-        <Btn
-          variant="text"
-          icon="icon-right-arrow"
-          iconPlace="end"
-          size="xs"
-          as={Link}
-          href={link}
-        >
-          {linkText}
-        </Btn>
+        {isLoading ? (
+          <div className="bg-loading rounded-full animate-pulse w-30 h-3"></div>
+        ) : (
+          !!link && (
+            <Btn
+              variant="text"
+              icon="icon-right-arrow"
+              iconPlace="end"
+              size="xs"
+              as={Link}
+              href={link}
+            >
+              {linkText}
+            </Btn>
+          )
+        )}
       </div>
     </Card>
   );

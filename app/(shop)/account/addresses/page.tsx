@@ -1,5 +1,5 @@
-import ShopAccountInformationPage from "@/components/shop/account/informationPage";
+import ShopAccountAddressesPage from "@/components/shop/account/addressesPage";
 
-export default function accountInformationPage() {
-  return <ShopAccountInformationPage/>;
+export default function accountAddressesPage() {
+  return <ShopAccountAddressesPage/>;
 }

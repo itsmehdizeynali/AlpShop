@@ -9,12 +9,6 @@ import Link from "next/link";
 import clsx from "clsx";
 import Counter from "../generic/counter";
 import type { ProductRowCardPropsType } from "./types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  addToCartService,
-  removeCartItemService,
-  updateCartItemService,
-} from "@/services/cart";
 
 export default function WidgetProductRowCard({
   className,
@@ -26,7 +20,7 @@ export default function WidgetProductRowCard({
   return (
     <Card color="transparent" hasBorder className={clsx(className, "flex w-full")}>
       <Link
-        href={`/products/${item.product.id}`}
+        href={`/products/${item.product.slug}`}
         className="block lg:me-4 me-3 shrink-0"
       >
         <Image
@@ -42,7 +36,7 @@ export default function WidgetProductRowCard({
       <div className="flex flex-col justify-between grow">
         <Heading
           as={Link}
-          href={`/products/${item.product.id}`}
+          href={`/products/${item.product.slug}`}
           variant="h6"
           className="mb-2.5 !line-clamp-2"
         >

@@ -10,10 +10,12 @@ import Heading from "../generic/heading";
 import Link from "next/link";
 import Text from "../generic/text";
 import Backdrop from "../generic/backdrop";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { searchService } from "@/services/generic";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ProductType } from "../genericTypes";
+import LoadingSpin from "../generic/loadingSpin";
+import LoadingSearchBox from "../loading/searchBox";
 
 export default function LayoutSearchBox() {
   const route = useRouter();
@@ -141,7 +143,7 @@ export default function LayoutSearchBox() {
 
             {/* LOADING */}
             {isLoading && (
-              <span className="my-2 w-5 h-5 border-[3px] border-solid border-r-primary border-b-primary border-primary/10 rounded-full block animate-spin m-auto"></span>
+              <LoadingSearchBox/>
             )}
 
             {/* EMPTY-SEARCH-BOX */}
@@ -152,7 +154,7 @@ export default function LayoutSearchBox() {
             )}
 
             {/* NO-DATA */}
-            {!!search.length &&
+            {!isLoading&& !!search.length &&
               !data?.titles.length &&
               !data?.products.length && (
                 <Text className="text-center" color="dim" size="xs">

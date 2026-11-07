@@ -24,7 +24,7 @@ export default function ShopAccountHero({
           className="lg:mb-3 mb-2 capitalize flex items-center"
         >
           Hello,{" "}
-          {isLoading ? <div className="bg-loading rounded-full animate-pulse w-16 h-2.5 mx-2"></div> : name}!
+          {isLoading ? <div className="bg-loading rounded-full animate-pulse w-20 h-2.5 mx-2"></div> : name}!
         </Heading>
         <Text color="white" weight="light" className="text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla,

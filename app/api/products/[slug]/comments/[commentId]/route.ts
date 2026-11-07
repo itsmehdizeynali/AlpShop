@@ -31,7 +31,7 @@ export async function PATCH(
   const updated = await prisma.productComment.update({
     where: { id: commentId },
     data: { content, rating },
-    include: { user: { select: { id: true, name: true, avatar: true } } },
+    include: { user: { select: { id: true, name: true } } },
   });
 
   return NextResponse.json({ comment: updated }, { status: 200 });

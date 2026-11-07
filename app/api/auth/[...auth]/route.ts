@@ -8,6 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 type BodyDataType = {
   email: string;
   name: string;
+  lastName?: string;
   password: string;
   role?: "USER" | "ADMIN";
 };
@@ -31,6 +32,7 @@ export async function POST(
       const formData = await req.formData();
       body.email = formData.get("email") as string;
       body.name = formData.get("name") as string;
+      body.lastName = (formData.get("lastName") as string) || undefined;
       body.password = formData.get("password") as string;
       body.role = (formData.get("role") as "USER" | "ADMIN") || "USER";
     } else if (contentType.includes("application/json")) {
@@ -47,9 +49,9 @@ export async function POST(
   // REGISTER
   // ==========================================
   if (action === "register") {
-    if (!body.email || !body.password) {
+    if (!body.email || !body.password || !body.name) {
       return NextResponse.json(
-        { error: "Email and password are required" },
+        { error: "name, email and password are required" },
         { status: 400 },
       );
     }
@@ -70,7 +72,8 @@ export async function POST(
     const user = await prisma.user.create({
       data: {
         email: body.email,
-        name: body.name || null,
+        name: body.name,
+        lastName: body.lastName || null,
         password: hashedPassword,
         role: body.role === "ADMIN" ? "ADMIN" : "USER",
         cart: {

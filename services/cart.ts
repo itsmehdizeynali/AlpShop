@@ -41,7 +41,13 @@ export const removeCartItemService = async (itemId: string) => {
   return response?.data;
 };
 
-export const clearCartService = async () => {
-  const response = await apiClient.delete(API_ENDPOINTS.CART.BASE);
-  return response?.data;
+export const checkoutService = async ({
+  addressId,
+  shippingCost,
+}: {
+  addressId: string;
+  shippingCost?: number;
+}) => {
+  const response = await apiClient.post(API_ENDPOINTS.ORDERS.BASE, { addressId, shippingCost });
+  return response;
 };

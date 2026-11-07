@@ -2,11 +2,11 @@
 
 import Accordion from "@/components/generic/accordion";
 import HeaderSection from "@/components/generic/headerSection";
-import dataShopPages from "@/mockData/shop/pages";
+import dataFaq from "@/mockData/shop/faq";
 import ShopFaqTabBar from "./tabBar";
 
 export default function ShopFaqPage() {
-  const { faq } = dataShopPages();
+  const { faq } = dataFaq();
 
   return (
     <div className="container my-section">

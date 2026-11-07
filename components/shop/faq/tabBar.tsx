@@ -1,12 +1,12 @@
 "use client";
 
 import Text from "@/components/generic/text";
-import dataShopPages from "@/mockData/shop/pages";
+import dataFaq from "@/mockData/shop/faq";
 import clsx from "clsx";
 import { useState } from "react";
 
 export default function ShopFaqTabBar({ className }: { className?: string }) {
-  const { faqTabs } = dataShopPages();
+  const { faqTabs } = dataFaq();
 
   const [activeTab, setActiveTab] = useState<null|number|string>(null);
 
@@ -20,7 +20,7 @@ export default function ShopFaqTabBar({ className }: { className?: string }) {
   
   return (
     <div className={clsx(className, "max-lg:container lg:w-72 shrink-0")}>
-      <div className="max-lg:flex items-center hide-scrollbar bg-white overflow-x-auto max-lg:shadow-card lg:border max-lg:border-t-0 border-neutral-light rounded-lg">
+      <div className="max-lg:flex items-center hide-scrollbar bg-white overflow-x-auto max-lg:shadow-card lg:border max-lg:border-t-0 border-neutral-light rounded-lg h-full max-h-[calc(100vh-16px)]">
         {faqTabs.map((item, index) => (
           <Text
             onClick={() => handleScroll(item.id)}

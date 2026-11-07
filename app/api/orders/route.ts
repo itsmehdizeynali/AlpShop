@@ -3,20 +3,29 @@ import { getAuthUser } from "@/lib/auth-utils";
 import { NextResponse } from "next/server";
 import { enrichForUser, productInclude, withRate } from "@/lib/product";
 
-// GET /api/orders  (the current user's order history)
-export async function GET() {
+// GET /api/orders?page=&pageSize=  (the current user's order history)
+export async function GET(req: Request) {
   const authUser = await getAuthUser();
   if (!authUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const orders = await prisma.order.findMany({
-    where: { userId: authUser.userId },
-    include: {
-      items: { include: { product: { include: productInclude } } },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const { searchParams } = new URL(req.url);
+  const page = Math.max(1, Number(searchParams.get("page")) || 1);
+  const pageSize = Math.min(50, Number(searchParams.get("pageSize")) || 10);
+
+  const [orders, total] = await Promise.all([
+    prisma.order.findMany({
+      where: { userId: authUser.userId },
+      include: {
+        items: { include: { product: { include: productInclude } } },
+      },
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.order.count({ where: { userId: authUser.userId } }),
+  ]);
 
   // enrich every order's items in one batch rather than one query per order
   const flatItems = orders.flatMap((order) => order.items);
@@ -30,7 +39,13 @@ export async function GET() {
     items: order.items.map((item) => ({ ...item, product: enrichedProducts[cursor++] })),
   }));
 
-  return NextResponse.json({ orders: enrichedOrders }, { status: 200 });
+  return NextResponse.json(
+    {
+      orders: enrichedOrders,
+      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+    },
+    { status: 200 },
+  );
 }
 
 // POST /api/orders  { addressId, shippingCost? }

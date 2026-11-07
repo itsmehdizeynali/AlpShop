@@ -3,27 +3,27 @@ const dataShopIndex = () => {
     {
       img: "/img/hero-1.jpg",
       alt: "Upgrade Your Digital Lifestyle",
-      href: "/category",
+      href: "/products",
     },
     {
       img: "/img/hero-2.jpg",
       alt: "Upgrade Your Digital Lifestyle",
-      href: "/category",
+      href: "/products?category=BeautyAndPersonalCare",
     },
     {
       img: "/img/hero-3.jpg",
       alt: "Upgrade Your Digital Lifestyle",
-      href: "/category",
+      href: "/products?category=electronics",
     },
     {
       img: "/img/hero-4.jpg",
       alt: "Upgrade Your Digital Lifestyle",
-      href: "/category",
+      href: "/products?category=FashionAndClothing",
     },
     {
       img: "/img/hero-5.jpg",
       alt: "Upgrade Your Digital Lifestyle",
-      href: "/category",
+      href: "/products?category=ToolsAndHardware",
     },
   ];
   const categories = [

@@ -25,11 +25,11 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { fullName, phone, country, province, city, postalCode, addressLine, isDefault } = body;
+  const { fullName, phone, countryPhoneCode, country, province, city, postalCode, addressLine, isDefault } = body;
 
   if (!fullName || !phone || !country || !province || !city || !postalCode || !addressLine) {
     return NextResponse.json(
-      { error: "All address fields are required" },
+      { error: "fullName, phone, country, province, city, postalCode and addressLine are required" },
       { status: 400 },
     );
   }
@@ -46,6 +46,7 @@ export async function POST(req: Request) {
       userId: authUser.userId,
       fullName,
       phone,
+      countryPhoneCode: countryPhoneCode || "1",
       country,
       province,
       city,

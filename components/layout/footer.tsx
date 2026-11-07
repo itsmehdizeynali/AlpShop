@@ -102,7 +102,7 @@ export default function LayoutFooter({ className = "" }: FooterPropsType) {
                   href="/account"
                   className="block hover:text-primary p-1"
                 >
-                  My Acount
+                  My Account
                 </Text>
               </li>
               <li className="sm:w-1/3 w-1/2">
@@ -112,7 +112,7 @@ export default function LayoutFooter({ className = "" }: FooterPropsType) {
                   href="/faq"
                   className="block hover:text-primary p-1"
                 >
-                  FAQs
+                  FAQ
                 </Text>
               </li>
               <li className="sm:w-1/3 w-1/2 max-sm:order-last">

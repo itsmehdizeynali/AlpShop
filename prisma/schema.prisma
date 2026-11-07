@@ -15,12 +15,11 @@ datasource db {
 // =======================
 model User {
   id             String          @id @default(cuid())
-  name           String?
+  name           String
+  lastName       String?
   email          String          @unique
+  phone          String?
   password       String
-  avatar         String?
-  bio            String?
-  theme          String          @default("light")
   role           Role            @default(USER)
 
   addresses      Address[]
@@ -44,20 +43,21 @@ enum Role {
 }
 
 model Address {
-  id          String   @id @default(cuid())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  fullName    String
-  phone       String
-  country     String
-  province    String
-  city        String
-  postalCode  String
-  addressLine String
-  isDefault   Boolean  @default(false)
-  orders      Order[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  fullName         String
+  phone            String
+  countryPhoneCode String   @default("1")
+  country          String
+  province         String
+  city             String
+  postalCode       String
+  addressLine      String
+  isDefault        Boolean  @default(false)
+  orders           Order[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([userId])
 }
@@ -358,6 +358,40 @@ model Comment {
 
   @@index([postId])
   @@index([parentId])
+}
+
+// =======================
+// Geo reference data - for the country/province/city (+ country phone code)
+// selects on the address form. Province.countryId and City.provinceId make
+// each select filterable by the one picked before it.
+// =======================
+model Country {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  code      String     @unique // ISO 3166-1 alpha-2, e.g. "IR", "US"
+  phoneCode String // e.g. "98", "1" - no leading "+"
+  provinces Province[]
+}
+
+model Province {
+  id        String  @id @default(cuid())
+  name      String
+  country   Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  countryId String
+  cities    City[]
+
+  @@unique([countryId, name])
+  @@index([countryId])
+}
+
+model City {
+  id         String   @id @default(cuid())
+  name       String
+  province   Province @relation(fields: [provinceId], references: [id], onDelete: Cascade)
+  provinceId String
+
+  @@unique([provinceId, name])
+  @@index([provinceId])
 }
 
 // =======================

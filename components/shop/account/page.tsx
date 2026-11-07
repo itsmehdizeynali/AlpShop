@@ -5,7 +5,7 @@ import Card from "@/components/generic/card";
 import Chip from "@/components/generic/chip";
 import HeaderSection from "@/components/generic/headerSection";
 import Table from "@/components/generic/table";
-import StatAcount from "@/components/stats/account";
+import StatAccount from "@/components/stats/account";
 import Image from "next/image";
 import Link from "next/link";
 import type { TableColumnsType, TableDataType } from "./types";
@@ -22,27 +22,31 @@ import {
 import clsx from "clsx";
 import useStatus from "@/utils/setStatus";
 import useFormatDate from "@/utils/format-date";
+import type { orderType } from "@/components/genericTypes";
+import LoadingTableOrder from "@/components/loading/tableOrder";
+import useFormatNumber from "@/utils/format-number";
 
 export default function ShopAccountPage() {
+  const {formatNumber}=useFormatNumber()
   const columns: TableColumnsType<TableDataType>[] = [
     {
       key: "images",
       label: "",
       renderCell: (row) =>
         row?.images && (
-          <div
-            className="w-16 h-16 rounded-xl overflow-hidden bg-primary-light flex flex-wrap items-center justify-center"
-          >
+          <div className="w-16 h-16 rounded-xl overflow-hidden bg-primary-light flex flex-wrap items-center justify-center">
             {row.images.map((item, index) => (
-                <Image
-                  key={index}
-                  style={{height:`${(100/((Math.ceil(row.images?.length?row.images?.length/2:1))||1))}%`}}
-                  className={clsx("object-scale-down object-center max-w-1/2",)}
-                  src={item || ""}
-                  width={48}
-                  height={48}
-                  alt="product"
-                />
+              <Image
+                key={index}
+                style={{
+                  height: `${100 / (Math.ceil(row.images?.length ? row.images?.length / 2 : 1) || 1)}%`,
+                }}
+                className={clsx("object-scale-down object-center max-w-1/2")}
+                src={item || ""}
+                width={48}
+                height={48}
+                alt="product"
+              />
             ))}
           </div>
         ),
@@ -67,7 +71,7 @@ export default function ShopAccountPage() {
     {
       key: "total",
       label: "total",
-      renderCell: (row) => <Price>{row.total}</Price>,
+      renderCell: (row) => <Price>{formatNumber(row.total)}</Price>,
     },
     {
       key: "actions",
@@ -89,8 +93,8 @@ export default function ShopAccountPage() {
     },
   ];
 
-  const {setColor}=useStatus()
-  const {getFormatDateToDay}=useFormatDate()
+  const { setColor } = useStatus();
+  const { getFormatDateToDay } = useFormatDate();
 
   const { data: information, isLoading: loadingInformation } = useQuery({
     queryKey: ["profile_information"],
@@ -100,12 +104,12 @@ export default function ShopAccountPage() {
     queryKey: ["stats"],
     queryFn: getAccountStatsService,
   });
-  const { data: orders, isLoading: loadingOrders } = useQuery({
+  const { data: orders, isLoading: loadingOrders,refetch } = useQuery({
     queryKey: ["last_orders"],
     queryFn: getOrdersService,
   });
-  const data: TableDataType[] | undefined = !!orders
-    ? orders.map((order) => {
+  const data: TableDataType[] | undefined = !!orders?.orders
+    ? orders.orders.map((order: orderType) => {
         return {
           images: order.items.map((item) => item.product.images[0].url),
           order: order.orderNumber,
@@ -117,11 +121,10 @@ export default function ShopAccountPage() {
       })
     : undefined;
 
-  console.log(data);
+  console.log(orders);
 
   const { accountStats } = dataShopPages({ stats });
 
-  const refreshData = () => {};
   return (
     <div className="container my-section">
       <div className="flex items-start max-lg:flex-wrap -m-2">
@@ -130,13 +133,13 @@ export default function ShopAccountPage() {
             name={information?.name}
             isLoading={loadingInformation}
           />
-          <div className="lg:-m-2 -m-1 !mb-sm-section flex flex-wrap">
+          <ul className="lg:-m-2 -m-1 !mb-sm-section flex flex-wrap">
             {accountStats.map((item, index) => (
-              <div
+              <li
                 key={index}
-                className="lg:w-1/2 md:w-1/4 sm:w-1/2 max-sm:grow lg:p-2 p-1"
+                className="lg:w-1/2 md:w-1/4 sm:w-1/2 max-sm:grow max-sm:min-w-1/2 lg:p-2 p-1"
               >
-                <StatAcount
+                <StatAccount
                   isLoading={loadingStarts}
                   linkText={item.linkText}
                   link={item.link}
@@ -144,9 +147,9 @@ export default function ShopAccountPage() {
                   title={item.title}
                   icon={item.icon}
                 />
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
           <Card
             hasBorder
             color="transparent"
@@ -160,10 +163,18 @@ export default function ShopAccountPage() {
             >
               Lateast Orders
             </HeaderSection>
-            <Table columns={columns} data={data} refreshData={refreshData} />
+            {loadingOrders ? (
+              <div>
+                {[0, 1, 2].map((item, index) => (
+                  <LoadingTableOrder hasImg className="mb-2 last:mb-0" key={index}/>
+                ))}
+              </div>
+            ) : (
+              <Table columns={columns} data={data} refreshData={refetch} />
+            )}
           </Card>
         </div>
-        <ShopAccountInformation information={information} />
+        <ShopAccountInformation information={information} isLoading={loadingInformation}/>
       </div>
     </div>
   );

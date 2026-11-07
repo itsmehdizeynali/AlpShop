@@ -9,6 +9,8 @@ import { getProductsService } from "@/services/generic";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import LoadingSpin from "@/components/generic/loadingSpin";
+import LoadingProductCard from "@/components/loading/productCard";
 
 export default function ShopDealsPage() {
   const QueryClient = useQueryClient();
@@ -47,30 +49,45 @@ export default function ShopDealsPage() {
       <ShopDealsCategoryBar />
       <div className="container mb-section">
         <div className="flex flex-wrap items-start -m-2">
-          <ShopSidebar price={{ min: 0, step: 10, max: 200 }} />
+          <ShopSidebar price={{ min: 0, max: 200 }} />
           <div className="lg:w-3/4 w-full flex flex-wrap p-1">
-            {!!data?.products &&
-              data?.products.map((item, index) => (
-                <div
-                  className="p-1 xl:w-1/4 lg:w-1/3 md:w-1/4 sm:w-1/3 w-full"
-                  key={index}
-                >
-                  <WidgetProductCard
-                    queryKeys={["deals_products", "layout_data"]}
-                    responsive
-                    spacial
-                    product={item}
-                  />
-                </div>
-              ))}
-            {!!data?.pagination?.totalPages &&
-              data?.pagination?.totalPages !== 1 && (
-                <Pagination
-                  className="w-full p-2 justify-center"
-                  total={data?.pagination?.totalPages}
-                  current={data?.pagination?.page}
-                />
-              )}
+            {isLoading ? (
+              <>
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item, index) => (
+                  <div
+                    key={index}
+                    className="p-1 xl:w-1/4 lg:w-1/3 md:w-1/4 sm:w-1/3 w-full"
+                  >
+                    <LoadingProductCard responsive hasBorder />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {!!data?.products &&
+                  data?.products.map((item, index) => (
+                    <div
+                      className="p-1 xl:w-1/4 lg:w-1/3 md:w-1/4 sm:w-1/3 w-full"
+                      key={index}
+                    >
+                      <WidgetProductCard
+                        queryKeys={["deals_products", "layout_data"]}
+                        responsive
+                        spacial
+                        product={item}
+                      />
+                    </div>
+                  ))}
+                {!!data?.pagination?.totalPages &&
+                  data?.pagination?.totalPages !== 1 && (
+                    <Pagination
+                      className="w-full p-2 justify-center"
+                      total={data?.pagination?.totalPages}
+                      current={data?.pagination?.page}
+                    />
+                  )}
+              </>
+            )}
           </div>
         </div>
       </div>

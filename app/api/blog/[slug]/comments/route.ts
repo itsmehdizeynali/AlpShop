@@ -34,7 +34,7 @@ export async function GET(
     prisma.comment.count({ where: { postId: post.id, parentId: null } }),
     prisma.comment.findMany({
       where: { postId: post.id },
-      include: { user: { select: { id: true, name: true, avatar: true } } },
+      include: { user: { select: { id: true, name: true } } },
       orderBy: { createdAt: "asc" },
     }),
   ]);
@@ -74,7 +74,7 @@ export async function POST(
 
   const comment = await prisma.comment.create({
     data: { postId: post.id, userId: authUser.userId, content, parentId },
-    include: { user: { select: { id: true, name: true, avatar: true } } },
+    include: { user: { select: { id: true, name: true } } },
   });
 
   return NextResponse.json({ comment }, { status: 201 });

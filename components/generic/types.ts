@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { SingleValue } from "react-select";
 
 // ALERT
 export type AlertColors =
@@ -78,6 +79,7 @@ export type CardPropsType<T extends ElementType> = Partial<{
   className: string;
   hasBorder: boolean;
   hasHover: boolean;
+  loading: boolean;
 }> &
   ComponentPropsWithoutRef<T>;
 
@@ -169,24 +171,26 @@ export type HeaderSectionPropsType = Partial<{
   ComponentPropsWithoutRef<"div">;
 
 // SELECT-BOX
-export type SelectOption<T> = {
+export type SelectOption= {
   label: string;
   value: string | number;
-  status?: T;
-  statusText?: string;
+  endSide?: string;
 };
 
-export type SelectBoxPropsType<T> = {
+export type SelectBoxPropsType = {
   label?: string;
-  options: SelectOption<T>[];
+  options: SelectOption[];
   endSideLabel?: ReactNode;
   className?: string;
-  formatOption?: (option: SelectOption<T>) => ReactNode;
-  msgType?:AlertColors,
-  msg?:string
-  handelChange:(value:string)=>void
-  placeholder?:string
-  isSmall?:boolean
+  msgType?: AlertColors;
+  msg?: string;
+  onChange: (option: SingleValue<SelectOption>) => void;
+  placeholder?: string;
+  isSmall?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
+  value: string;
+  formatOption?:(option:SelectOption)=> ReactNode
 };
 
 // TABLE
@@ -251,7 +255,7 @@ export type TextareaPropsType = Partial<{
   msgType: AlertColors;
   msg: string | null;
   defaultValue: string;
-}>;
+}>&ComponentPropsWithoutRef<"textarea">;
 
 // PRICE
 export interface PricePropsType {

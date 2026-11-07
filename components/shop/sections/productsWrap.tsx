@@ -4,6 +4,8 @@ import { Navigation } from "swiper/modules";
 import clsx from "clsx";
 import WidgetProductCard from "@/components/widget/productCard";
 import type { ProductsWrapPropsType } from "./types";
+import LoadingSpin from "@/components/generic/loadingSpin";
+import LoadingProductCard from "@/components/loading/productCard";
 
 export default function ShopSectionsProductsWrap({
   headerTitle,
@@ -11,7 +13,7 @@ export default function ShopSectionsProductsWrap({
   className = "",
   products,
   isLoading = false,
-  queryKeys
+  queryKeys,
 }: ProductsWrapPropsType) {
   return (
     <div className={clsx(className, "overflow-hidden")}>
@@ -24,7 +26,16 @@ export default function ShopSectionsProductsWrap({
           {headerTitle}
         </HeaderSection>
         {isLoading ? (
-          <span className="my-2 w-5 h-5 border-[3px] border-solid border-r-primary border-b-primary border-primary/10 rounded-full block animate-spin m-auto"></span>
+          <div className="flex gap-1.25 overflow-hidden">
+            {[0, 1, 2, 3, 4, 5].map((item, index) => (
+              <LoadingProductCard
+                spacial
+                hasBorder
+                className="xl:w-1/6 lg:w-1/5 w-[170px]"
+                key={index}
+              />
+            ))}
+          </div>
         ) : (
           <Swiper
             className="max-lg:!overflow-visible"
@@ -52,7 +63,7 @@ export default function ShopSectionsProductsWrap({
                   key={index}
                   className="max-lg:max-w-[170px] !h-auto"
                 >
-                  <WidgetProductCard product={item} queryKeys={queryKeys}/>
+                  <WidgetProductCard product={item} queryKeys={queryKeys} />
                 </SwiperSlide>
               ))}
           </Swiper>

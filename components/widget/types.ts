@@ -1,4 +1,4 @@
-import type { ArticleType, ProductType } from "../genericTypes";
+import type { AddressType, ArticleType, ProductType } from "../genericTypes";
 import type { shoppingCartItem } from "../shop/cart/type";
 
 export interface ArticleCardPropsType {
@@ -13,10 +13,18 @@ export interface ProductCardPropsType {
   hasBorder?: boolean;
   responsive?: boolean;
   product: ProductType;
-  queryKeys?:string[]
+  queryKeys?: string[];
 }
 export interface ProductRowCardPropsType {
-  className?:string,
+  className?: string;
   item: shoppingCartItem;
-  queryKeys?:string[]
+  queryKeys?: string[];
+}
+export interface AddersesCardPropsType {
+  address:AddressType;
+  handelRemove?:(id:string)=>void;
+  handelSelect?:(id:string)=>void;
+  removeLoading?:boolean
+  selectLoading?:boolean
+  hasLinkBtn?:boolean
 }

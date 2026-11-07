@@ -18,14 +18,14 @@ export default function HeaderSection({
   return (
     <div
       className={clsx(
-        "flex sm:items-center items-start",
+        "flex sm:items-center items-start gap-2",
         { "pb-2 border-b border-b-neutral-light": border },
         className,
       )}
       {...props}
     >
       <div
-        className={clsx("me-2 flex max-sm:flex-wrap max-sm:gap-2", {
+        className={clsx("flex max-sm:flex-wrap max-sm:gap-2", {
           "border-s-4 border-primary lg:ps-3.5 ps-2 grow": shape,
         })}
       >

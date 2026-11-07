@@ -1,4 +1,5 @@
 import type { ProductType } from "@/components/genericTypes";
+import type { Dispatch, SetStateAction } from "react";
 
 export interface shoppingCartItem {
   cartId: string;
@@ -12,6 +13,7 @@ export interface shoppingCartItem {
 }
 export interface shoppingCartPropsType {
   items: shoppingCartItem[];
+  isLoading?:boolean
 }
 
 export interface ShopCartPaymentPropsType {
@@ -19,4 +21,9 @@ export interface ShopCartPaymentPropsType {
   totalPriceAfter: number;
   profit: number;
   itemsCount: number;
+  isLoading?: boolean;
+  setShowModal:Dispatch<SetStateAction<{
+    status: "success" | "unSuccess";
+    active: boolean;
+}>>
 }

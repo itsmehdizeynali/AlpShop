@@ -15,6 +15,8 @@ export interface ModalPropsType {
   children: ReactNode;
   closeModal: () => void;
   isOpenModal: boolean;
+  central?:boolean,
+  header?:string
 }
 
 export interface CommentPropsType {

@@ -21,7 +21,7 @@ export async function GET(
       brand: true,
       tags: true,
       reviews: {
-        include: { user: { select: { id: true, name: true, avatar: true } } },
+        include: { user: { select: { id: true, name: true } } },
         orderBy: { createdAt: "desc" },
       },
       // only for the rate average below - the full comment thread (with replies,

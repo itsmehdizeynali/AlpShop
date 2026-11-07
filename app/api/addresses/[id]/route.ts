@@ -32,6 +32,7 @@ export async function PATCH(
     data: {
       fullName: body.fullName,
       phone: body.phone,
+      countryPhoneCode: body.countryPhoneCode,
       country: body.country,
       province: body.province,
       city: body.city,

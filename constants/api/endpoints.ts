@@ -42,6 +42,13 @@ const API_ENDPOINTS = {
     DETAIL: (slug: string) => `/blog/${slug}`,
     COMMENTS: (slug: string) => `/blog/${slug}/comments`,
   },
+  ACCOUNT_SPENDING: "/account/spending",
+  RETURNS: "/returns",
+  GEO: {
+    COUNTRIES: "/geo/countries",
+    PROVINCES: "/geo/provinces",
+    CITIES: "/geo/cities",
+  },
   CONTACT: "/contact",
   SETTINGS: (key: string) => `/settings/${key}`,
 };

@@ -166,7 +166,7 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
               Clear All
             </Btn>
           </div>
-          {!!categories && (
+          {(!!categories || categoriesDataLoading) && (
             <Card
               hasBorder
               color="transparent"
@@ -178,19 +178,42 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
               >
                 Category
               </Heading>
-              <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
-                {categories.map((item: CategoryItemType, index: number) => (
-                  <ShopCheckboxWrap
-                    key={index}
-                    item={item}
-                    selectedList={selectedCategories}
-                    handleCheck={handleCheckCategory}
-                  />
-                ))}
-              </ul>
+              {categoriesDataLoading ? (
+                <ul className="p-4 max-h-[180px] overflow-y-hidden">
+                  <li className="mb-4 last:mb-0">
+                    <div className="w-full bg-loading animate-pulse rounded-full h-2.5"></div>
+                    <ul className="ps-4 mt-3">
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                    </ul>
+                  </li>
+                  <li className="mb-4 last:mb-0">
+                    <div className="w-full bg-loading animate-pulse rounded-full h-2.5"></div>
+                    <ul className="ps-4 mt-3">
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                      <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-2 last:mb-0"></li>
+                    </ul>
+                  </li>
+                </ul>
+              ) : (
+                <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
+                  {categories.map((item: CategoryItemType, index: number) => (
+                    <ShopCheckboxWrap
+                      key={index}
+                      item={item}
+                      selectedList={selectedCategories}
+                      handleCheck={handleCheckCategory}
+                    />
+                  ))}
+                </ul>
+              )}
             </Card>
           )}
-          {!!brands && (
+          {(!!brands || brandsDataLoading) && (
             <Card
               hasBorder
               color="transparent"
@@ -202,18 +225,31 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
               >
                 Brand
               </Heading>
-              <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
-                {brands.map((item: BrandType, index: number) => (
-                  <Checkbox
-                    checked={selectedBrands?.includes(item.slug)}
-                    changeSelectedList={handleCheckBrand}
-                    key={index}
-                    name={item?.name}
-                    slug={item?.slug}
-                    className="mb-2 last:mb-0"
-                  />
-                ))}
-              </ul>
+              {brandsDataLoading ? (
+                <ul className="p-4 max-h-[180px] overflow-y-hidden">
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                  <li className="w-full bg-loading animate-pulse rounded-full h-2.5 mb-4 last:mb-0"></li>
+                </ul>
+              ) : (
+                <ul className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
+                  {brands.map((item: BrandType, index: number) => (
+                    <Checkbox
+                      checked={selectedBrands?.includes(item.slug)}
+                      changeSelectedList={handleCheckBrand}
+                      key={index}
+                      name={item?.name}
+                      slug={item?.slug}
+                      className="mb-2 last:mb-0"
+                    />
+                  ))}
+                </ul>
+              )}
             </Card>
           )}
           {price?.max !== 0 &&

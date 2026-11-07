@@ -36,7 +36,7 @@ export async function GET(
     // scale; a very high-traffic product would want a recursive SQL query instead.
     prisma.productComment.findMany({
       where: { productId: product.id },
-      include: { user: { select: { id: true, name: true, avatar: true } } },
+      include: { user: { select: { id: true, name: true } } },
       orderBy: { createdAt: "asc" },
     }),
   ]);
@@ -90,7 +90,7 @@ export async function POST(
       parentId,
       rating: rating ?? undefined,
     },
-    include: { user: { select: { id: true, name: true, avatar: true } } },
+    include: { user: { select: { id: true, name: true } } },
   });
 
   return NextResponse.json({ comment }, { status: 201 });

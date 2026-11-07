@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { authLoginService } from "@/services/auth";
 import Link from "next/link";
 import Alert from "../generic/alert";
+import { useState } from "react";
 
 export default function AuthLogin() {
   const {
@@ -45,6 +46,8 @@ export default function AuthLogin() {
   const handelLogin = async (data: LoginForms) => {
     loginMutation.mutate(data);
   };
+
+  const [showPassword,setShowPassword]=useState(false)
   return (
     <Card
       as="form"
@@ -67,6 +70,10 @@ export default function AuthLogin() {
         labelColor="white"
         msg={errors.password?.message}
         showMsg={!!errors.password?.message}
+        type={showPassword?"text":"password"}
+        endSide={
+          <Btn onClick={()=>setShowPassword(!showPassword)} icon={showPassword?"icon-eye":"icon-eye1"} type="button" variant="text" color="primary" className="h-full!" square/>
+        }
       />
 
       {!!errors.root?.message && (
@@ -80,15 +87,15 @@ export default function AuthLogin() {
         icon="icon-right-arrow"
         iconPlace="end"
       >
-        login
+        Login
       </Btn>
       <div className="text-neutral-dark text-center mt-4">
-        i don`t have an acount go to{" "}
+        i don`t have an account go to{" "}
         <Link
           href="/auth/register"
           className="text-white text-nowrap transition-all hover:text-primary-light ms-2"
         >
-          create acount
+          create account
         </Link>
       </div>
     </Card>

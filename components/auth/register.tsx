@@ -12,6 +12,7 @@ import { authRegisterService } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Alert from "../generic/alert";
+import { useState } from "react";
 
 export default function AuthRegister({
   isAdmin = false,
@@ -49,6 +50,8 @@ export default function AuthRegister({
     const role = isAdmin ? "ADMIN" : "USER";
     registerMutation.mutate({ formData: data, role });
   };
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <Card
       as="form"
@@ -79,7 +82,19 @@ export default function AuthRegister({
         labelColor="white"
         msg={errors.password?.message}
         showMsg={!!errors.password?.message}
-      />
+        type={showPassword ? "text" : "password"}
+        endSide={
+          <Btn
+            onClick={() => setShowPassword(!showPassword)}
+            icon={showPassword ? "icon-eye" : "icon-eye1"}
+            type="button"
+            variant="text"
+            color="primary"
+            className="h-full!"
+            square
+          />
+        }
+        />
       <Input
         wrapClasses="mb-6"
         {...register("confirm_password")}
@@ -87,6 +102,18 @@ export default function AuthRegister({
         labelColor="white"
         msg={errors.confirm_password?.message}
         showMsg={!!errors.confirm_password?.message}
+        type={showConfirmPassword ? "text" : "password"}
+        endSide={
+          <Btn
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            icon={showConfirmPassword ? "icon-eye" : "icon-eye1"}
+            type="button"
+            variant="text"
+            color="primary"
+            className="h-full!"
+            square
+          />
+        }
       />
 
       {!!errors.root?.message && (
@@ -100,10 +127,10 @@ export default function AuthRegister({
         icon="icon-right-arrow"
         iconPlace="end"
       >
-        login
+        Sign In
       </Btn>
       <div className="text-neutral-dark text-center text-sm mt-4">
-        i have an acount go to
+        i have an account go to
         <Link
           href="/auth/login"
           className="text-white transition-all hover:text-primary-light ms-2"

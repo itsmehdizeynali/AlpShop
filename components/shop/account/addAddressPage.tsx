@@ -7,61 +7,138 @@ import Input from "@/components/generic/input";
 import SelectBox from "@/components/generic/select";
 import Text from "@/components/generic/text";
 import Textarea from "@/components/generic/textarea";
+import type { SelectOption } from "@/components/generic/types";
+import { createAddressService } from "@/services/addresses";
+import {
+  getCitiesService,
+  getCountriesService,
+  getProvincesService,
+} from "@/services/geo";
 import {
   accountAddAddressSchema,
   type AccountAddAddressForms,
 } from "@/validations/shop/account";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm, Controller, useWatch } from "react-hook-form";
+import type { SingleValue } from "react-select";
 
 export default function ShopAccountAddAddressPage() {
-  const { register, handleSubmit, formState, setValue } =
+
+  const route=useRouter()
+
+
+  const { register, control, handleSubmit, formState } =
     useForm<AccountAddAddressForms>({
       resolver: zodResolver(accountAddAddressSchema),
+      defaultValues: {
+        countryPhoneCode: "1",
+      },
     });
+
+  const { data: countries } = useQuery({
+    queryKey: ["counrties"],
+    queryFn: getCountriesService,
+  });
+
+  const selectedCountry = useWatch({
+    control,
+    name: "country",
+  });
+  const { data: provinces } = useQuery({
+    queryKey: ["provinces", selectedCountry],
+    queryFn: () => getProvincesService(selectedCountry?.value),
+    enabled: !!selectedCountry?.value,
+  });
+  const selectedProvince = useWatch({
+    control,
+    name: "province",
+  });
+  const { data: cities } = useQuery({
+    queryKey: ["cities", selectedProvince],
+    queryFn: () => getCitiesService(selectedProvince?.value),
+    enabled: !!selectedProvince?.value,
+  });
+
+  const createAddressMutation = useMutation({
+    mutationFn: createAddressService,
+    onSuccess: () => {
+      route.push("/account/addresses")
+    },
+  });
+
   const submitFn = (data: AccountAddAddressForms) => {
-    console.log(data);
+    createAddressMutation.mutate({
+      ...data,
+      country: data.country.label,
+      province: data.province.label,
+      city: data.city.label,
+    });
   };
 
-
-  const options: { value: number; label: string }[] = [
-    {
-      value: 0,
-      label: "test 0",
-    },
-    {
-      value: 1,
-      label: "test 1",
-    },
-    {
-      value: 2,
-      label: "test 2",
-    },
-    {
-      value: 3,
-      label: "test 3",
-    },
-  ];
-  const countryPhoneCodeOptions: { value: number; label: string }[] = [
-    {
-      value: 0,
-      label: "+1",
-    },
-    {
-      value: 1,
-      label: "+2",
-    },
-    {
-      value: 99,
-      label: "+99",
-    },
-    {
-      value: 89,
-      label: "+89",
-    },
-  ];
-  console.log(formState.errors);
+  const countriesOptions: { value: number; label: string }[] = countries?.length
+    ? countries.map(
+        (country: {
+          code: string;
+          id: string;
+          name: string;
+          phoneCode: string;
+        }) => {
+          return {
+            value: country.code,
+            label: country.name,
+          };
+        },
+      )
+    : [];
+  const provincesOptions: { value: number; label: string }[] = provinces?.length
+    ? provinces.map(
+        (country: {
+          code: string;
+          id: string;
+          name: string;
+          phoneCode: string;
+        }) => {
+          return {
+            value: country.id,
+            label: country.name,
+          };
+        },
+      )
+    : [];
+  const citiesOptions: { value: number; label: string }[] = cities?.length
+    ? cities.map(
+        (country: {
+          code: string;
+          id: string;
+          name: string;
+          phoneCode: string;
+        }) => {
+          return {
+            value: country.id,
+            label: country.name,
+          };
+        },
+      )
+    : [];
+  const phoneCodeOptions: { value: number; label: string }[] = countries?.length
+    ? countries.map(
+        (country: {
+          code: string;
+          id: string;
+          name: string;
+          phoneCode: string;
+        }) => {
+          return {
+            value: country.phoneCode,
+            label: `+${country.phoneCode}`,
+            endSide: country.code,
+          };
+        },
+      )
+    : [];
 
   return (
     <div className="container my-section">
@@ -80,48 +157,72 @@ export default function ShopAccountAddAddressPage() {
           msg={formState.errors.fullName?.message}
           showMsg={!!formState.errors.fullName?.message}
         />
-        <SelectBox
-          {...register("country")}
-          label="Country"
-          className="mb-4"
-          options={options}
-          handelChange={(value: string) => setValue("country", value)}
-          formatOption={(option) => (
-            <span className="flex items-center text-sm">
-              <span className="inline-block me-3">{option.label}</span>
-            </span>
+        <Controller
+          control={control}
+          name="country"
+          render={({ field }) => (
+            <SelectBox
+              {...field}
+              label="Country"
+              className="mb-4"
+              options={countriesOptions}
+              onChange={(option: SingleValue<SelectOption>) =>
+                field.onChange(option)
+              }
+              placeholder="select country"
+              msg={formState.errors.country?.message}
+              value={field.value?.value}
+            />
           )}
-          placeholder="select country"
-          msg={formState.errors.country?.message}
-        />
-        <SelectBox
-          {...register("province")}
-          label="Province"
-          className="mb-4"
-          options={options}
-          handelChange={(value: string) => setValue("province", value)}
-          formatOption={(option) => (
-            <span className="flex items-center text-sm">
-              <span className="inline-block me-3">{option.label}</span>
-            </span>
+        ></Controller>
+        <Controller
+          control={control}
+          name="province"
+          render={({ field }) => (
+            <SelectBox
+              {...field}
+              label="Province"
+              className="mb-4"
+              options={provincesOptions}
+              onChange={(option: SingleValue<SelectOption>) =>
+                field.onChange(option)
+              }
+              placeholder="select province"
+              msg={
+                formState.errors.province?.message ||
+                (!selectedCountry ? "first select country" : undefined)
+              }
+              msgType={
+                formState.errors.province?.message ? "danger" : "warning"
+              }
+              value={field.value?.value}
+              disabled={!provincesOptions.length}
+            />
           )}
-          placeholder="select province"
-          msg={formState.errors.province?.message}
-        />
-        <SelectBox
-          {...register("city")}
-          label="City"
-          className="mb-4"
-          options={options}
-          handelChange={(value: string) => setValue("city", value)}
-          formatOption={(option) => (
-            <span className="flex items-center text-sm">
-              <span className="inline-block me-3">{option.label}</span>
-            </span>
+        ></Controller>
+        <Controller
+          control={control}
+          name="city"
+          render={({ field }) => (
+            <SelectBox
+              {...field}
+              label="City"
+              className="mb-4"
+              options={citiesOptions}
+              onChange={(option: SingleValue<SelectOption>) =>
+                field.onChange(option)
+              }
+              placeholder="select city"
+              msg={
+                formState.errors.city?.message ||
+                (!selectedProvince ? "first select province" : undefined)
+              }
+              msgType={formState.errors.city?.message ? "danger" : "warning"}
+              value={field.value?.value}
+              disabled={!citiesOptions.length}
+            />
           )}
-          placeholder="select city"
-          msg={formState.errors.city?.message}
-        />
+        ></Controller>
         <Input
           {...register("postalCode")}
           label="Postal Code"
@@ -136,17 +237,26 @@ export default function ShopAccountAddAddressPage() {
           msg={formState.errors.phone?.message}
           showMsg={!!formState.errors.phone?.message}
           startSide={
-            <SelectBox
-            {...register("countryPhoneCode")}
-              isSmall
-              className="h-11 w-11"
-              options={countryPhoneCodeOptions}
-              handelChange={(value: string) => setValue("countryPhoneCode", value)}
-              formatOption={(option) => (
-                <div>{option.label}</div>
+            <Controller
+              control={control}
+              name="countryPhoneCode"
+              render={({ field }) => (
+                <SelectBox
+                  {...field}
+                  isSmall
+                  className="h-11 w-11"
+                  options={phoneCodeOptions}
+                  onChange={(option: SingleValue<SelectOption>) =>
+                    field.onChange(option?.value)
+                  }
+                  value={String(field.value)}
+                  placeholder="+1"
+                  formatOption={(option) => (
+                    <div className="flex items-center">{option.label}</div>
+                  )}
+                />
               )}
-              placeholder="+1"
-            />
+            ></Controller>
           }
         />
         <Textarea
@@ -157,7 +267,7 @@ export default function ShopAccountAddAddressPage() {
           showMsg={!!formState.errors.addressLine?.message}
         />
 
-        <Btn type="submit" color="black" className="w-full">
+        <Btn disabled={!formState.isValid} loading={createAddressMutation.isPending} type="submit" color="black" className="w-full">
           Add
         </Btn>
       </Card>

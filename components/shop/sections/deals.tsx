@@ -11,6 +11,8 @@ import { getProductsService } from "@/services/generic";
 import type { ProductType } from "@/components/genericTypes";
 import clsx from "clsx";
 import { getSettingService } from "@/services/settings";
+import LoadingSpin from "@/components/generic/loadingSpin";
+import LoadingProductCard from "@/components/loading/productCard";
 
 export default function ShopSectionsDeals() {
   const QueryClient = useQueryClient();
@@ -66,7 +68,13 @@ export default function ShopSectionsDeals() {
           )}
         >
           {isLoading ? (
-            <span className="my-2 w-5 h-5 border-[3px] border-solid border-r-white border-b-white border-white/10 rounded-full block animate-spin m-auto"></span>
+            <div className="flex gap-1.25 overflow-hidden">
+              {
+                [0,1,2,3,4].map((item,index)=>(
+                  <LoadingProductCard spacial className="lg:w-[210px] w-[180px]" key={index}/>
+                ))
+              }
+            </div>
           ) : !data?.products ? (
             <div>
               <Btn

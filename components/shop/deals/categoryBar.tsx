@@ -1,14 +1,15 @@
 import Text from "@/components/generic/text";
 import type { CategoryItemType } from "@/components/genericTypes";
+import dataShopDeals from "@/mockData/shop/deals";
 import { getCategoriesService } from "@/services/generic";
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import Link from "next/link";
 
 export default function ShopDealsCategoryBar() {
-  const { data } = useQuery({
-    queryKey: ["categories"],
-    queryFn: ()=>getCategoriesService({}),
-  });
+  const { categories } = dataShopDeals()
+
+  
   return (
     <div className="container mb-sm-section">
       <div className="flex items-center hide-scrollbar overflow-x-auto border border-t-0 border-neutral-light rounded-lg">
@@ -20,7 +21,7 @@ export default function ShopDealsCategoryBar() {
         >
           All
         </Text>
-        {!!data&&data.map((item: CategoryItemType, index: number) => (
+        {categories.map((item, index: number) => (
           <Text
             as={Link}
             key={index}
@@ -28,7 +29,7 @@ export default function ShopDealsCategoryBar() {
             color="black"
             className="py-4 lg:px-6 px-4 flex items-center shrink-0 hover:bg-neutral-lighter transition-all"
           >
-            <i className="icon-qr-code lg:text-md text-base me-2.5"></i>
+            <i className={clsx(item.icon,"lg:text-md text-base me-2.5")}></i>
             {item.name}
           </Text>
         ))}
