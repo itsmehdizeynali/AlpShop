@@ -10,10 +10,10 @@ export default function Table<T>({
   columns,
   data,
   head = true,
-  refreshData,
   hasPagination = false,
   paginationTotal = 1,
   paginationCurrent = 1,
+  refreshData
 }: TablePropsType<T>) {
   return data?.length ? (
     <>
@@ -74,7 +74,6 @@ export default function Table<T>({
       </Card>
       {hasPagination && paginationTotal != 1 && (
         <Pagination
-          reFetch={refreshData}
           total={paginationTotal}
           current={paginationCurrent}
           className="justify-center mt-4"
@@ -85,9 +84,10 @@ export default function Table<T>({
     <div>
       <Btn
         icon="icon-refresh"
-        color="neutral"
-        className="mx-auto mb-4"
-        onClick={() => refreshData}
+        color="black"
+        variant="lightness"
+        className="mx-auto mb-2"
+        onClick={refreshData}
         rounded
         square
       />

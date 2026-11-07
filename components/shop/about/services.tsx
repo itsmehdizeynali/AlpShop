@@ -10,7 +10,7 @@ export default function ShopAboutServices() {
         Lorem ipsum dolor sit amet, consectetur adipisicing elit
       </HeaderSection>
       <div className="flex flex-wrap -m-2">
-        <div className="w-1/4 p-2">
+        <div className="md:w-1/4 sm:w-1/2 grow lg:p-2 p-1">
           <Card>
             <div className="w-12 h-12 mb-2.5 flex items-center justify-center bg-primary-light text-primary rounded-lg">
               <i className="icon-chart text-xl"></i>
@@ -23,7 +23,7 @@ export default function ShopAboutServices() {
             </Text>
           </Card>
         </div>
-        <div className="w-1/4 p-2">
+        <div className="md:w-1/4 sm:w-1/2 grow lg:p-2 p-1">
           <Card>
             <div className="w-12 h-12 mb-2.5 flex items-center justify-center bg-primary-light text-primary rounded-lg">
               <i className="icon-chart text-xl"></i>
@@ -36,7 +36,7 @@ export default function ShopAboutServices() {
             </Text>
           </Card>
         </div>
-        <div className="w-1/4 p-2">
+        <div className="md:w-1/4 sm:w-1/2 grow lg:p-2 p-1">
           <Card>
             <div className="w-12 h-12 mb-2.5 flex items-center justify-center bg-primary-light text-primary rounded-lg">
               <i className="icon-chart text-xl"></i>
@@ -49,7 +49,7 @@ export default function ShopAboutServices() {
             </Text>
           </Card>
         </div>
-        <div className="w-1/4 p-2">
+        <div className="md:w-1/4 sm:w-1/2 grow lg:p-2 p-1">
           <Card>
             <div className="w-12 h-12 mb-2.5 flex items-center justify-center bg-primary-light text-primary rounded-lg">
               <i className="icon-chart text-xl"></i>

@@ -2,32 +2,16 @@
 
 import clsx from "clsx";
 import Btn from "./btn";
-import { useEffect, useState } from "react";
 import { PaginationPropsType } from "./types";
+import {useSetParams} from "@/utils/setParams";
 
 export default function Pagination({
   total = 1,
   current = 1,
-  reFetch,
   className,
 }: PaginationPropsType) {
-  // const [totalPages, setTotalPages] = useState<number[]>([1]);
-  // useEffect(() => {
-  //   if (total >= 5) {
-  //     if (current >= 3) {
-  //       setTotalPages([1, current - 1, current, current + 1, total]);
-  //     } else {
-  //       setTotalPages([1, 2, 3, total - 1, total]);
-  //     }
-  //   }
-  //   const totalArray:number[] = [1];
-  //   Array.from({ length: total }, (_, i) => i + 1).map((num) =>
-  //     totalArray.push(num)
-  //   );
-  //   if(totalArray.length){
-  //     setTotalPages(totalArray);
-  //   }
-  // }, []);
+  const {setParam}=useSetParams();
+
   const totalPages = (() => {
     if (total < 5) {
       return Array.from({ length: total }, (_, i) => i + 1);
@@ -46,12 +30,17 @@ export default function Pagination({
 
   const handlePrev = () => {
     if (current !== 1) {
-      reFetch(current - 1);
+      setParam("page", String(current - 1));
     }
   };
   const handleNext = () => {
     if (current !== total) {
-      reFetch(current + 1);
+      setParam("page", String(current + 1));
+    }
+  };
+  const handleClick = (num:number) => {
+    if (current !== num) {
+      setParam("page", String(num));
     }
   };
 
@@ -82,7 +71,7 @@ export default function Pagination({
           color={item === current ? "primary" : "black"}
           variant={item === current ? "normal" : "lightness"}
           size="sm"
-          onClick={() => reFetch(item)}
+          onClick={() => handleClick(item)}
         >
           {item}
         </Btn>

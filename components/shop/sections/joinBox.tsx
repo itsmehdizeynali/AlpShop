@@ -3,6 +3,7 @@ import Heading from "@/components/generic/heading";
 import Input from "@/components/generic/input";
 import Text from "@/components/generic/text";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ShopSectionsJoinBox() {
   return (
@@ -26,7 +27,7 @@ export default function ShopSectionsJoinBox() {
             placeholder="Enter Your Email Address"
             className="border-0"
             color="white"
-            endSide={<Btn>subscribe</Btn>}
+            endSide={<Btn as={Link} href="/auth/login">subscribe</Btn>}
           />
         </div>
         <div className="w-full relative max-md:hidden">

@@ -9,38 +9,76 @@ import clsx from "clsx";
 export default function LayoutCategoryModalListItem({
   item,
   className,
+  closeModal,
 }: CategoryModalListItemPropsType) {
   const [showChildrens, setShowChildrens] = useState(false);
 
   return (
     <li
       className={clsx(
-        "bg-neutral-lighter rounded-lg hover:bg-primary-light transition-all overflow-hidden",
+        "bg-neutral-lighter group rounded-lg hover:bg-primary-light transition-all overflow-hidden",
         { "bg-primary-light": showChildrens },
         className,
       )}
     >
       <Text
-        onClick={() => setShowChildrens(!showChildrens)}
         color="black"
-        href={!!item?.childrens ? undefined : item?.href}
-        as={!!item?.childrens ? "div" : Link}
-        className="flex items-center p-3 cursor-pointer"
+        href={
+          !!item?.children?.length
+            ? undefined
+            : `/products?category=${item?.slug}`
+        }
+        as={!!item?.children?.length ? "div" : Link}
+        className="flex cursor-pointer"
       >
-        <i className="icon-tag me-2"></i>
-        {item?.name}
-        <i
+        <Text
+          onClick={() => {
+            closeModal();
+          }}
+          color="black"
+          href={
+            !!item?.children?.length
+              ? `/products?category=${item?.slug}`
+              : undefined
+          }
+          as={!item?.children?.length ? "div" : Link}
+          className="flex items-center p-3 grow"
+        >
+          <i className="icon-tag me-2"></i>
+          {item?.name}
+        </Text>
+        <div
+          onClick={() => {
+            setShowChildrens(!showChildrens);
+            if (!item?.children?.length) {
+              closeModal();
+            }
+          }}
           className={clsx(
-            !!item?.childrens ? "icon-down" : "icon-right-arrow",
-            { "rotate-180": showChildrens },
-            "icon-down text-xxs ms-auto transition-all",
+            "w-11 flex items-center justify-center shrink-0 transition-all",
+            {
+              "hover:bg-primary/10 group-hover:bg-primary/5":
+                !!item?.children?.length,
+            },
+            {
+              "bg-primary/5": showChildrens,
+            },
           )}
-        ></i>
+        >
+          <i
+            className={clsx(
+              !!item?.children?.length ? "icon-down" : "icon-right-arrow",
+              { "rotate-180": showChildrens },
+              "icon-down text-xxs transition-all",
+            )}
+          ></i>
+        </div>
       </Text>
-      {!!item?.childrens && showChildrens && (
+      {!!item?.children?.length && showChildrens && (
         <ul>
-          {item?.childrens.map((children, index) => (
+          {item?.children.map((children, index) => (
             <LayoutCategoryModalListItem
+              closeModal={closeModal}
               className="ps-2 rounded-none"
               item={children}
               key={index}

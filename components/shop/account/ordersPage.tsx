@@ -1,16 +1,22 @@
 "use client";
 
-import Card from "@/components/generic/card";
 import HeaderSection from "@/components/generic/headerSection";
 import Table from "@/components/generic/table";
 import type { TableColumnsType, TableDataType } from "./types";
 import Link from "next/link";
-import Image from "next/image";
 import Chip from "@/components/generic/chip";
 import Price from "@/components/generic/price";
 import Btn from "@/components/generic/btn";
+import useFormatDate from "@/utils/format-date";
+import { getOrdersService } from "@/services/account";
+import useStatus from "@/utils/setStatus";
+import { useQuery } from "@tanstack/react-query";
+import type { orderType } from "@/components/genericTypes";
+import LoadingTableOrder from "@/components/loading/tableOrder";
+import useFormatNumber from "@/utils/format-number";
 
 export default function ShopAccountOrdersPage() {
+  const {formatNumber}=useFormatNumber()
   const columns: TableColumnsType<TableDataType>[] = [
     {
       key: "order",
@@ -32,7 +38,7 @@ export default function ShopAccountOrdersPage() {
     {
       key: "total",
       label: "total",
-      renderCell: (row) => <Price>{row.total}</Price>,
+      renderCell: (row) => <Price>{formatNumber(row.total)}</Price>,
     },
     {
       key: "actions",
@@ -53,37 +59,46 @@ export default function ShopAccountOrdersPage() {
       ),
     },
   ];
-  const data: TableDataType[] = [
-    {
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "/5637578",
-    },
-    {
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "/5637578",
-    },
-    {
-      order: "#5637578",
-      date: "2026/05/27",
-      status: { title: "cancelled", color: "danger" },
-      total: 525.65,
-      actions: "/5637578",
-    },
-  ];
+  const { data: orders, isLoading: loadingOrders,refetch } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrdersService,
+  });
+  const { getFormatDateToDay } = useFormatDate();
+  const { setColor } = useStatus();
+  const data: TableDataType[] | undefined = !!orders?.orders
+    ? orders?.orders.map((order: orderType) => {
+        return {
+          images: order.items.map((item) => item.product.images[0].url),
+          order: order.orderNumber,
+          date: getFormatDateToDay(order.createdAt),
+          status: { title: order.status, color: setColor(order.status) },
+          total: order.total,
+          actions: order.id,
+        } as TableDataType;
+      })
+    : undefined;
 
-  const refreshData = () => {};
   return (
     <div className="container my-section">
       <HeaderSection size="h2" className="mb-sm-section" shape>
         Orders
       </HeaderSection>
-        <Table columns={columns} data={data} hasPagination paginationTotal={10} paginationCurrent={2} refreshData={refreshData} />
+      {loadingOrders ? (
+        <div>
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+            <LoadingTableOrder className="mb-2 last:mb-0 py-3" key={index} />
+          ))}
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          data={data}
+          hasPagination
+          paginationTotal={orders?.pagination?.totalPages}
+          paginationCurrent={orders?.pagination?.page}
+          refreshData={refetch}
+        />
+      )}
     </div>
   );
 }

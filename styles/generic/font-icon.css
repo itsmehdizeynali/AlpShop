@@ -24,6 +24,93 @@
 }
 
 
+.icon-drill:before {
+  content: "\e910";
+}
+.icon-gadgets:before {
+  content: "\e92e";
+}
+.icon-costume:before {
+  content: "\e930";
+}
+.icon-woman:before {
+  content: "\e931";
+}
+.icon-cosmetics:before {
+  content: "\e959";
+}
+.icon-phone1:before {
+  content: "\e92d";
+}
+.icon-phone-ringing:before {
+  content: "\e94f";
+}
+.icon-refresh:before {
+  content: "\e9f8";
+}
+.icon-down-arrow1:before {
+  content: "\ea0d";
+}
+.icon-up-arrow1:before {
+  content: "\ea0e";
+}
+.icon-right-arrow2:before {
+  content: "\ea0f";
+}
+.icon-left-arrow1:before {
+  content: "\ea10";
+}
+.icon-layout:before {
+  content: "\ea73";
+}
+.icon-share:before {
+  content: "\ea78";
+}
+.icon-price-tag:before {
+  content: "\eac0";
+}
+.icon-edit2:before {
+  content: "\ebc7";
+}
+.icon-delete:before {
+  content: "\ebe8";
+}
+.icon-user1:before {
+  content: "\efc3";
+}
+.icon-heart1:before {
+  content: "\ec47";
+}
+.icon-heart:before {
+  content: "\ec48";
+}
+.icon-dislike:before {
+  content: "\ec53";
+}
+.icon-like:before {
+  content: "\ec54";
+}
+.icon-whatsapp:before {
+  content: "\ec81";
+}
+.icon-eye:before {
+  content: "\ed14";
+}
+.icon-eye1:before {
+  content: "\ed13";
+}
+.icon-wall-clock:before {
+  content: "\ed4c";
+}
+.icon-location:before {
+  content: "\edf8";
+}
+.icon-logout1:before {
+  content: "\ee9b";
+}
+.icon-checked-circle:before {
+  content: "\eeb9";
+}
 .icon-telephone:before {
   content: "\e952";
 }
@@ -41,9 +128,6 @@
 }
 .icon-exchange:before {
   content: "\e958";
-}
-.icon-heart1:before {
-  content: "\e959";
 }
 .icon-send1:before {
   content: "\e95a";
@@ -65,9 +149,6 @@
 }
 .icon-cross-out-mark:before {
   content: "\e960";
-}
-.icon-next:before {
-  content: "\e961";
 }
 .icon-bag:before {
   content: "\e962";
@@ -93,9 +174,6 @@
 .icon-messenger-1:before {
   content: "\e969";
 }
-.icon-hangouts:before {
-  content: "\e96a";
-}
 .icon-linkedin:before {
   content: "\e96b";
 }
@@ -105,29 +183,14 @@
 .icon-plus:before {
   content: "\e96d";
 }
-.icon-add:before {
-  content: "\e96e";
-}
 .icon-minus:before {
   content: "\e96f";
-}
-.icon-line:before {
-  content: "\e970";
-}
-.icon-check1:before {
-  content: "\e971";
-}
-.icon-bucket:before {
-  content: "\e972";
 }
 .icon-hamburger-svgrepo-com:before {
   content: "\e973";
 }
 .icon-search-svgrepo-com-2:before {
   content: "\e974";
-}
-.icon-right-arrow-2:before {
-  content: "\e975";
 }
 .icon-seen:before {
   content: "\e955";
@@ -234,18 +297,6 @@
 .icon-database:before {
   content: "\e92c";
 }
-.icon-bottom-left:before {
-  content: "\e92d";
-}
-.icon-refresh:before {
-  content: "\e92e";
-}
-.icon-bottom-right:before {
-  content: "\e930";
-}
-.icon-top-left:before {
-  content: "\e931";
-}
 .icon-ticket:before {
   content: "\e932";
 }
@@ -315,9 +366,6 @@
 .icon-send:before {
   content: "\e94e";
 }
-.icon-heart:before {
-  content: "\e94f";
-}
 .icon-security-shield:before {
   content: "\e92f";
 }
@@ -368,9 +416,6 @@
 }
 .icon-settings:before {
   content: "\e950";
-}
-.icon-trash:before {
-  content: "\e910";
 }
 .icon-add-circle1:before {
   content: "\e94b";

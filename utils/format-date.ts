@@ -1,10 +1,14 @@
 import { format } from "date-fns";
 
-const getFormatDate=(date:string)=>{
-    return format(new Date(date), "HH:mm")
-}
-export const getFormatDateSecondary=(date:string)=>{
-    return format(new Date(date), "MM/dd/yyy: HH:mm")
-}
 
-export default getFormatDate
+const useFormatDate=()=>{
+
+    const getFormatDateToHours=(date:string)=>{
+        return format(new Date(date), "HH:mm")
+    }
+    const getFormatDateToDay=(date:string)=>{
+        return format(new Date(date), "dd/MM/yyy")
+    }
+    return {getFormatDateToHours,getFormatDateToDay}
+}
+export default useFormatDate

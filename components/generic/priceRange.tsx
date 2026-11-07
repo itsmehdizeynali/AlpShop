@@ -7,8 +7,8 @@ import type { PriceRangePropsType } from "./types";
 
 export default function PriceRange({
   min = 0,
-  step = 10,
   max = 100,
+  onChange,
 }: PriceRangePropsType) {
   const [values, setValues] = useState([min, max]);
 
@@ -22,10 +22,12 @@ export default function PriceRange({
       <div className="px-1.5">
         <Range
           values={values}
-          step={step}
           min={min}
           max={max}
-          onChange={(values: number[]) => setValues(values)}
+          onChange={(values: number[]) => {
+            setValues(values);
+            onChange(values);
+          }}
           renderTrack={({ props, children }) => (
             <div
               {...props}

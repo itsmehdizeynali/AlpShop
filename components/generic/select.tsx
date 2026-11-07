@@ -1,41 +1,78 @@
 "use client";
-import { useState } from "react";
-import Select, { SingleValue } from "react-select";
+import { useLayoutEffect, useState } from "react";
+import Select from "react-select";
 import Text from "./text";
 import clsx from "clsx";
-import { SelectBoxPropsType, SelectOption } from "./types";
-
-export default function SelectBox<T>({
+import { SelectBoxPropsType } from "./types";
+import Alert from "./alert";
+export default function SelectBox({
+  isSmall = false,
   label,
   options,
-  formatOption,
-  endSideLabel,
   className = "",
-}: SelectBoxPropsType<T>) {
-  const [selectedOption, setSelectedOption] = useState<
-    SingleValue<SelectOption<T>>
-  >(options[0] ?? null);
+  loading = false,
+  disabled = false,
+  onChange,
+  value,
+  placeholder,
+  msgType = "danger",
+  msg,
+  endSideLabel,
+  formatOption
+}: SelectBoxPropsType) {
+  const [isClient, setIsClient] = useState(false);
 
+  useLayoutEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const placeholderTxt = {
+    default: placeholder,
+    loading: "loading ...",
+    disabled: "...",
+  };
+
+  const selectedOption=options.find((item)=>item.value===value)
+
+
+  if (!isClient) return null; // Prevent SSR rendering
   return (
-    <div className={clsx("select-wrap", className)}>
-      <div className="w-full mb-1.5 flex items-center justify-between">
-        <Text as="label" size="sm" htmlFor="" className="block">
-          {label}
-        </Text>
-        {endSideLabel}
-      </div>
+    <div
+      className={clsx("select-wrap", className, {
+        "mini-select-wrap": isSmall,
+      })}
+    >
+      {(endSideLabel || label) && (
+        <div className="w-full mb-1.5 flex items-center justify-between">
+          <Text as="label" color="black" size="sm" className="block">
+            {label}
+          </Text>
+          {endSideLabel}
+        </div>
+      )}
       <Select
         value={selectedOption}
-        onChange={setSelectedOption}
+        onChange={(option)=>onChange(option)}
         options={options}
-        getOptionLabel={(option: SelectOption<T>) => option.label}
-        formatOptionLabel={(option) =>
-          formatOption ? formatOption(option) : option.label
-        }
-        getOptionValue={(option: SelectOption<T>) => String(option.value)} // Ensures unique values
-        className="react-select-container"
         classNamePrefix="react-select"
+        isDisabled={disabled}
+        isLoading={loading}
+        placeholder={
+          placeholderTxt[
+            disabled ? "disabled" : loading ? "loading" : "default"
+          ]
+        }
+        menuPortalTarget={isClient ? document.body : null}
+        menuPosition="fixed"
+        menuShouldBlockScroll={true}
+        className="react-select-container"
+        formatOptionLabel={(option)=>!!formatOption?formatOption(option):option.label}
       />
+      {!!msg && (
+        <Alert color={msgType} variant="text" className="mt-2">
+          {msg}
+        </Alert>
+      )}
     </div>
   );
 }

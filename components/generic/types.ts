@@ -1,7 +1,14 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { SingleValue } from "react-select";
 
 // ALERT
-export type AlertColors = "info" | "success" | "danger" | "warning" | "primary"|"black";
+export type AlertColors =
+  | "info"
+  | "success"
+  | "danger"
+  | "warning"
+  | "primary"
+  | "black";
 export type AlertVarients = "filled" | "lightness" | "text";
 export type AlertSizes = "sm" | "base";
 export type AlertPropsType = Partial<{
@@ -72,6 +79,7 @@ export type CardPropsType<T extends ElementType> = Partial<{
   className: string;
   hasBorder: boolean;
   hasHover: boolean;
+  loading: boolean;
 }> &
   ComponentPropsWithoutRef<T>;
 
@@ -83,19 +91,21 @@ export type ChipColors =
   | "success"
   | "primary"
   | "secondary"
-  | "neutral";
+  | "neutral"
+  | "black";
 export type ChipVarients = "filled" | "lightness" | "outline";
 export type ChipSizes = "sm" | "base";
-export type ChipPropsType<T extends ElementType>= Partial<{
+export type ChipPropsType<T extends ElementType> = Partial<{
   children: ReactNode;
   variant: ChipVarients;
   size: ChipSizes;
   color: ChipColors;
   className: string;
   icon: string;
-  rounded:boolean;
-  as:ElementType;
-}> & ComponentPropsWithoutRef<T>;
+  rounded: boolean;
+  as: ElementType;
+}> &
+  ComponentPropsWithoutRef<T>;
 
 // HEADING
 export type HeadingVarients = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -121,10 +131,16 @@ export type InputPropsType = Partial<{
   msgType: AlertColors;
   msg: string | null;
   defaultValue: string;
-  labelColor:TextColorsType;
+  labelColor: TextColorsType;
   rounded: boolean;
+  hasFocus: boolean;
+  list?: {
+    active?: string;
+    items: string[];
+    onSelect: (value: string) => void;
+  };
 }> &
-  ComponentPropsWithoutRef<"input">;
+  Omit<ComponentPropsWithoutRef<"input">, "list">;
 
 // LOGO
 export type LogoPropsType = Partial<{
@@ -137,7 +153,6 @@ export type LogoPropsType = Partial<{
 export type PaginationPropsType = {
   total?: number;
   current?: number;
-  reFetch: (num: number) => void;
   className?: string;
 };
 
@@ -156,19 +171,26 @@ export type HeaderSectionPropsType = Partial<{
   ComponentPropsWithoutRef<"div">;
 
 // SELECT-BOX
-export type SelectOption<T> = {
+export type SelectOption= {
   label: string;
   value: string | number;
-  status?: T;
-  statusText?: string;
+  endSide?: string;
 };
 
-export type SelectBoxPropsType<T> = {
+export type SelectBoxPropsType = {
   label?: string;
-  options: SelectOption<T>[];
+  options: SelectOption[];
   endSideLabel?: ReactNode;
   className?: string;
-  formatOption?: (option: SelectOption<T>) => ReactNode;
+  msgType?: AlertColors;
+  msg?: string;
+  onChange: (option: SingleValue<SelectOption>) => void;
+  placeholder?: string;
+  isSmall?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
+  value: string;
+  formatOption?:(option:SelectOption)=> ReactNode
 };
 
 // TABLE
@@ -180,9 +202,9 @@ export type TableColumnsType<T> = {
 
 export type TablePropsType<T> = {
   columns: TableColumnsType<T>[];
-  data: T[];
+  data?: T[];
   head?: boolean;
-  refreshData: (num: number) => void;
+  refreshData: () => void;
   hasPagination?: boolean;
   paginationTotal?: number;
   paginationCurrent?: number;
@@ -233,7 +255,7 @@ export type TextareaPropsType = Partial<{
   msgType: AlertColors;
   msg: string | null;
   defaultValue: string;
-}>;
+}>&ComponentPropsWithoutRef<"textarea">;
 
 // PRICE
 export interface PricePropsType {
@@ -245,8 +267,8 @@ export interface PricePropsType {
 // PRICE-RANGE
 export interface PriceRangePropsType {
   min: number;
-  step: number;
   max: number;
+  onChange: (range: number[]) => void;
 }
 
 // COUNTDOWN
@@ -270,7 +292,16 @@ export type BackdropPropsType = {
 // CHECKBOX
 export type CheckboxPropsType = {
   name: string;
-  className: string;
+  slug: string;
+  className?: string;
+  checked?: boolean;
+  changeSelectedList: ({
+    type,
+    slug,
+  }: {
+    type: "add" | "remove";
+    slug: string;
+  }) => void;
 } & ComponentPropsWithoutRef<"li">;
 
 // ACCORDION
@@ -283,9 +314,10 @@ export type AccordionPropsType = Partial<{
 
 // ACCORDION
 export type CounterPropsType = {
-  loading?: boolean;
   min?: number;
   max?: number;
   num: number;
   className?: string;
+  queryKeys?: string[];
+  productId: string;
 } & ComponentPropsWithoutRef<"div">;

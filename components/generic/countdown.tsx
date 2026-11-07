@@ -51,18 +51,11 @@ export default function Countdown({
     return () => clearInterval(timer);
   }, [endDate]);
 
-  const isFinished =
-    timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
-
-  if (isFinished) {
-    return <Text color="danger">sale has ended</Text>;
-  }
-
   return (
     <div className={clsx("flex items-center gap-2", className)}>
-      <CountdownTimeBox color={color} value={timeLeft.hours} label="Hours" />
-      <CountdownTimeBox color={color} value={timeLeft.minutes} label="Mins" />
-      <CountdownTimeBox color={color} value={timeLeft.seconds} label="Secs" />
+      <CountdownTimeBox color={color} value={timeLeft.hours||0} label="Hours" />
+      <CountdownTimeBox color={color} value={timeLeft.minutes||0} label="Mins" />
+      <CountdownTimeBox color={color} value={timeLeft.seconds||0} label="Secs" />
     </div>
   );
 }

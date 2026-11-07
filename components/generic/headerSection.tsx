@@ -18,14 +18,14 @@ export default function HeaderSection({
   return (
     <div
       className={clsx(
-        "flex sm:items-center items-start",
+        "flex sm:items-center items-start gap-2",
         { "pb-2 border-b border-b-neutral-light": border },
         className,
       )}
       {...props}
     >
       <div
-        className={clsx("me-2 flex max-sm:flex-wrap max-sm:gap-2", {
+        className={clsx("flex max-sm:flex-wrap max-sm:gap-2", {
           "border-s-4 border-primary lg:ps-3.5 ps-2 grow": shape,
         })}
       >
@@ -42,7 +42,7 @@ export default function HeaderSection({
           size="sm"
           icon="icon-right-arrow"
           iconPlace="end"
-          className="max-lg:text-xxs max-lg:border-none max-lg:px-0 shrink-0 max-lg:hover:bg-transparent"
+          className="max-lg:text-xxs ms-auto max-lg:border-none max-lg:px-0 shrink-0 max-lg:hover:bg-transparent"
           variant="outline-lightness"
           as={Link}
           href={link}

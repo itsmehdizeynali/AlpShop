@@ -54,6 +54,8 @@
   --success: #2ebd62;
   --success-dark: #199a49;
   --success-light: #d5fff2;
+
+  --loading: #ebe6e7;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -136,7 +138,9 @@
   --color-primary: var(--primary);
   --color-primary-light: var(--primary-light);
   --color-primary-dark: var(--primary-dark);
-
+  
+  
+  --color-loading: var(--loading);
 
   /* Breakpoints */
   --breakpoint-sm: 576px;

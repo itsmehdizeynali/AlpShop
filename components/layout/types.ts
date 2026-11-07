@@ -1,25 +1,21 @@
+import type { CategoryItemType } from "../genericTypes";
+
 export interface CategoryModalListItemPropsType {
-  item: {
-    name: string;
-    href: string;
-    childrens?: {
-      name: string;
-      href: string;
-    }[];
-  };
-  className?:string
+  item: CategoryItemType;
+  className?: string;
+  closeModal: () => void;
 }
 export interface CategoryModalPropsType {
-  closeModal: ()=>void;
-  isOpenModal:boolean
+  closeModal: () => void;
+  isOpenModal: boolean;
 }
 
 export interface ToolbarPropsType {
-  className:string
+  className: string;
 }
 export interface HeaderPropsType {
-  className:string
+  className: string;
 }
 export interface FooterPropsType {
-  className:string
+  className: string;
 }

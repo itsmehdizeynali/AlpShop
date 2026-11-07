@@ -1,4 +1,5 @@
 import type { ChipColors } from "@/components/generic/types";
+import type { OrderStatusesType, orderType } from "@/components/genericTypes";
 import type { ReactNode } from "react";
 
 export type TableColumnsType<T> = {
@@ -8,13 +9,21 @@ export type TableColumnsType<T> = {
 };
 
 
-export type TableDataStatusesType="cancelled"|"delivered"|"shipped"|"returned";
-
 export type TableDataType= {
-  img?: string;
+  images?: string[];
+  reason?: string;
   order: string;
   date: string;
-  status: { title: TableDataStatusesType; color: ChipColors };
+  status: { title: OrderStatusesType; color: ChipColors };
   total: number;
   actions: string;
+}
+
+
+export interface ReturnRequestType {
+  order:orderType
+createdAt:string
+status:OrderStatusesType
+reason:string
+id:string
 }

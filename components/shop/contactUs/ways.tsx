@@ -107,7 +107,7 @@ export default function ShopContactUsWays() {
               <div className="flex">
                 <Btn
                   as={Link}
-                  href="/"
+                  href="https://www.instagram.com/__mehdizeynali?stkn=MXEwZDJ2eGJtZ2Vz"
                   className="me-1 last:me-0"
                   icon="icon-instagram"
                   size="sm"
@@ -117,7 +117,7 @@ export default function ShopContactUsWays() {
                 />
                 <Btn
                   as={Link}
-                  href="/"
+                  href="https://x.com/_mehdizeynali"
                   className="me-1 last:me-0"
                   icon="icon-twitter"
                   size="sm"
@@ -127,9 +127,9 @@ export default function ShopContactUsWays() {
                 />
                 <Btn
                   as={Link}
-                  href="/"
+                  href="https://wa.link/oj5vzh"
                   className="me-1 last:me-0"
-                  icon="icon-messenger"
+                  icon="icon-whatsapp"
                   size="sm"
                   color="black"
                   square
@@ -137,7 +137,7 @@ export default function ShopContactUsWays() {
                 />
                 <Btn
                   as={Link}
-                  href="/"
+                  href="https://t.me/mehdi_zeynali_08"
                   className="me-1 last:me-0"
                   icon="icon-send1"
                   size="sm"
