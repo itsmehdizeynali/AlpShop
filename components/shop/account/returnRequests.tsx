@@ -9,15 +9,12 @@ import type {
 } from "./types";
 import Link from "next/link";
 import Chip from "@/components/generic/chip";
-import Price from "@/components/generic/price";
 import Btn from "@/components/generic/btn";
 import useFormatDate from "@/utils/format-date";
 import useStatus from "@/utils/setStatus";
-import type { orderType } from "@/components/genericTypes";
 import { useQuery } from "@tanstack/react-query";
 import { getReturnRequestsService } from "@/services/account";
 import LoadingTableOrder from "@/components/loading/tableOrder";
-import Text from "@/components/generic/text";
 
 export default function ShopReturnRequestsPage() {
   const columns: TableColumnsType<TableDataType>[] = [
@@ -66,10 +63,9 @@ export default function ShopReturnRequestsPage() {
     isLoading: loadingOrders,
     refetch,
   } = useQuery({
-    queryKey: ["orders"],
+    queryKey: ["return_requests"],
     queryFn: getReturnRequestsService,
   });
-  console.log(requestsData);
 
   const { getFormatDateToDay } = useFormatDate();
   const { setColor } = useStatus();

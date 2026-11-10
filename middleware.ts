@@ -11,12 +11,11 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("access")?.value;
 
   // مسیرهای تحت حفاظت ادمین و کاربران عادی
-  const isAdminRoute = pathname.startsWith("/panel/admin");
-  const isDashboardRoute = pathname.startsWith("/panel");
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isShopRoute = pathname.startsWith("/");
   const isAuthRoute = pathname.startsWith("/auth")
-
   // ۲. اگر کاربر می‌خواهد به صفحات محافظت‌شده برود
-  if (isAdminRoute || isDashboardRoute) {
+  if (isAdminRoute || isShopRoute) {
     if (!token) {
       // اگر توکن وجود نداشت، ریدایرکت به صفحه لاگین
       return NextResponse.redirect(new URL("/auth/login", request.url));
@@ -30,7 +29,7 @@ export async function middleware(request: NextRequest) {
       // بررسی دسترسی ادمین
       if (isAdminRoute && userRole !== "ADMIN") {
         // اگر روت ادمین بود ولی نقش کاربر ADMIN نبود، هدایت به صفحه معمولی یا ۴۰۳
-        return NextResponse.redirect(new URL("/panel", request.url));
+        return NextResponse.redirect(new URL("/", request.url));
       }
     } catch (error) {
       // اگر توکن منقضی یا نامعتبر بود، کوکی را پاک کن و بفرستش لاگین
@@ -44,9 +43,11 @@ export async function middleware(request: NextRequest) {
   if (isAuthRoute && token) {
     try {
       const { payload } = await jose.jwtVerify(token, JWT_SECRET);
+     
+      
       if (payload.userId) {
         // هدایت مستقیم به داشبورد چون قبلاً لاگین شده است
-        return NextResponse.redirect(new URL("/panel", request.url));
+        return NextResponse.redirect(new URL("/", request.url));
       }
     } catch {
       // توکن نامعتبر است، اجازه بده صفحه لاگین باز شود

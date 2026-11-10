@@ -4,8 +4,8 @@ import { Navigation } from "swiper/modules";
 import clsx from "clsx";
 import WidgetProductCard from "@/components/widget/productCard";
 import type { ProductsWrapPropsType } from "./types";
-import LoadingSpin from "@/components/generic/loadingSpin";
 import LoadingProductCard from "@/components/loading/productCard";
+import Text from "@/components/generic/text";
 
 export default function ShopSectionsProductsWrap({
   headerTitle,
@@ -36,7 +36,7 @@ export default function ShopSectionsProductsWrap({
               />
             ))}
           </div>
-        ) : (
+        ) : !!products ? (
           <Swiper
             className="max-lg:!overflow-visible"
             modules={[Navigation]}
@@ -57,16 +57,14 @@ export default function ShopSectionsProductsWrap({
             navigation
             spaceBetween={8}
           >
-            {!!products &&
-              products.map((item, index: number) => (
-                <SwiperSlide
-                  key={index}
-                  className="max-lg:max-w-[170px] !h-auto"
-                >
-                  <WidgetProductCard product={item} queryKeys={queryKeys} />
-                </SwiperSlide>
-              ))}
+            {products.map((item, index: number) => (
+              <SwiperSlide key={index} className="max-lg:max-w-[170px] !h-auto">
+                <WidgetProductCard product={item} queryKeys={queryKeys} />
+              </SwiperSlide>
+            ))}
           </Swiper>
+        ) : (
+          <Text className="flex justify-center items-center py-20 bg-neutral-lighter rounded-lg">No product found!</Text>
         )}
       </div>
     </div>

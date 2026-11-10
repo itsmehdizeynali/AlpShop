@@ -4,7 +4,6 @@ import Btn from "@/components/generic/btn";
 import Card from "@/components/generic/card";
 import Heading from "@/components/generic/heading";
 import Text from "@/components/generic/text";
-import type { AddressType } from "@/components/genericTypes";
 import LoadingAddressCard from "@/components/loading/addressCard";
 import WidgetAdderessCard from "@/components/widget/addressCard";
 import {
@@ -12,12 +11,10 @@ import {
   removeAddressService,
   updateAddressService,
 } from "@/services/addresses";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 export default function ShopAccountAddressesPage() {
-  const QueryClient = useQueryClient();
   const { data: addresses, isLoading,refetch } = useQuery({
     queryKey: ["Addresses"],
     queryFn: getAddressesService,
@@ -25,13 +22,13 @@ export default function ShopAccountAddressesPage() {
   const removeAddressMutation = useMutation({
     mutationFn: removeAddressService,
     onSuccess: () => {
-      QueryClient.invalidateQueries({ queryKey: ["Addresses"] });
+      refetch()
     },
   });
   const selectAddressMutation = useMutation({
     mutationFn: updateAddressService,
     onSuccess: () => {
-      QueryClient.invalidateQueries({ queryKey: ["Addresses"] });
+      refetch()
     },
   });
 

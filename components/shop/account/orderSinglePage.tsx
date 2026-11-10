@@ -4,9 +4,9 @@ import HeaderSection from "@/components/generic/headerSection";
 import Link from "next/link";
 import Chip from "@/components/generic/chip";
 import Price from "@/components/generic/price";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
-import { getOrderService, requestReturnService } from "@/services/account";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { getOrderService } from "@/services/account";
 import Card from "@/components/generic/card";
 import type { ProductType } from "@/components/genericTypes";
 import Image from "next/image";
@@ -16,9 +16,8 @@ import LoadingOrder from "@/components/loading/order";
 import Btn from "@/components/generic/btn";
 import useStatus from "@/utils/setStatus";
 import useFormatNumber from "@/utils/format-number";
-import ShopModal from "../generic/modal";
-import Textarea from "@/components/generic/textarea";
 import { useState } from "react";
+import ShopAccountReturnRequestModal from "./returnRequestModal";
 
 export default function ShopAccountOrderSinglePage() {
   const { id } = useParams();
@@ -28,47 +27,12 @@ export default function ShopAccountOrderSinglePage() {
     queryFn: () => getOrderService(id as string),
   });
 
-  const router = useRouter();
-
-  const returnRequestMutation = useMutation({
-    mutationFn: ({ orderId, reason }: { orderId: string; reason: string }) =>
-      requestReturnService({ orderId, reason }),
-    onSuccess: (data) => {
-      console.log(data);
-      router.push("/account");
-    },
-  });
-
-  const { setColor } = useStatus();
-
   const [showModal, setShowModal] = useState(false);
-
-  const [reason, setReason] = useState<string>("");
-  const returnFormSubmitFn = () => {
-    returnRequestMutation.mutate({ orderId: id as string, reason });
-  };
+  const { setColor } = useStatus();
 
   return (
     <div className="container my-section">
-      <ShopModal
-        header="Return Request"
-        isOpenModal={showModal}
-        closeModal={() => setShowModal(false)}
-        central
-      >
-        <Textarea
-          onChange={(e) => setReason(e.target.value)}
-          label="Reason for return"
-          wrapClasses="mb-3"
-        />
-        <Btn
-          color="danger"
-          onClick={returnFormSubmitFn}
-          disabled={!reason.length}
-        >
-          Return Request
-        </Btn>
-      </ShopModal>
+      <ShopAccountReturnRequestModal showModal={showModal} setShowModal={setShowModal} id={id as string}/>
       <HeaderSection
         className="mb-sm-section"
         shape

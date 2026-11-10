@@ -10,7 +10,6 @@ export default function Card<T extends ElementType>({
   className = "",
   hasBorder = false,
   hasHover = false,
-  loading=false,
   ...props
 }: CardPropsType<T>) {
   const colors = {

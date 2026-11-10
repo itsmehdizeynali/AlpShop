@@ -6,14 +6,12 @@ import Pagination from "@/components/generic/pagination";
 import ShopDealsHero from "./hero";
 import ShopDealsCategoryBar from "./categoryBar";
 import { getProductsService } from "@/services/generic";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import LoadingSpin from "@/components/generic/loadingSpin";
 import LoadingProductCard from "@/components/loading/productCard";
 
 export default function ShopDealsPage() {
-  const QueryClient = useQueryClient();
   const params = useSearchParams();
 
   // params
@@ -25,7 +23,7 @@ export default function ShopDealsPage() {
   const page = params.get("page");
 
   // products
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["deals_products"],
     queryFn: () =>
       getProductsService({
@@ -40,7 +38,7 @@ export default function ShopDealsPage() {
   });
 
   useEffect(() => {
-    QueryClient.invalidateQueries({ queryKey: ["deals_products"] });
+    refetch();
   }, [page, search, category, brand, maxPrice, minPrice]);
 
   return (

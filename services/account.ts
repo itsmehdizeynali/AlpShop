@@ -1,6 +1,6 @@
 import API_ENDPOINTS from "@/constants/api/endpoints";
 import apiClient from "./apiClient";
-import type { orderType, statsDataType } from "@/components/genericTypes";
+import type { statsDataType } from "@/components/genericTypes";
 
 export const getProfileService = async () => {
   const response = await apiClient.get(API_ENDPOINTS.PROFILE);

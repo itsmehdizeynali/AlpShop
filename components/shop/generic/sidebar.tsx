@@ -268,8 +268,8 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
                 </Heading>
                 <div className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
                   <PriceRange
-                    min={price.min}
-                    max={price.max}
+                    min={minPrice||price.min}
+                    max={maxPrice||price.max}
                     onChange={changePriceRange}
                   />
                 </div>

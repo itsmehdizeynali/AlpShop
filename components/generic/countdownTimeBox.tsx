@@ -13,7 +13,7 @@ import type { CountdownTimeBoxPropsType } from "./types";
     neutral:{box:"bg-neutral-light text-black",text:"dim-dark",after:"after:text-dim-dark"},
     "primary-light":{box:"bg-primary/70 text-white",text:"white",after:"after:text-white"},
   }
-    
+  
   return (
     <div className={clsx("flex flex-col items-center relative countdown-time-box-after",colors[color]["after"])}>
       <div className={clsx(colors[color]["box"],"flex items-center justify-center lg:h-8 h-7 lg:min-w-8 min-w-7 lg:text-sm text-xs rounded-lg p-1")}>

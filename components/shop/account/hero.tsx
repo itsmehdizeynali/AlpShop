@@ -2,14 +2,12 @@ import Card from "@/components/generic/card";
 import Heading from "@/components/generic/heading";
 import Text from "@/components/generic/text";
 import Image from "next/image";
+import type { HeroPropsType } from "./types";
 
 export default function ShopAccountHero({
   name,
   isLoading,
-}: {
-  name?: string;
-  isLoading: boolean;
-}) {
+}: HeroPropsType) {
   return (
     <Card
       color="gradient-primary"

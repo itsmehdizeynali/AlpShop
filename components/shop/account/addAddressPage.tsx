@@ -5,7 +5,6 @@ import Card from "@/components/generic/card";
 import Heading from "@/components/generic/heading";
 import Input from "@/components/generic/input";
 import SelectBox from "@/components/generic/select";
-import Text from "@/components/generic/text";
 import Textarea from "@/components/generic/textarea";
 import type { SelectOption } from "@/components/generic/types";
 import { createAddressService } from "@/services/addresses";
@@ -21,14 +20,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import type { SingleValue } from "react-select";
 
 export default function ShopAccountAddAddressPage() {
-
-  const route=useRouter()
-
+  const router = useRouter();
 
   const { register, control, handleSubmit, formState } =
     useForm<AccountAddAddressForms>({
@@ -42,7 +38,6 @@ export default function ShopAccountAddAddressPage() {
     queryKey: ["counrties"],
     queryFn: getCountriesService,
   });
-
   const selectedCountry = useWatch({
     control,
     name: "country",
@@ -65,7 +60,7 @@ export default function ShopAccountAddAddressPage() {
   const createAddressMutation = useMutation({
     mutationFn: createAddressService,
     onSuccess: () => {
-      route.push("/account/addresses")
+      router.push("/account/addresses");
     },
   });
 
@@ -227,13 +222,19 @@ export default function ShopAccountAddAddressPage() {
           {...register("postalCode")}
           label="Postal Code"
           wrapClasses="mb-4"
+          maxLength={10}
           msg={formState.errors.postalCode?.message}
           showMsg={!!formState.errors.postalCode?.message}
         />
         <Input
-          {...register("phone")}
+          {...register("phone", {
+            onChange: (e) => {
+              e.target.value = e.target.value.replace(/[^0-9]/g, "");
+            },
+          })}
           label="Phone Number"
           wrapClasses="mb-4"
+          maxLength={10}
           msg={formState.errors.phone?.message}
           showMsg={!!formState.errors.phone?.message}
           startSide={
@@ -267,7 +268,13 @@ export default function ShopAccountAddAddressPage() {
           showMsg={!!formState.errors.addressLine?.message}
         />
 
-        <Btn disabled={!formState.isValid} loading={createAddressMutation.isPending} type="submit" color="black" className="w-full">
+        <Btn
+          disabled={!formState.isValid}
+          loading={createAddressMutation.isPending}
+          type="submit"
+          color="black"
+          className="w-full"
+        >
           Add
         </Btn>
       </Card>

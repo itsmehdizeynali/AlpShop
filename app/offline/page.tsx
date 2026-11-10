@@ -1,3 +1,4 @@
+import Text from "@/components/generic/text";
 import Image from "next/image";
 
 export default function OfflinePage() {
@@ -5,7 +6,10 @@ export default function OfflinePage() {
     <div
       className="flex items-center justify-center w-full h-screen"
     >
-      <Image alt="offline" width={600} height={336} className="w-full h-screen" src={"/img/offline.jfif"} />
+      <i className="icon-close-circle text-danger text-15xl mb-2"></i>
+      <Text color="danger" size="lg">
+        you are offline!
+      </Text>
     </div>
   );
 }

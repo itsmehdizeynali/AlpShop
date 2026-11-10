@@ -1,22 +1,27 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ColorRadioPropsType } from "./types";
 
 export default function ShopProductsColorRardio({
   colors,
   className = "",
+  active,
+  setActive
 }: ColorRadioPropsType) {
-  const [active, setActive] = useState(colors[0]||"");
+
+  useEffect(()=>{
+    setActive(colors[0].name)
+  },[colors])
 
   return (
     <ul className={clsx(className, "flex items-center gap-1")}>
       {colors.map((item, index) => (
         <li
           key={index}
-          onClick={() => setActive(item)}
+          onClick={() => setActive(item.name)}
           style={{ backgroundColor: item.hex, borderColor: item.hex }}
           className={clsx(
-            { "!bg-white": active === item },
+            { "!bg-white": active === item.name },
             "border-2 p-0.5 shrink-0 cursor-pointer flex items-center relative justify-center rounded-full transition-all w-6 h-6",
           )}
         >

@@ -6,25 +6,22 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Text from "@/components/generic/text";
 import WidgetProductCard from "@/components/widget/productCard";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getProductsService } from "@/services/generic";
-import type { ProductType } from "@/components/genericTypes";
 import clsx from "clsx";
 import { getSettingService } from "@/services/settings";
-import LoadingSpin from "@/components/generic/loadingSpin";
 import LoadingProductCard from "@/components/loading/productCard";
 
 export default function ShopSectionsDeals() {
-  const QueryClient = useQueryClient();
 
-  const refreshData = () => {
-    QueryClient.fetchQuery({ queryKey: ["deals_products"] });
-  };
-
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["deals_products"],
     queryFn: () => getProductsService({ onSale: true }),
   });
+  const refreshData = () => {
+    refetch()
+  };
+
 
   const { data: countDownData } = useQuery({
     queryKey: ["setting", "deals-end-date"],
@@ -87,7 +84,7 @@ export default function ShopSectionsDeals() {
               />
               <Text color="white">No Data!</Text>
             </div>
-          ) : (
+          ) : !!data?.products ?(
             <Swiper
               modules={[Navigation]}
               slidesPerView="auto"
@@ -96,7 +93,7 @@ export default function ShopSectionsDeals() {
               spaceBetween={5}
               className="max-lg:!px-4 !pe-2"
             >
-              {!!data?.products &&
+              {
                 data?.products.map((item, index: number) => (
                   <SwiperSlide
                     key={index}
@@ -121,6 +118,8 @@ export default function ShopSectionsDeals() {
                 </Link>
               </SwiperSlide>
             </Swiper>
+          ):(
+            <Text color="white" className="animate-pulse flex justify-center items-center h-full bg-white/10 rounded-lg mr-2">No product found!</Text>
           )}
         </div>
       </div>

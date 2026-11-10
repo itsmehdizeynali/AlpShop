@@ -2,9 +2,7 @@
 
 import Btn from "@/components/generic/btn";
 import Card from "@/components/generic/card";
-import Chip from "@/components/generic/chip";
 import Heading from "@/components/generic/heading";
-import Price from "@/components/generic/price";
 import Text from "@/components/generic/text";
 import Image from "next/image";
 import { useState } from "react";
@@ -14,20 +12,18 @@ import ShopRating from "../generic/rating";
 import HeaderSection from "@/components/generic/headerSection";
 import Tabs from "@/components/generic/tabs";
 import clsx from "clsx";
-import ShopProductsSelections from "./selections";
 import {
   getProductService,
-  getProductVariantService,
 } from "@/services/product";
 import { useParams } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Counter from "@/components/generic/counter";
 import { addToCartService } from "@/services/cart";
 import Link from "next/link";
 import { getProductsService } from "@/services/generic";
 import ShopSectionsProductsWrap from "../sections/productsWrap";
 import ShopCommentsWrap from "../generic/commentsWrap";
 import LoadingProductSingle from "@/components/loading/productSingle";
+import ShopProductsPriceBox from "./priceBox";
 
 type TabsItemType = { id: string; name: string };
 
@@ -41,6 +37,7 @@ export default function ShopProductsIdPage() {
     queryKey: ["related_product", product?.category?.slug, product?.slug],
     queryFn: () => getProductsService({ category: product?.category?.slug }),
   });
+  
 
   const relatedProducts = related?.products.filter(
     (item) => item.id !== product?.id,
@@ -77,21 +74,6 @@ export default function ShopProductsIdPage() {
         {item.name}
       </Text>
     );
-  };
-
-  const QueryClient = useQueryClient();
-  const handelQueryKeys = () => {
-    QueryClient.invalidateQueries({ queryKey: ["product_details"] });
-    QueryClient.invalidateQueries({ queryKey: ["layout_data"] });
-  };
-  const addToCartMutation = useMutation({
-    mutationFn: addToCartService,
-    onSuccess: () => {
-      handelQueryKeys();
-    },
-  });
-  const handelAddToCartBtn = () => {
-    if (product?.id) addToCartMutation.mutate({ productId: product?.id });
   };
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
@@ -178,11 +160,11 @@ export default function ShopProductsIdPage() {
                   productRate={product?.rate.rate}
                   users={product?.rate.users}
                 />
-                <ShopProductsSelections
+                {/* <ShopProductsSelections
                   className="lg:hidden"
                   colors={colors}
                   variants={variants}
-                />
+                /> */}
                 <Text className="mb-4 text-justify">
                   {product?.description}
                 </Text>
@@ -270,45 +252,7 @@ export default function ShopProductsIdPage() {
               </div>
             </div>
             <div className="lg:p-2 lg:w-78 w-full sticky lg:top-0 shrink-0 max-lg:z-40 max-lg:bg-white max-lg:shadow-card max-lg:bottom-0 max-lg:fixed max-lg:start-0">
-              <Card
-                hasBorder
-                color="transparent"
-                className="max-lg:gap-2 max-lg:flex-wrap max-lg:flex max-lg:items-center max-lg:rounded-none max-lg:border-0"
-              >
-                <ShopProductsSelections
-                  className="max-lg:hidden"
-                  colors={colors}
-                  variants={variants}
-                />
-                <div className="flex items-center lg:mb-2">
-                  <Price size="lg">{product?.price}</Price>
-                  {product?.realPrice !== product?.price && (
-                    <Text as="del" size="base" className="mx-2">
-                      {product?.realPrice}$
-                    </Text>
-                  )}
-                  {!!product?.discount && (
-                    <Chip rounded color="danger">
-                      {product?.discount}%
-                    </Chip>
-                  )}
-                </div>
-                {product?.isInCart ? (
-                  <Counter
-                    productId={product?.id}
-                    queryKeys={["layout_data", "product_details"]}
-                    num={product?.cartQuantity}
-                    max={product?.stock}
-                  />
-                ) : (
-                  <Btn
-                    onClick={handelAddToCartBtn}
-                    className="lg:w-full max-lg:ms-auto max-sm:w-full"
-                  >
-                    Add To Basket
-                  </Btn>
-                )}
-              </Card>
+              <ShopProductsPriceBox colors={colors} variants={variants} slug={id}/>
             </div>
           </div>
         </div>

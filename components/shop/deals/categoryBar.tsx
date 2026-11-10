@@ -1,13 +1,10 @@
 import Text from "@/components/generic/text";
-import type { CategoryItemType } from "@/components/genericTypes";
-import dataShopDeals from "@/mockData/shop/deals";
-import { getCategoriesService } from "@/services/generic";
-import { useQuery } from "@tanstack/react-query";
+import dataShopPages from "@/mockData/shop/pages";
 import clsx from "clsx";
 import Link from "next/link";
 
 export default function ShopDealsCategoryBar() {
-  const { categories } = dataShopDeals()
+  const { dealsCategories:categories } = dataShopPages({})
 
   
   return (

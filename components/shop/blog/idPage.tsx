@@ -1,6 +1,5 @@
 "use client";
 
-import dataShopPages from "@/mockData/shop/pages";
 import BlogSidebar from "./sidebar";
 import Card from "@/components/generic/card";
 import Image from "next/image";
@@ -19,7 +18,7 @@ import LoadingBlogSingle from "@/components/loading/blogSingle";
 export default function ShopBlogIdPage() {
   const { id } = useParams<{ id: string }>();
   const { data: article, isLoading } = useQuery({
-    queryKey: ["product_details"],
+    queryKey: ["blog_single"],
     queryFn: () => getArticleService(id),
   });
 

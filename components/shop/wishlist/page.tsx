@@ -3,7 +3,7 @@
 import HeaderSection from "@/components/generic/headerSection";
 import Pagination from "@/components/generic/pagination";
 import WidgetProductCard from "@/components/widget/productCard";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type { WishlistItemType } from "./type";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -15,16 +15,15 @@ import Text from "@/components/generic/text";
 export default function ShopWishlistPage() {
   const params = useSearchParams();
   const page = params.get("page");
-  const QueryClient = useQueryClient();
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["wishlist_products"],
+    queryKey: ["wishlist"],
     queryFn: () =>
       getWishlistService({ page: page ? Number(page) : undefined }),
   });
 
   useEffect(() => {
-    QueryClient.invalidateQueries({ queryKey: ["wishlist_products"] });
+    refetch()
   }, [page]);
   
 
@@ -76,6 +75,7 @@ export default function ShopWishlistPage() {
               icon="icon-refresh"
               rounded
               square
+              loading={isLoading}
               color="black"
               variant="lightness"
               className="mb-2 mx-auto"

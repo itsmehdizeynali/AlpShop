@@ -49,5 +49,5 @@ export const getProductVariantService = async ({
     params: selection,
   });
 
-  return response;
+  return response.data.variant;
 };

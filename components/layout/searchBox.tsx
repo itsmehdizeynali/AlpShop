@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type SubmitEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import Btn from "../generic/btn";
 import Card from "../generic/card";
 import Input from "../generic/input";
@@ -14,7 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 import { searchService } from "@/services/generic";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ProductType } from "../genericTypes";
-import LoadingSpin from "../generic/loadingSpin";
 import LoadingSearchBox from "../loading/searchBox";
 
 export default function LayoutSearchBox() {

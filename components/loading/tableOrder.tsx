@@ -1,6 +1,7 @@
 import clsx from "clsx";
+import type { LoadingTableOrderType } from "./types";
 
-export default function LoadingTableOrder({ hasImg = false,className }: { hasImg?: boolean,className?:string }) {
+export default function LoadingTableOrder({ hasImg = false,className }:LoadingTableOrderType ) {
   return (
     <div className={clsx(className,"flex items-center justify-between")}>
       {hasImg && (

@@ -1,16 +1,13 @@
 import HeaderSection from "@/components/generic/headerSection";
-import Btn from "@/components/generic/btn";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import Countdown from "@/components/generic/countdown";
 import WidgetProductCard from "@/components/widget/productCard";
-import dataShopIndex from "@/mockData/shop";
 import { useQuery } from "@tanstack/react-query";
 import { getProductsService } from "@/services/generic";
-import type { ProductType } from "@/components/genericTypes";
 import { getSettingService } from "@/services/settings";
-import LoadingSpin from "@/components/generic/loadingSpin";
 import LoadingProductCard from "@/components/loading/productCard";
+import Text from "@/components/generic/text";
 
 export default function ShopSectionsSpacialProducts() {
   const { data } = useQuery({
@@ -46,7 +43,7 @@ export default function ShopSectionsSpacialProducts() {
               />
             ))}
           </div>
-        ) : (
+        ) : !!data?.products ? (
           <Swiper
             className="max-lg:!overflow-visible"
             modules={[Navigation]}
@@ -67,20 +64,20 @@ export default function ShopSectionsSpacialProducts() {
             navigation
             spaceBetween={8}
           >
-            {!!data?.products &&
-              data?.products.map((item, index: number) => (
-                <SwiperSlide
-                  key={index}
-                  className="max-lg:max-w-[180px] !h-auto"
-                >
-                  <WidgetProductCard
-                    product={item}
-                    spacial
-                    queryKeys={["featured_products", "layout_data"]}
-                  />
-                </SwiperSlide>
-              ))}
+            {data?.products.map((item, index: number) => (
+              <SwiperSlide key={index} className="max-lg:max-w-[180px] !h-auto">
+                <WidgetProductCard
+                  product={item}
+                  spacial
+                  queryKeys={["featured_products", "layout_data"]}
+                />
+              </SwiperSlide>
+            ))}
           </Swiper>
+        ) : (
+          <Text className="flex justify-center items-center py-20 bg-neutral-lighter rounded-lg">
+            No product found!
+          </Text>
         )}
       </div>
     </div>

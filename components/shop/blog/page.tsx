@@ -3,7 +3,7 @@
 import WidgetArticleCard from "@/components/widget/articleCard";
 import BlogSidebar from "./sidebar";
 import Pagination from "@/components/generic/pagination";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getBlogService } from "@/services/blog";
 import type { ArticleType } from "@/components/genericTypes";
 import { useSearchParams } from "next/navigation";
@@ -12,19 +12,18 @@ import LoadingArticleCard from "@/components/loading/articleCard";
 
 export default function ShopBlogPage() {
   const params = useSearchParams();
-  const QueryClient = useQueryClient();
 
   const page = params.get("page") || undefined;
   const tag = params.get("tag") || undefined;
   const category = params.get("category") || undefined;
-  const { data, isLoading } = useQuery({
+  const { data, isLoading,refetch } = useQuery({
     queryKey: ["blog_articles"],
     queryFn: () =>
       getBlogService({ page: page ? Number(page) : undefined, tag, category }),
   });
 
   useEffect(() => {
-    QueryClient.invalidateQueries({ queryKey: ["blog_articles"] });
+    refetch()
   }, [page, category, tag]);
 
   return (

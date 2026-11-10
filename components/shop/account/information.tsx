@@ -4,28 +4,15 @@ import Chip from "@/components/generic/chip";
 import HeaderSection from "@/components/generic/headerSection";
 import Text from "@/components/generic/text";
 import { authLogoutService } from "@/services/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import type { InformationPropsType } from "./types";
 
 export default function ShopAccountInformation({
   information,
   isLoading,
-}: {
-  information: {
-    name: string;
-    lastName?: string;
-    addresses: {
-      country: string;
-      province: string;
-      city: string;
-      addressLine: string;
-    }[];
-    email: string;
-    phone: string;
-  };
-  isLoading: boolean;
-}) {
+}: InformationPropsType) {
   const router = useRouter();
 
   const logoutMutation = useMutation({

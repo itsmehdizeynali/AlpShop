@@ -4,7 +4,7 @@ import dataShopPages from "@/mockData/shop/pages";
 import Image from "next/image";
 
 export default function ShopShippingAndDeliveryPage({}) {
-  const {shippingAndDelivery }= dataShopPages()
+  const {shippingAndDelivery }= dataShopPages({})
 
   return (
     <div className="my-section">

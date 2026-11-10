@@ -1,6 +1,6 @@
 import type { ChipColors } from "@/components/generic/types";
 import type { OrderStatusesType, orderType } from "@/components/genericTypes";
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 export type TableColumnsType<T> = {
   key: keyof T;
@@ -26,4 +26,29 @@ createdAt:string
 status:OrderStatusesType
 reason:string
 id:string
+}
+
+export interface HeroPropsType {
+  name?: string;
+  isLoading: boolean;
+}
+export interface InformationPropsType {
+  information: {
+    name: string;
+    lastName?: string;
+    addresses: {
+      country: string;
+      province: string;
+      city: string;
+      addressLine: string;
+    }[];
+    email: string;
+    phone: string;
+  };
+  isLoading: boolean;
+}
+export interface ReturnRequestModalPropsType {
+  id: string;
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }

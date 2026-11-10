@@ -1,14 +1,19 @@
 import Chip from "@/components/generic/chip";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { SizeRadioPropsType } from "./types";
 
 export default function ShopProductsRardio({
   items,
   className = "",
+  setActive,
+  active,
   ...props
 }: SizeRadioPropsType) {
-  const [active, setActive] = useState(items[0]);
+
+  useEffect(()=>{
+    setActive(items[0])
+  },[items])
 
   return (
     <ul {...props} className={clsx(className, "flex items-center gap-1")}>

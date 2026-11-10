@@ -3,7 +3,6 @@ import Card from "@/components/generic/card";
 import HeaderSection from "@/components/generic/headerSection";
 import Text from "@/components/generic/text";
 import ShopRating from "../generic/rating";
-import Input from "@/components/generic/input";
 import Textarea from "@/components/generic/textarea";
 import type { CommentBoxPropsType } from "./types";
 import { useForm } from "react-hook-form";

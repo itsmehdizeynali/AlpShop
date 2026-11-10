@@ -1,7 +1,7 @@
 "use client";
 
 import { Range, getTrackBackground } from "react-range";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Text from "./text";
 import type { PriceRangePropsType } from "./types";
 
@@ -11,7 +11,9 @@ export default function PriceRange({
   onChange,
 }: PriceRangePropsType) {
   const [values, setValues] = useState([min, max]);
-
+  useEffect(()=>{
+    setValues([min,max])
+  },[min,max])
   return (
     <div className="w-full">
       <div className="mb-4 flex justify-between text-sm">

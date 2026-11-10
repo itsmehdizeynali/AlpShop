@@ -6,7 +6,6 @@ import Pagination from "@/components/generic/pagination";
 import { useQuery } from "@tanstack/react-query";
 import { getProductsService } from "@/services/generic";
 import { useSearchParams } from "next/navigation";
-import LoadingSpin from "@/components/generic/loadingSpin";
 import LoadingProductCard from "@/components/loading/productCard";
 
 export default function ShopProductsPage() {

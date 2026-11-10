@@ -13,8 +13,11 @@ import Heading from "@/components/generic/heading";
 import Price from "@/components/generic/price";
 import Link from "next/link";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 
 export default function ShopCartPage() {
+  const router = useRouter();
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["cart"],
     queryFn: getCartService,
@@ -35,36 +38,57 @@ export default function ShopCartPage() {
       (item.product.realPrice - item.product.price) * item.quantity + sum,
     0,
   );
-  
 
   const itemsCount = items.reduce(
     (sum: number, item: shoppingCartItem) => item.quantity + sum,
     0,
   );
-  const [showModal, setShowModal] = useState<{status:"success"|"unSuccess",active:boolean}>({status:"success",active:false});
+  const [showModal, setShowModal] = useState<{
+    status: "success" | "unSuccess";
+    active: boolean;
+  }>({ status: "success", active: false });
 
   return (
     <div className="container my-section">
-      <ShopModal central isOpenModal={showModal.active}
-        closeModal={() => setShowModal({active:false,status:"unSuccess"})}>
-          <>
-          <i className={clsx(showModal.status==="success"?"text-success":"text-danger","icon-checked-circle text-12xl text-center mb-4")}></i>
+      <ShopModal
+        central
+        isOpenModal={showModal.active}
+        closeModal={() => {
+          setShowModal({ active: false, status: "unSuccess" });
+          if (showModal.status === "success") router.push("/");
+        }}
+      >
+        <>
+          <i
+            className={clsx(
+              showModal.status === "success" ? "icon-checked-circle text-success" : "icon-close-circle text-danger",
+              "text-12xl text-center mb-4",
+            )}
+          ></i>
           <Heading variant="h4" className="text-center mb-2">
-            Payment {showModal.status==="success"?"Successfull":"Unsuccessful"}
+            Payment{" "}
+            {showModal.status === "success" ? "Successfull" : "Unsuccessful"}
           </Heading>
           <Price size="lg" className="text-center mb-4">
             145
           </Price>
-          <Btn onClick={()=>setShowModal({active:false,status:"success"})} as={Link} href={showModal.status==="success"?"/":"/cart"} color={showModal.status==="success"?"success":"danger"} className="w-full" size="lg">
+          <Btn
+            as={Link}
+            href={showModal.status === "success" ? "/" : "/cart"}
+            onClick={() => setShowModal({ active: false, status: "success" })}
+            color={showModal.status === "success" ? "success" : "danger"}
+            className="w-full"
+            size="lg"
+          >
             ok
           </Btn>
-          </>
+        </>
       </ShopModal>
-      {(!!data?.items.length ||isLoading) ? (
+      {!!data?.items.length || isLoading ? (
         <div className="flex items-start max-lg:flex-wrap -m-2">
           <ShopCartShoppingCart isLoading={isLoading} items={data?.items} />
           <ShopCartPayment
-          setShowModal={setShowModal}
+            setShowModal={setShowModal}
             isLoading={isLoading}
             totalPriceBefore={totalPriceBefore}
             totalPriceAfter={totalPriceAfter}

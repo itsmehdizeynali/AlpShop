@@ -2,10 +2,7 @@ import Card from "@/components/generic/card";
 import HeaderSection from "@/components/generic/headerSection";
 import WidgetProductRowCard from "@/components/widget/productRowCard";
 import type { shoppingCartPropsType } from "./type";
-import Btn from "@/components/generic/btn";
 import LoadingProductRowCard from "@/components/loading/productRowCard";
-import { useQuery } from "@tanstack/react-query";
-import { checkoutService } from "@/services/cart";
 
 export default function ShopCartShoppingCart({
   items,

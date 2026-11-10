@@ -2,7 +2,6 @@
 
 import Card from "@/components/generic/card";
 import Heading from "@/components/generic/heading";
-import LoadingSpin from "@/components/generic/loadingSpin";
 import Text from "@/components/generic/text";
 import type {
   ArticleType,
@@ -10,7 +9,6 @@ import type {
 } from "@/components/genericTypes";
 import LoadingArticleRowCard from "@/components/loading/articleRowCard";
 import WidgetArticleRowCard from "@/components/widget/articleRowCard";
-import dataShopPages from "@/mockData/shop/pages";
 import { getBlogCategoriesService, getBlogService } from "@/services/blog";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";

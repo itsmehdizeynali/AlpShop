@@ -79,7 +79,6 @@ export type CardPropsType<T extends ElementType> = Partial<{
   className: string;
   hasBorder: boolean;
   hasHover: boolean;
-  loading: boolean;
 }> &
   ComponentPropsWithoutRef<T>;
 
