@@ -14,7 +14,9 @@ export default function ShopProductsPriceBox({
   slug,
   colors,
   variants,
+  id,
 }: {
+  id: string;
   slug: string;
   colors?: { name: string; hex: string }[];
   variants?: { title: string; items: string[] }[];
@@ -35,7 +37,7 @@ export default function ShopProductsPriceBox({
         },
       }),
   });
-  console.log(variant);
+  console.log("variant",variant);
 
   const QueryClient = useQueryClient();
   const addToCartMutation = useMutation({
@@ -46,8 +48,8 @@ export default function ShopProductsPriceBox({
     },
   });
   const handelAddToCartBtn = () => {
-    if (slug)
-      addToCartMutation.mutate({ productId: slug, variantId: variant.id });
+    if (id)
+      addToCartMutation.mutate({ productId: id, variantId: variant.id });
   };
 
   return (

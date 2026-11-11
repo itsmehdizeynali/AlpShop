@@ -8,12 +8,19 @@ export interface shoppingCartItem {
   product: ProductType;
   productId: string;
   quantity: number;
-  variant: null | string;
+  variant: {
+    color: string|null;
+    id: string;
+    priceDiff: number;
+    productId: string;
+    size: string;
+    stock: number;
+  };
   variantId: null | string;
 }
 export interface shoppingCartPropsType {
   items: shoppingCartItem[];
-  isLoading?:boolean
+  isLoading?: boolean;
 }
 
 export interface ShopCartPaymentPropsType {
@@ -22,8 +29,10 @@ export interface ShopCartPaymentPropsType {
   profit: number;
   itemsCount: number;
   isLoading?: boolean;
-  setShowModal:Dispatch<SetStateAction<{
-    status: "success" | "unSuccess";
-    active: boolean;
-}>>
+  setShowModal: Dispatch<
+    SetStateAction<{
+      status: "success" | "unSuccess";
+      active: boolean;
+    }>
+  >;
 }

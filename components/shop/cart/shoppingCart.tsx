@@ -9,9 +9,11 @@ export default function ShopCartShoppingCart({
   isLoading = false,
 }: shoppingCartPropsType) {
   
+  console.log(items);
+  
   return (
     <div className="p-2 grow">
-      <Card color="transparent" hasBorder>
+      <Card color="transparent" hasBorder className="max-sm:p-0 max-sm:border-0">
         <HeaderSection size="h4" className="mb-sm-section" shape>
           Shopping Cart
         </HeaderSection>
@@ -27,7 +29,7 @@ export default function ShopCartShoppingCart({
               {!!items &&
                 items.map((item, index) => (
                   <WidgetProductRowCard
-                    className="mb-3 last:mb-0"
+                    className="sm:mb-3 last:mb-0"
                     item={item}
                     key={index}
                     queryKeys={["cart", "layout_data"]}

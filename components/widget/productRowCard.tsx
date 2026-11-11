@@ -15,38 +15,61 @@ export default function WidgetProductRowCard({
   item,
   queryKeys,
 }: ProductRowCardPropsType) {
+  console.log(item);
 
-  
   return (
-    <Card color="transparent" hasBorder className={clsx(className, "flex w-full")}>
-      <Link
-        href={`/products/${item.product.slug}`}
-        className="block lg:me-4 me-3 shrink-0"
-      >
-        <Image
-          src={item.product.images[0].url}
-          width={100}
-          height={100}
-          className={clsx(
-            "lg:h-25 lg:w-25 h-18 w-18 object-scale-down object-center",
-          )}
-          alt="product"
-        />
-      </Link>
-      <div className="flex flex-col justify-between grow">
-        <Heading
-          as={Link}
+    <Card
+      color="transparent"
+      hasBorder
+      className={clsx(
+        className,
+        "flex max-sm:flex-col gap-2 max-sm:border-x-0 max-sm:rounded-none max-sm:-mx-4 max-sm:border-t-0",
+      )}
+    >
+      <div className="grow flex">
+        <Link
           href={`/products/${item.product.slug}`}
-          variant="h6"
-          className="mb-2.5 !line-clamp-2"
+          className="block lg:me-4 me-3 shrink-0"
         >
-          {item.product.name}
-        </Heading>
-        <div className="flex items-end flex-wrap justify-between gap-2">
+          <Image
+            src={item.product.images[0].url}
+            width={100}
+            height={100}
+            className={clsx(
+              "lg:h-30 lg:w-30 h-24 w-24 object-scale-down object-center",
+            )}
+            alt="product"
+          />
+        </Link>
+        <div className="flex flex-col justify-between grow me-2">
+          <Heading
+            as={Link}
+            href={`/products/${item.product.slug}`}
+            variant="h6"
+            className="mb-2.5 line-clamp-2!"
+          >
+            {item.product.name} frfkrflrnfl klrnflen fwkn
+          </Heading>
           <div>
+            {(!!item.variant?.color || !!item.variant?.size) && (
+              <div className="flex items-center flex-wrap gap-x-3 gap-y-1 lg:mb-2 mb-1.5">
+                {item.variant?.color && (
+                  <div className="flex items-center">
+                    <i className="icon-note me-1 lg:text-sm text-xs"></i>
+                    <Text size="sm">color {item.variant?.color}</Text>
+                  </div>
+                )}
+                {item.variant?.size && (
+                  <div className="flex items-center">
+                    <i className="icon-note me-1 lg:text-sm text-xs"></i>
+                    <Text size="sm">size {item.variant?.size}</Text>
+                  </div>
+                )}
+              </div>
+            )}
             <ShopRating
               disabled
-              className="mb-2"
+              className="lg:mb-2 mb-1 max-sm:hidden"
               productRate={item.product.rate.rate}
               users={item.product.rate.users}
             />
@@ -58,19 +81,21 @@ export default function WidgetProductRowCard({
                 </Text>
               )}
               {!!item.product.discount && (
-                <Chip color="danger" rounded>
+                <Chip color="danger" className="max-sm:hidden" rounded>
                   {item.product.discount}%
                 </Chip>
               )}
             </div>
           </div>
-          <Counter
-            productId={item?.id}
-            queryKeys={queryKeys}
-            num={item?.quantity}
-            max={item.product.stock}
-          />
         </div>
+      </div>
+      <div className="sm:self-end">
+        <Counter
+          productId={item?.id}
+          queryKeys={queryKeys}
+          num={item?.quantity}
+          max={item.product.stock}
+        />
       </div>
     </Card>
   );

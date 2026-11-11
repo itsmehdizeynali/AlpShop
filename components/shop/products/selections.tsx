@@ -16,7 +16,6 @@ export default function ShopProductsSelections({
   activeSize,
   setActiveSize,
 }: SelectionsPropsType) {
-  console.log(variants, colors);
 
   return (
     <div className={clsx(className)}>

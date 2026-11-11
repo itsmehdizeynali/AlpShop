@@ -252,7 +252,7 @@ export default function ShopProductsIdPage() {
               </div>
             </div>
             <div className="lg:p-2 lg:w-78 w-full sticky lg:top-0 shrink-0 max-lg:z-40 max-lg:bg-white max-lg:shadow-card max-lg:bottom-0 max-lg:fixed max-lg:start-0">
-              <ShopProductsPriceBox colors={colors} variants={variants} slug={id}/>
+              <ShopProductsPriceBox colors={colors} variants={variants} slug={id} id={product.id}/>
             </div>
           </div>
         </div>
