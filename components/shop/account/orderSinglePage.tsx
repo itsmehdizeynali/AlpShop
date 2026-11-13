@@ -23,7 +23,7 @@ export default function ShopAccountOrderSinglePage() {
   const { id } = useParams();
   const { formatNumber } = useFormatNumber();
   const { data: order, isLoading: loadingOrder } = useQuery({
-    queryKey: ["order_single"],
+    queryKey: ["order_single",id],
     queryFn: () => getOrderService(id as string),
   });
 

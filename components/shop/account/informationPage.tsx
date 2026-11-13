@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { SingleValue } from "react-select";
 
@@ -34,6 +35,9 @@ export default function ShopAccountInformationPage() {
     queryFn: getProfileService,
   });
 
+  console.log(information);
+  
+
   const changeInformationMutation = useMutation({
     mutationFn: updateProfileService,
     onSuccess() {
@@ -46,7 +50,7 @@ export default function ShopAccountInformationPage() {
     changeInformationMutation.mutate(data);
   };
 
-  const { register, handleSubmit, formState, control } =
+  const { register, handleSubmit, formState, control,setValue } =
     useForm<AccountInformationForms>({
       resolver: zodResolver(accountInformationSchema),
     });
@@ -71,6 +75,11 @@ export default function ShopAccountInformationPage() {
         },
       )
     : [];
+
+    useEffect(()=>{
+      setValue("countryPhoneCode",information?.countryPhoneCode||1)
+    },[information])
+    
   return (
     <div className="container my-section">
       {isLoading ? (
@@ -139,7 +148,7 @@ export default function ShopAccountInformationPage() {
                       onChange={(option: SingleValue<SelectOption>) =>
                         field.onChange(option?.value)
                       }
-                      value={String(field.value)}
+                      value={String(field.value||information?.countryPhoneCode)}
                       placeholder={
                         information?.countryPhoneCode
                           ? `+${information?.countryPhoneCode}`

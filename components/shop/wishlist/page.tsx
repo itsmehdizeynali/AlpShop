@@ -53,7 +53,7 @@ export default function ShopWishlistPage() {
               >
                 <WidgetProductCard
                   spacial
-                  queryKeys={["layout_data", "wishlist_products"]}
+                  queryKeys={["layout_data", "wishlist"]}
                   responsive
                   product={item?.product}
                 />

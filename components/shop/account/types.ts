@@ -44,6 +44,7 @@ export interface InformationPropsType {
     }[];
     email: string;
     phone: string;
+    countryPhoneCode:string
   };
   isLoading: boolean;
 }

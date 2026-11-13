@@ -11,7 +11,7 @@ export default function ShopAccountHero({
   return (
     <Card
       color="gradient-primary"
-      className="lg:p-6 p-4 mb-sm-section flex max-sm:flex-col rounded-xl"
+      className="lg:p-6 p-4 mb-sm-section flex sm:items-center max-sm:flex-col rounded-xl"
     >
       <div className="sm:max-w-100 sm:pe-6">
         <Text color="white" className="mb-1.5">
@@ -30,11 +30,11 @@ export default function ShopAccountHero({
         </Text>
       </div>
       <Image
-        src="/img/img-1-removebg-preview.png"
+        src="/img/welcome-account.png"
         width={230}
         height={155}
         alt="products"
-        className="max-sm:hidden lg:-my-6 -my-4 ms-auto max-lg:w-[200px] object-bottom object-cover"
+        className="max-sm:hidden lg:-my-6 -my-4 ms-auto max-lg:w-[200px] py-4"
       />
     </Card>
   );

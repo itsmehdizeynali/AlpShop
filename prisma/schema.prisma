@@ -19,6 +19,7 @@ model User {
   lastName       String?
   email          String          @unique
   phone          String?
+  countryPhoneCode String        @default("1") // country dialing code for `phone`, no leading "+"
   password       String
   role           Role            @default(USER)
 

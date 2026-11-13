@@ -24,7 +24,7 @@ export default function ShopProductsPriceBox({
   const [activeSize, setActiveSize] = useState<string | undefined>(undefined);
   const [activeColor, setActiveColor] = useState<string | undefined>(undefined);
 
-  const { data: variant } = useQuery({
+  const { data: variant, isLoading } = useQuery({
     queryKey: ["variant", slug, activeSize, activeColor],
     queryFn: () =>
       getProductVariantService({
@@ -37,7 +37,8 @@ export default function ShopProductsPriceBox({
         },
       }),
   });
-  console.log("variant",variant);
+
+  console.log(variant);
 
   const QueryClient = useQueryClient();
   const addToCartMutation = useMutation({
@@ -48,8 +49,7 @@ export default function ShopProductsPriceBox({
     },
   });
   const handelAddToCartBtn = () => {
-    if (id)
-      addToCartMutation.mutate({ productId: id, variantId: variant.id });
+    if (id) addToCartMutation.mutate({ productId: id, variantId: variant.id });
   };
 
   return (
@@ -58,28 +58,38 @@ export default function ShopProductsPriceBox({
       color="transparent"
       className="max-lg:gap-2 max-lg:flex-wrap max-lg:flex max-lg:items-center max-lg:rounded-none max-lg:border-0"
     >
-      <ShopProductsSelections
-        className="max-lg:hidden"
-        colors={colors}
-        variants={variants}
-        activeColor={activeColor}
-        setActiveColor={setActiveColor}
-        activeSize={activeSize}
-        setActiveSize={setActiveSize}
-      />
-      <div className="flex items-center lg:mb-2">
-        <Price size="lg">{variant?.price}</Price>
-        {variant?.realPrice !== variant?.price && (
-          <Text as="del" size="base" className="mx-2">
-            {variant?.realPrice}$
-          </Text>
-        )}
-        {!!variant?.discount && (
-          <Chip rounded color="danger">
-            {variant?.discount}%
-          </Chip>
-        )}
-      </div>
+      {!!colors?.length ||
+        (!!variants?.length && (
+          <ShopProductsSelections
+            colors={colors}
+            variants={variants}
+            activeColor={activeColor}
+            setActiveColor={setActiveColor}
+            activeSize={activeSize}
+            setActiveSize={setActiveSize}
+          />
+        ))}
+      {isLoading ? (
+        <div className="h-4 rounded-full w-full animate-pulse bg-loading mb-4"></div>
+      ) : variant?.inStock ? (
+        <div className="flex items-center lg:mb-2">
+          <Price size="lg">{variant?.price}</Price>
+          {variant?.realPrice !== variant?.price && (
+            <Text as="del" size="base" className="mx-2">
+              {variant?.realPrice}$
+            </Text>
+          )}
+          {!!variant?.discount && (
+            <Chip rounded color="danger">
+              {variant?.discount}%
+            </Chip>
+          )}
+        </div>
+      ) : (
+        <Text color="danger" size="base" className="mb-2" weight="bold">
+          No Stock
+        </Text>
+      )}
       {variant?.isInCart ? (
         <Counter
           productId={variant?.id as string}
@@ -90,7 +100,9 @@ export default function ShopProductsPriceBox({
       ) : (
         <Btn
           onClick={handelAddToCartBtn}
+          disabled={!variant?.inStock}
           className="lg:w-full max-lg:ms-auto max-sm:w-full"
+          loading={addToCartMutation.isPending}
         >
           Add To Basket
         </Btn>

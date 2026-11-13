@@ -15,6 +15,8 @@ export const updateProfileService = async (data: {
   countryPhoneCode?: string;
 }) => {
   const response = await apiClient.put(API_ENDPOINTS.PROFILE, data);
+  console.log(response.data);
+  
   return response?.data;
 };
 

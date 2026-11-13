@@ -81,7 +81,7 @@ export default function Table<T>({
       )}
     </>
   ) : (
-    <div>
+    <div className="py-20">
       <Btn
         icon="icon-refresh"
         color="black"

@@ -29,17 +29,17 @@ export default function ShopSectionsHero() {
           spaceBetween={4}
           pagination={{ clickable: true }}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
-          className="lg:rounded-xl max-lg:!overflow-visible swiper-hero"
+          className="lg:rounded-xl max-lg:overflow-visible! swiper-hero"
         >
           {hero.map((item, index) => (
-            <SwiperSlide className="!h-auto max-lg:!max-w-[99%]" key={index}>
+            <SwiperSlide className="max-lg:max-w-[99%]!" key={index}>
               <Link href={item.href}>
                 <Image
                   alt={item.alt}
                   src={item.img}
                   height={400}
                   width={600}
-                  className="w-full h-full max-h-[400px] min-h-[170px] max-lg:rounded-lg object-cover object-left"
+                  className="w-full min-h-36 max-h-100 max-lg:rounded-lg object-cover object-center"
                 />
               </Link>
             </SwiperSlide>

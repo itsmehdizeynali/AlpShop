@@ -1,38 +1,69 @@
 import { prisma } from "@/lib/prisma";
+import { computeVariantPrices } from "@/lib/product";
 import { NextResponse } from "next/server";
 
 // GET /api/products/:slug/variant?color=&size=
-// Looks up the exact variant for a chosen combination (e.g. color=black&size=40)
-// and returns its price/stock - call this whenever the user changes a selection
-// on the product page. Omit a param entirely for a product that doesn't have
-// that attribute (e.g. a color-only product: just ?color=black).
+// Price/stock for the chosen combination (e.g. color=black&size=40) - call this
+// whenever the user changes a selection on the product page. Omit a param for a
+// product that doesn't have that attribute (a color-only product: just ?color=black).
+//
+// With NO selection at all (no color and no size), it returns the product's
+// DEFAULT price and stock (`isDefault: true`), so the page always has a price to
+// show - on first load, after clearing the selection, and for products without variants.
 export async function GET(
   req: Request,
   { params }: { params: { slug: string } },
 ) {
   const { slug } = await params;
   const { searchParams } = new URL(req.url);
-  const color = searchParams.get("color");
-  const size = searchParams.get("size");
+  const color = searchParams.get("color") || null;
+  const size = searchParams.get("size") || null;
 
   const product = await prisma.product.findUnique({ where: { slug } });
   if (!product || !product.isActive) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
-  const variant = await prisma.productVariant.findFirst({
-    where: { productId: product.id, color: color ?? null, size: size ?? null },
-  });
-
-  if (!variant) {
+  if (!color && !size) {
     return NextResponse.json(
-      { error: "No variant matches that combination" },
-      { status: 404 },
+      {
+        variant: {
+          id: null,
+          color: null,
+          size: null,
+          stock: product.stock,
+          inStock: product.stock > 0,
+          ...computeVariantPrices(product.price, product.discount, 0),
+          isDefault: true,
+        },
+      },
+      { status: 200 },
     );
   }
 
-  const price = Number((product.price * (1 - product.discount / 100) + variant.priceDiff).toFixed(2));
-  const realPrice = Number((product.price + variant.priceDiff).toFixed(2));
+  const variant = await prisma.productVariant.findFirst({
+    where: { productId: product.id, color, size },
+  });
+
+  // No such color+size combination (e.g. a color that only comes in one of the two
+  // sizes): that's just "not available", not an error - stock 0 / inStock false,
+  // priced at the default price, so the page can show "out of stock" for it.
+  if (!variant) {
+    return NextResponse.json(
+      {
+        variant: {
+          id: null,
+          color,
+          size,
+          stock: 0,
+          inStock: false,
+          ...computeVariantPrices(product.price, product.discount, 0),
+          isDefault: false,
+        },
+      },
+      { status: 200 },
+    );
+  }
 
   return NextResponse.json(
     {
@@ -41,8 +72,9 @@ export async function GET(
         color: variant.color,
         size: variant.size,
         stock: variant.stock,
-        price,
-        realPrice,
+        inStock: variant.stock > 0,
+        ...computeVariantPrices(product.price, product.discount, variant.priceDiff),
+        isDefault: false,
       },
     },
     { status: 200 },

@@ -40,7 +40,7 @@ export default function ShopCommentsWrap({
     console.log(data);
   return (
     <>
-      {!!comments ? (
+      {!!comments?.length ? (
         <Card color="transparent" hasBorder className="mb-4 w-full">
           <HeaderSection shape size="h4" className="mb-sm-section">
             Comments
@@ -60,7 +60,7 @@ export default function ShopCommentsWrap({
           </Btn>
         </Card>
       ) : (
-        <Text>dont have comment</Text>
+        <Text className="text-center my-8 mx-auto" size="base">dont have comment</Text>
       )}
       <ShopSectionsCommentBox
         parentId={parentId}

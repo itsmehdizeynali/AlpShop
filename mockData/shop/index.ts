@@ -1,27 +1,27 @@
 const dataShopIndex = () => {
   const hero = [
     {
-      img: "/img/hero-1.jpg",
+      img: "/img/hero-1.png",
       alt: "Upgrade Your Digital Lifestyle",
       href: "/products",
     },
     {
-      img: "/img/hero-2.jpg",
+      img: "/img/hero-2.png",
       alt: "Upgrade Your Digital Lifestyle",
       href: "/products?category=BeautyAndPersonalCare",
     },
     {
-      img: "/img/hero-3.jpg",
+      img: "/img/hero-3.png",
       alt: "Upgrade Your Digital Lifestyle",
       href: "/products?category=electronics",
     },
     {
-      img: "/img/hero-4.jpg",
+      img: "/img/hero-4.png",
       alt: "Upgrade Your Digital Lifestyle",
       href: "/products?category=FashionAndClothing",
     },
     {
-      img: "/img/hero-5.jpg",
+      img: "/img/hero-5.png",
       alt: "Upgrade Your Digital Lifestyle",
       href: "/products?category=ToolsAndHardware",
     },
@@ -30,22 +30,22 @@ const dataShopIndex = () => {
     {
       alt: "Electronics",
       href: "/products?category=Electronics",
-      src: "/img/category-1.jpg",
+      src: "/img/Electronics.png",
     },
     {
       alt: "Beauty & Personal Care",
       href: "/products?category=BeautyAndPersonalCare",
-      src: "/img/category-1.jpg",
+      src: "/img/BeautyAndCare.png",
     },
     {
       alt: "Fashion & Clothing",
       href: "/products?category=FashionAndClothing",
-      src: "/img/category-1.jpg",
+      src: "/img/FashionAndClothing.png",
     },
     {
       alt: "Tools & Hardware",
       href: "/products?category=ToolsAndHardware",
-      src: "/img/category-1.jpg",
+      src: "/img/ToolsAndHardware.png",
     },
   ];
   const services = [

@@ -1,7 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { getAuthUser, requireAdmin } from "@/lib/auth-utils";
 import { NextResponse } from "next/server";
-import { commentRatings, computePrices, computeRate, enrichForUser, groupVariants } from "@/lib/product";
+import {
+  commentRatings,
+  computePrices,
+  computeRate,
+  computeVariantPrices,
+  enrichForUser,
+  groupVariants,
+} from "@/lib/product";
 import { slugify } from "@/lib/slug";
 
 // GET /api/products/:slug
@@ -45,6 +52,12 @@ export async function GET(
     // grouped for the selection UI: [{ title: "color", items: [...] }, { title: "size", items: [...] }]
     // `variants` itself stays too - the raw rows, needed to look up stock/price per exact combination
     variantGroups: groupVariants(product.variants),
+    // each color/size combination with its OWN price/realPrice already worked out,
+    // so the page can show a price per combination without an extra request
+    variants: product.variants.map((v) => ({
+      ...v,
+      ...computeVariantPrices(product.price, product.discount, v.priceDiff),
+    })),
     // `tags` -> the "Tags" tab; each links to /blog?tag=<slug> (same BlogTag model the blog uses)
     // `_count.comments` -> total comment count (for a "Comments (12)" tab label); fetch the
     // actual thread from GET /api/products/:slug/comments
@@ -77,6 +90,42 @@ export async function PATCH(
         where: { slug },
         data: { images: { deleteMany: {} } },
       });
+    }
+
+    // "variants" here UPSERTS by color+size combination (it never deletes), so you can
+    // reprice/restock individual combinations - priceDiff is how a color/size
+    // combination gets its own price - without breaking cart/order rows pointing at them
+    if (body.variants?.length) {
+      const target = await prisma.product.findUnique({ where: { slug } });
+      if (!target) {
+        return NextResponse.json({ error: "Product not found" }, { status: 404 });
+      }
+      for (const v of body.variants as {
+        color?: string | null;
+        size?: string | null;
+        stock?: number;
+        priceDiff?: number;
+      }[]) {
+        const existing = await prisma.productVariant.findFirst({
+          where: { productId: target.id, color: v.color ?? null, size: v.size ?? null },
+        });
+        if (existing) {
+          await prisma.productVariant.update({
+            where: { id: existing.id },
+            data: { stock: v.stock, priceDiff: v.priceDiff },
+          });
+        } else {
+          await prisma.productVariant.create({
+            data: {
+              productId: target.id,
+              color: v.color ?? null,
+              size: v.size ?? null,
+              stock: v.stock ?? 0,
+              priceDiff: v.priceDiff ?? 0,
+            },
+          });
+        }
+      }
     }
 
     // same convenience as POST: a categorySlug/brandSlug resolves to its id,

@@ -6,8 +6,8 @@ import Image from "next/image";
 export default function ShopDealsHero() {
   return (
     <div className="container my-sm-section">
-      <div className="lg:p-6 p-4 bg-gradient-primary flex max-sm:flex-col rounded-xl sm:items-end">
-        <div className="sm:pe-6">
+      <div className="lg:p-6 p-4 bg-gradient-primary flex max-sm:flex-col rounded-xl max-lg:items-end">
+        <div className="sm:pe-2">
           <Heading color="white" className="mb-3">
             Deals Products
           </Heading>
@@ -23,11 +23,11 @@ export default function ShopDealsHero() {
           <Countdown color="primary-light" endDate="2026-11-10T23:59:59" />
         </div>
         <Image
-          src="/img/img-1-removebg-preview.png"
+          src="/img/deals-hero.png"
           width={230}
           height={155}
           alt="products"
-          className="sm:ms-auto max-sm:mx-auto max-sm:order-first max-lg:w-[200px] max-sm:mb-2"
+          className="sm:ms-auto max-sm:mx-auto w-auto max-sm:order-first max-lg:w-[200px] max-sm:mb-2"
         />
       </div>
     </div>

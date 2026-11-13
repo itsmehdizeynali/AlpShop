@@ -5,7 +5,6 @@ import ShopProductsRardio from "./radio";
 import ShopProductsColorRardio from "./colorRadio";
 import clsx from "clsx";
 import type { SelectionsPropsType } from "./types";
-import { useEffect } from "react";
 
 export default function ShopProductsSelections({
   className,
@@ -18,11 +17,11 @@ export default function ShopProductsSelections({
 }: SelectionsPropsType) {
 
   return (
-    <div className={clsx(className)}>
+    <div className={clsx(className,"max-lg:w-full max-lg:flex flex-wrap gap-y-2 gap-x-4 lg:mb-4")}>
       {!!variants &&
         variants.map((item, index) => (
-          <div key={index} className="mb-2 last:mb-4">
-            <Heading variant="h4" className="mb-1">
+          <div key={index} className="max-lg:flex items-center gap-y-1 gap-x-2">
+            <Heading variant="h4">
               size
             </Heading>
             <ShopProductsRardio
@@ -33,7 +32,7 @@ export default function ShopProductsSelections({
           </div>
         ))}
       {!!colors && (
-        <div className="mb-4">
+        <div className="max-lg:flex items-center gap-y-1 gap-x-2">
           <Heading variant="h4" className="mb-1">
             color
           </Heading>

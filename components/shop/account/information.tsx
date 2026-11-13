@@ -21,6 +21,9 @@ export default function ShopAccountInformation({
       router.push("/auth/login");
     },
   });
+
+  console.log("25",information);
+  
   return (
     <div className="p-2 lg:w-78 w-full shrink-0 lg:sticky lg:top-0">
       <Card color="transparent" className="mb-2" hasBorder>
@@ -111,6 +114,7 @@ export default function ShopAccountInformation({
               <>
                 {!!information?.phone ? (
                   <Text size="sm" className="ms-auto capitalize">
+                    +{information?.countryPhoneCode} {" "}
                     {information?.phone}
                   </Text>
                 ) : (

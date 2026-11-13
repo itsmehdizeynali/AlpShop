@@ -17,7 +17,8 @@ export async function GET() {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const { password: _, ...profile } = user;
+  // lastName is not part of the account information (the address's fullName covers it)
+  const { password: _, lastName: __, ...profile } = user;
   return NextResponse.json({ user: profile }, { status: 200 });
 }
 
@@ -28,7 +29,7 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const { name, lastName, email, phone } = await req.json();
+    const { name, email, phone, countryPhoneCode } = await req.json();
 
     if (email) {
       const conflictingUser = await prisma.user.findFirst({
@@ -44,10 +45,10 @@ export async function PUT(req: Request) {
 
     const updatedUser = await prisma.user.update({
       where: { id: authUser.userId },
-      data: { name, lastName, email, phone },
+      data: { name, email, phone, countryPhoneCode: countryPhoneCode || 1 },
     });
 
-    const { password: _, ...userProfile } = updatedUser;
+    const { password: _, lastName: __, ...userProfile } = updatedUser;
     return NextResponse.json(
       { message: "Profile updated successfully", user: userProfile },
       { status: 200 },

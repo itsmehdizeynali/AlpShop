@@ -16,8 +16,7 @@ import {
   getProductService,
 } from "@/services/product";
 import { useParams } from "next/navigation";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addToCartService } from "@/services/cart";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { getProductsService } from "@/services/generic";
 import ShopSectionsProductsWrap from "../sections/productsWrap";
@@ -30,11 +29,11 @@ type TabsItemType = { id: string; name: string };
 export default function ShopProductsIdPage() {
   const { id } = useParams<{ id: string }>();
   const { data: product, isLoading: detailsLoading } = useQuery({
-    queryKey: ["product_details"],
+    queryKey: ["product_details",id],
     queryFn: () => getProductService(id),
   });
   const { data: related, isLoading: relatedProductsLoading } = useQuery({
-    queryKey: ["related_product", product?.category?.slug, product?.slug],
+    queryKey: ["related_product", product?.category?.slug],
     queryFn: () => getProductsService({ category: product?.category?.slug }),
   });
   
@@ -160,11 +159,6 @@ export default function ShopProductsIdPage() {
                   productRate={product?.rate.rate}
                   users={product?.rate.users}
                 />
-                {/* <ShopProductsSelections
-                  className="lg:hidden"
-                  colors={colors}
-                  variants={variants}
-                /> */}
                 <Text className="mb-4 text-justify">
                   {product?.description}
                 </Text>

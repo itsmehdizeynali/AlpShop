@@ -46,18 +46,18 @@ export default function LoadingProductSingle() {
             color="transparent"
             className="max-lg:gap-2 max-lg:flex-wrap max-lg:flex max-lg:items-center max-lg:rounded-none max-lg:border-0"
           >
-            <div className="bg-loading animate-pulse rounded-full h-5 w-20 mb-3"></div>
-            <ul className="gap-1 flex mb-5">
+            <div className="bg-loading animate-pulse rounded-full lg:h-5 h-4 lg:w-20 w-full lg:mb-3 mb-2"></div>
+            <ul className="gap-1 flex mb-5 max-lg:hidden">
               <li className="bg-loading animate-pulse rounded-full h-5 w-10"></li>
               <li className="bg-loading animate-pulse rounded-full h-5 w-10"></li>
               <li className="bg-loading animate-pulse rounded-full h-5 w-10"></li>
               <li className="bg-loading animate-pulse rounded-full h-5 w-10"></li>
             </ul>
-            <div className="flex gap-1 mb-3">
+            <div className="flex gap-1 mb-3 max-lg:hidden">
               <div className="bg-loading animate-pulse rounded-full h-5 w-20 mb-3"></div>
               <div className="bg-loading animate-pulse rounded-full h-5 w-20 mb-3"></div>
             </div>
-            <div className="bg-loading animate-pulse rounded-lg lg:h-11 h-10"></div>
+            <div className="w-full bg-loading animate-pulse rounded-lg lg:h-11 h-10"></div>
           </Card>
         </div>
       </div>

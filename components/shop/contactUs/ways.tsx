@@ -22,7 +22,7 @@ export default function ShopContactUsWays() {
               className="flex items-center !p-3 h-full"
             >
               <div className="w-12 h-12 me-2.5 shrink-0 flex items-center justify-center bg-primary-light text-primary rounded-lg">
-                <i className="icon-chart text-xl"></i>
+                <i className="icon-location text-xl"></i>
               </div>
               <div>
                 <Heading variant="h5" className="mb-0.5">
@@ -45,7 +45,7 @@ export default function ShopContactUsWays() {
               className="flex items-center !p-3 h-full"
             >
               <div className="w-12 h-12 me-2.5 shrink-0 flex items-center justify-center bg-primary-light text-primary rounded-lg">
-                <i className="icon-chart text-xl"></i>
+                <i className="icon-phone1 text-xl"></i>
               </div>
               <div>
                 <Heading variant="h5" className="mb-0.5">
@@ -65,7 +65,7 @@ export default function ShopContactUsWays() {
               className="flex items-center !p-3 h-full"
             >
               <div className="w-12 h-12 me-2.5 shrink-0 flex items-center justify-center bg-primary-light text-primary rounded-lg">
-                <i className="icon-chart text-xl"></i>
+                <i className="icon-email text-xl"></i>
               </div>
               <div>
                 <Heading variant="h5" className="mb-0.5">
@@ -82,7 +82,7 @@ export default function ShopContactUsWays() {
               className="flex items-center !p-3 h-full"
             >
               <div className="w-12 h-12 me-2.5 shrink-0 flex items-center justify-center bg-primary-light text-primary rounded-lg">
-                <i className="icon-chart text-xl"></i>
+                <i className="icon-wall-clock text-xl"></i>
               </div>
               <div>
                 <Heading variant="h5" className="mb-0.5">
@@ -99,7 +99,7 @@ export default function ShopContactUsWays() {
               className="flex items-center !p-3 h-full flex-wrap gap-2.5"
             >
               <div className="w-12 h-12 shrink-0 flex items-center justify-center bg-primary-light text-primary rounded-lg">
-                <i className="icon-chart text-xl"></i>
+                <i className="icon-share text-xl"></i>
               </div>
               <Heading variant="h5" className="me-auto">
                 Social Media

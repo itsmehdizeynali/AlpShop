@@ -48,6 +48,16 @@ export function computePrices(price: number, discount: number) {
   };
 }
 
+// Price of one specific color/size combination: the product's discounted price
+// plus that variant's own `priceDiff` (can be negative). `realPrice` is the same
+// thing before the discount. A product's default price is just priceDiff = 0.
+export function computeVariantPrices(price: number, discount: number, priceDiff = 0) {
+  return {
+    price: Number((price * (1 - discount / 100) + priceDiff).toFixed(2)),
+    realPrice: Number((price + priceDiff).toFixed(2)),
+  };
+}
+
 // replaces the raw `reviews`/`comments` arrays with the computed `rate: { rate, users }`
 // (reviews + any rated comments, combined) and adds `price` (after discount) +
 // `realPrice` (before discount)
