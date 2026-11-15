@@ -49,7 +49,7 @@ export default function Input({
         className={clsx(
           "w-full lg:h-11 h-10 border border-neutral-light bg-white flex items-center transition-all",
           className,
-          rounded ? "rounded-full" : "rounded-md",
+          rounded ? "rounded-full overflow-hidden" : "rounded-md",
           { "focus-within:border-primary": hasFocus },
           showMsg && generateBorderColor[msgType],
         )}

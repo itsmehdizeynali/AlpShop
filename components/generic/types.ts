@@ -318,5 +318,6 @@ export type CounterPropsType = {
   num: number;
   className?: string;
   queryKeys?: string[];
-  productId: string;
+  itemId: string;
+  variantId?: string;
 } & ComponentPropsWithoutRef<"div">;

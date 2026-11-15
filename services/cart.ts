@@ -25,19 +25,22 @@ export const addToCartService = async ({
 
 export const updateCartItemService = async ({
   itemId,
+  variantId,
   quantity,
 }: {
   itemId: string;
+  variantId?: string;
   quantity: number;
 }) => {
   const response = await apiClient.patch(API_ENDPOINTS.CART.ITEM(itemId), {
     quantity,
+    variantId
   });
   return response?.data;
 };
 
-export const removeCartItemService = async (itemId: string) => {
-  const response = await apiClient.delete(API_ENDPOINTS.CART.ITEM(itemId));
+export const removeCartItemService = async ({id,variantId}:{id: string, variantId?: string}) => {
+  const response = await apiClient.delete(API_ENDPOINTS.CART.ITEM(id), { params: { variantId } });
   return response?.data;
 };
 

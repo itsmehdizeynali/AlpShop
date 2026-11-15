@@ -4,16 +4,21 @@ import { Range, getTrackBackground } from "react-range";
 import { useEffect, useState } from "react";
 import Text from "./text";
 import type { PriceRangePropsType } from "./types";
+import { useSearchParams } from "next/navigation";
 
 export default function PriceRange({
   min = 0,
   max = 100,
   onChange,
 }: PriceRangePropsType) {
-  const [values, setValues] = useState([min, max]);
+  
+  const searchParams = useSearchParams();
+  const minPrice = Number(searchParams.get("minPrice"));
+  const maxPrice = Number(searchParams.get("maxPrice"));
+  const [values, setValues] = useState([minPrice||min, maxPrice||max]);
   useEffect(()=>{
-    setValues([min,max])
-  },[min,max])
+    setValues([minPrice||min, maxPrice||max])
+  },[minPrice,maxPrice,min,max])
   return (
     <div className="w-full">
       <div className="mb-4 flex justify-between text-sm">

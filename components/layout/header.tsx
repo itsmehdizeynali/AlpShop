@@ -93,7 +93,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
         <div className="container py-sm-section flex flex-wrap items-center">
           <Logo className="me-auto" />
           <LayoutSearchBox />
-          <ul className="flex items-center gap-3">
+          <ul className="flex items-center lg:gap-3 gap-1.5">
             <li className="relative max-lg:hidden">
               <span className="leading-none absolute z-10 top-0 -translate-y-1/2 end-0 translate-x-1/2 w-5 h-5 text-xs text-white bg-primary-dark rounded-full flex items-center justify-center">
                 {data?.cartCount}
@@ -124,7 +124,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
               <Btn
                 href="/contactUs"
                 as={Link}
-                color="primary"
+                color="white"
                 variant="lightness"
                 icon="icon-telephone"
                 square
@@ -135,7 +135,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
                 <Btn
                   href="/account"
                   as={Link}
-                  color="primary"
+                  color="white"
                   variant="lightness"
                   icon="icon-avatar"
                   square
@@ -146,7 +146,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
                 <Btn
                   href="/auth/login"
                   as={Link}
-                  color="primary"
+                  color="white"
                   variant="lightness"
                   icon="icon-add-user"
                   square
@@ -155,17 +155,17 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
             )}
           </ul>
         </div>
-        <div className="max-lg:py-4 max-lg:hidden">
+        <div>
           <div className="container">
             <div className="flex items-center border-b border-b-neutral-light !overflow-visible">
               <Btn
                 onClick={() => setShowModal(!showModal)}
-                className="me-8"
+                className="lg:me-8"
                 icon="icon-layout"
               >
                 categories
               </Btn>
-              <ul className="flex items-center grow overflow-x-auto hide-scrollbar">
+              <ul className="flex items-center grow overflow-x-auto hide-scrollbar max-lg:ps-2 max-sm:-me-4">
                 {links.map((item, index) => (
                   <li key={index}>
                     <Text
@@ -174,7 +174,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
                       color="dim"
                       href={item.href}
                       className={clsx(
-                        "py-4 px-6 text-nowrap block relative navbar-item-after",
+                        "py-4 lg:px-6 sm:px-3 px-2 text-nowrap block relative navbar-item-after",
                         { active: route === item.href },
                       )}
                     >

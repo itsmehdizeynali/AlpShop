@@ -49,7 +49,7 @@ export default function LayoutSearchBox() {
       />
       <form
         className={clsx(
-          "me-auto flex max-lg:order-last max-lg:w-full max-lg:mt-4 relative ",
+          "me-auto flex max-lg:order-last max-lg:w-full max-lg:mt-4 relative",
           { "z-40": showBackdrop },
         )}
         onSubmit={handelSubmit}
@@ -58,23 +58,19 @@ export default function LayoutSearchBox() {
           hasFocus={false}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          wrapClasses="w-full bg-white"
+          wrapClasses="w-full"
           onClick={() => setShowBackdrop(true)}
+          rounded
           className="lg:!w-[350px] !w-full"
           placeholder="Search for tech products . . ."
           endSide={
-            <Btn
-              size="base"
-              color="transparent"
-              className="rounded-s-none rounded-e-md max-lg:!bg-primary max-lg:!text-white"
-              square
-              icon="icon-search-svgrepo-com-2"
-              as={Link}
+            <Link
+              className={clsx({"opacity-20 pointer-events-none":search===""},"flex items-center justify-center h-full px-4 bg-primary text-white text-lg rounded-2xl")}
               href={`/products?search=${search}`}
-              disabled={search === ""}
-              type="submit"
               onClick={()=>setShowBackdrop(false)}
-            ></Btn>
+            >
+              <i className="icon-search-svgrepo-com-2"></i>
+            </Link>
           }
         />
         {showBackdrop && (
@@ -115,12 +111,13 @@ export default function LayoutSearchBox() {
                     href={`/products/${item.slug}`}
                     className="flex items-start py-1 px-4 hover:bg-neutral-lighter transition-all"
                   >
-                    <div className="bg-neutral-lighter w-14 h-14 p-1 rounded-lg flex items-center justify-center me-3">
+                    <div className="bg-neutral-lighter w-14 h-14 rounded-lg overflow-hidden flex items-center justify-center me-3">
                       <Image
                         src={`${item.images[0].url}.png`}
                         alt="product"
                         width={52}
                         height={52}
+                        className="w-full h-full object-cover object-center"
                       />
                     </div>
                     <div>
@@ -131,7 +128,7 @@ export default function LayoutSearchBox() {
                       >
                         {item.name}
                       </Heading>
-                      <Text color="black" weight="bold" size="base">
+                      <Text color="primary" weight="bold" size="base">
                         {item.price}$
                       </Text>
                     </div>

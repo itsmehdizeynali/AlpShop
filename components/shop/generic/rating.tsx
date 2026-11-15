@@ -19,7 +19,7 @@ export default function ShopRating({
   const [activeStar, setActiveStar] = useState(productRate || 0);
   const sizes = {
     sm: {
-      icon: "text-sm",
+      icon: "text-xs",
       text: "xs",
     },
     lg: {

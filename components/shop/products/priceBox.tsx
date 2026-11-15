@@ -24,7 +24,11 @@ export default function ShopProductsPriceBox({
   const [activeSize, setActiveSize] = useState<string | undefined>(undefined);
   const [activeColor, setActiveColor] = useState<string | undefined>(undefined);
 
-  const { data: variant, isLoading } = useQuery({
+  const {
+    data: variant,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["variant", slug, activeSize, activeColor],
     queryFn: () =>
       getProductVariantService({
@@ -38,12 +42,13 @@ export default function ShopProductsPriceBox({
       }),
   });
 
-  console.log(variant);
+  console.log(variants, colors);
 
   const QueryClient = useQueryClient();
   const addToCartMutation = useMutation({
     mutationFn: addToCartService,
     onSuccess: () => {
+      refetch();
       QueryClient.invalidateQueries({ queryKey: ["product_details"] });
       QueryClient.invalidateQueries({ queryKey: ["layout_data"] });
     },
@@ -58,17 +63,16 @@ export default function ShopProductsPriceBox({
       color="transparent"
       className="max-lg:gap-2 max-lg:flex-wrap max-lg:flex max-lg:items-center max-lg:rounded-none max-lg:border-0"
     >
-      {!!colors?.length ||
-        (!!variants?.length && (
-          <ShopProductsSelections
-            colors={colors}
-            variants={variants}
-            activeColor={activeColor}
-            setActiveColor={setActiveColor}
-            activeSize={activeSize}
-            setActiveSize={setActiveSize}
-          />
-        ))}
+      {(!!colors?.length || !!variants?.length) && (
+        <ShopProductsSelections
+          colors={colors}
+          variants={variants}
+          activeColor={activeColor}
+          setActiveColor={setActiveColor}
+          activeSize={activeSize}
+          setActiveSize={setActiveSize}
+        />
+      )}
       {isLoading ? (
         <div className="h-4 rounded-full w-full animate-pulse bg-loading mb-4"></div>
       ) : variant?.inStock ? (
@@ -92,10 +96,12 @@ export default function ShopProductsPriceBox({
       )}
       {variant?.isInCart ? (
         <Counter
-          productId={variant?.id as string}
-          queryKeys={["layout_data", "variant_details"]}
+          itemId={id}
+          variantId={variant?.id}
+          queryKeys={["layout_data", "variant"]}
           num={variant?.cartQuantity}
           max={variant?.stock}
+          className="max-lg:ms-auto"
         />
       ) : (
         <Btn

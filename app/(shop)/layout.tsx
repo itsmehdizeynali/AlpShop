@@ -21,11 +21,7 @@ export default function RootLayout({
       <LayoutToolbar className={clsx({ "max-lg:hidden": removeLayout })} />
       <LayoutHeader className={clsx({ "max-lg:hidden": removeLayout })} />
       {children}
-      <LayoutFooter
-        className={clsx(
-          removeLayout ? "max-lg:mb-16 max-sm:mb-24" : "max-lg:mb-15",
-        )}
-      />
+      <LayoutFooter/>
     </>
   );
 }

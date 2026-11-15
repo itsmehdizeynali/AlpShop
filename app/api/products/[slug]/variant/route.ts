@@ -1,6 +1,19 @@
 import { prisma } from "@/lib/prisma";
+import { getAuthUser } from "@/lib/auth-utils";
 import { computeVariantPrices } from "@/lib/product";
 import { NextResponse } from "next/server";
+
+// Is THIS exact line (product + variant) in the current user's cart, and how many?
+// A guest, or a combination that doesn't exist (variantId null from a missing combo,
+// which must not be confused with the product's default line), gets false / 0.
+async function cartInfo(userId: string | undefined, productId: string, variantId: string | null) {
+  if (!userId) return { isInCart: false, cartQuantity: 0 };
+  const item = await prisma.cartItem.findFirst({
+    where: { productId, variantId, cart: { userId } },
+    select: { quantity: true },
+  });
+  return { isInCart: !!item, cartQuantity: item?.quantity ?? 0 };
+}
 
 // GET /api/products/:slug/variant?color=&size=
 // Price/stock for the chosen combination (e.g. color=black&size=40) - call this
@@ -24,6 +37,8 @@ export async function GET(
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
+  const authUser = await getAuthUser();
+
   if (!color && !size) {
     return NextResponse.json(
       {
@@ -34,6 +49,8 @@ export async function GET(
           stock: product.stock,
           inStock: product.stock > 0,
           ...computeVariantPrices(product.price, product.discount, 0),
+          // the product's default line (no variant) in the cart
+          ...(await cartInfo(authUser?.userId, product.id, null)),
           isDefault: true,
         },
       },
@@ -58,6 +75,8 @@ export async function GET(
           stock: 0,
           inStock: false,
           ...computeVariantPrices(product.price, product.discount, 0),
+          isInCart: false,
+          cartQuantity: 0,
           isDefault: false,
         },
       },
@@ -74,6 +93,7 @@ export async function GET(
         stock: variant.stock,
         inStock: variant.stock > 0,
         ...computeVariantPrices(product.price, product.discount, variant.priceDiff),
+        ...(await cartInfo(authUser?.userId, product.id, variant.id)),
         isDefault: false,
       },
     },

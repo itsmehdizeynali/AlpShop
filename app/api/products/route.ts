@@ -24,9 +24,7 @@ export async function GET(req: Request) {
   const categorySlugs = category?.split(",").filter(Boolean) ?? [];
   const brandSlugs = brand?.split(",").filter(Boolean) ?? [];
 
-  // every filter EXCEPT price - used below to compute the slider's min/max bounds,
-  // so the bounds reflect "all products in this category/brand/sale" rather than
-  // shrinking to whatever min/maxPrice the user already dragged the slider to
+  // every filter EXCEPT price (the price filter is added on top of this below)
   const whereWithoutPrice: Prisma.ProductWhereInput = {
     isActive: true,
     // matches a product whose OWN category slug is in the list (works for a
@@ -77,8 +75,15 @@ export async function GET(req: Request) {
       orderBy: { createdAt: "desc" },
     }),
     prisma.product.count({ where }),
-    // min/max across the filtered-minus-price set, so the slider bounds make sense
-    prisma.product.aggregate({ where: whereWithoutPrice, _min: { price: true }, _max: { price: true } }),
+    // priceRange ignores EVERY filter (category, brand, sale, featured, search, price):
+    // it's the cheapest and the most expensive active product in the whole shop, so the
+    // slider bounds stay fixed no matter what is filtered. (Same `price` field the
+    // minPrice/maxPrice filter compares against, i.e. the price before discount.)
+    prisma.product.aggregate({
+      where: { isActive: true },
+      _min: { price: true },
+      _max: { price: true },
+    }),
   ]);
 
   const authUser = await getAuthUser();

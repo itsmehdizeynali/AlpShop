@@ -97,7 +97,7 @@ export default function ShopSectionsDeals() {
                 data?.products.map((item, index: number) => (
                   <SwiperSlide
                     key={index}
-                    className="lg:!max-w-[210px] !max-w-[180px] !h-auto"
+                    className="lg:!max-w-[195px] !max-w-[175px] !h-auto"
                   >
                     <WidgetProductCard
                       product={item}

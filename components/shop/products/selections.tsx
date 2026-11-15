@@ -21,7 +21,7 @@ export default function ShopProductsSelections({
       {!!variants &&
         variants.map((item, index) => (
           <div key={index} className="max-lg:flex items-center gap-y-1 gap-x-2">
-            <Heading variant="h4">
+            <Heading variant="h4" className="max-lg:hidden">
               size
             </Heading>
             <ShopProductsRardio
@@ -33,7 +33,7 @@ export default function ShopProductsSelections({
         ))}
       {!!colors && (
         <div className="max-lg:flex items-center gap-y-1 gap-x-2">
-          <Heading variant="h4" className="mb-1">
+          <Heading variant="h4" className="mb-1 max-lg:hidden">
             color
           </Heading>
           <ShopProductsColorRardio

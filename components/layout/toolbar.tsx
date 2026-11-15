@@ -5,48 +5,68 @@ import LayoutHeaderCategoryModal from "./categoryModal";
 import { useState } from "react";
 import type { ToolbarPropsType } from "./types";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
-export default function LayoutToolbar({className=""}:ToolbarPropsType) {
+export default function LayoutToolbar({ className = "" }: ToolbarPropsType) {
   const [showModal, setShowModal] = useState(false);
+  const pathName=usePathname()
   return (
     <>
-    <LayoutHeaderCategoryModal isOpenModal={showModal} closeModal={()=>setShowModal(false)} />
-    <div className={clsx( className,"bg-white shadow-card fixed bottom-0 right-0 z-30 w-full lg:hidden")}>
-      <ul className="container max-sm:!px-0 flex">
-        <li className="w-1/5">
-          <Link href="/" className="w-full flex flex-col items-center justify-center text-xs h-[60px]">
-            <i className="icon-home text-md mb-1.5"></i>
-            home
-          </Link>
-        </li>
-        <li className="w-1/5">
-          <div onClick={()=>setShowModal(true)} className="w-full flex flex-col items-center justify-center text-xs h-[60px]">
-            <i className="icon-layout text-md mb-1.5"></i>
-            categories
-          </div>
-        </li>
-        <li className="w-1/5">
-          <Link href="/cart" className="w-full flex flex-col items-center justify-center text-xs h-[60px]">
-          <div className="w-10 h-10 flex items-center justify-center -mt-6 bg-primary text-white rounded-full mb-2">
-            <i className="icon-basket1 text-sm"></i>
-          </div>
-            basket
-          </Link>
-        </li>
-        <li className="w-1/5">
-          <Link href="/products" className="w-full flex flex-col items-center justify-center text-xs h-[60px]">
-            <i className="icon-bag text-md mb-1.5"></i>
-            shop
-          </Link>
-        </li>
-        <li className="w-1/5">
-          <Link href="/account" className="w-full flex flex-col items-center justify-center text-xs h-[60px]">
-            <i className="icon-avatar2 text-md mb-1.5"></i>
-            user
-          </Link>
-        </li>
-      </ul>
-    </div>
+      <LayoutHeaderCategoryModal
+        isOpenModal={showModal}
+        closeModal={() => setShowModal(false)}
+      />
+      <div
+        className={clsx(
+          className,
+          "max-w-90 px-4 w-full z-30 lg:hidden fixed bottom-2 right-1/2 translate-x-1/2",
+        )}
+      >
+        <div className="w-full p-1 bg-white shadow-lighter-alpha backdrop-blur-2xl rounded-full">
+          <ul className="mx-auto flex items-center gap-1">
+            <li className="w-1/5">
+              <Link
+                href="/"
+                className={clsx("flex items-center justify-center h-11 bg-neutral-light/40 rounded-full transition-all",{"bg-primary text-white":pathName==="/"})}
+              >
+                <i className="icon-home text-md"></i>
+              </Link>
+            </li>
+            <li className="w-1/5">
+              <div
+                onClick={() => setShowModal(true)}
+                className="flex items-center justify-center h-11 bg-neutral-light/40 rounded-full transition-all"
+              >
+                <i className="icon-layout text-md"></i>
+              </div>
+            </li>
+            <li className="w-1/5">
+              <Link
+                href="/cart"
+                className={clsx("flex items-center justify-center h-11 bg-neutral-light/40 rounded-full transition-all",{"bg-primary text-white":pathName==="/cart"})}
+              >
+                <i className="icon-basket1 text-md"></i>
+              </Link>
+            </li>
+            <li className="w-1/5">
+              <Link
+                href="/products"
+                className={clsx("flex items-center justify-center h-11 bg-neutral-light/40 rounded-full transition-all",{"bg-primary text-white":pathName==="/products"})}
+              >
+                <i className="icon-bag text-md"></i>
+              </Link>
+            </li>
+            <li className="w-1/5">
+              <Link
+                href="/account"
+                className={clsx("flex items-center justify-center h-11 bg-neutral-light/40 rounded-full transition-all",{"bg-primary text-white":pathName==="/account"})}
+              >
+                <i className="icon-avatar2 text-md"></i>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </>
   );
 }

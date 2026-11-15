@@ -12,9 +12,7 @@ import ShopRating from "../generic/rating";
 import HeaderSection from "@/components/generic/headerSection";
 import Tabs from "@/components/generic/tabs";
 import clsx from "clsx";
-import {
-  getProductService,
-} from "@/services/product";
+import { getProductService } from "@/services/product";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -29,14 +27,13 @@ type TabsItemType = { id: string; name: string };
 export default function ShopProductsIdPage() {
   const { id } = useParams<{ id: string }>();
   const { data: product, isLoading: detailsLoading } = useQuery({
-    queryKey: ["product_details",id],
+    queryKey: ["product_details", id],
     queryFn: () => getProductService(id),
   });
   const { data: related, isLoading: relatedProductsLoading } = useQuery({
     queryKey: ["related_product", product?.category?.slug],
     queryFn: () => getProductsService({ category: product?.category?.slug }),
   });
-  
 
   const relatedProducts = related?.products.filter(
     (item) => item.id !== product?.id,
@@ -83,176 +80,196 @@ export default function ShopProductsIdPage() {
   const variants = product?.variantGroups.filter(
     (item) => item.title !== "color",
   );
+  
 
   return (
     <>
-    {
-      detailsLoading?
-      <LoadingProductSingle/>:
-      <>
-      {!!product && (
-        <div className="container my-section max-sm:mt-sm-section">
-          <div className="-m-2 flex items-start max-lg:flex-wrap">
-            <div className="p-2 lg:grow max-lg:w-full">
-              <div className="flex max-sm:flex-wrap mb-4">
-                <Swiper
-                  className="sm:h-80 sm:w-16 w-full shrink-0 max-sm:order-last"
-                  mousewheel={true}
-                  breakpoints={{
-                    576: {
-                      direction: "vertical",
-                    },
-                  }}
-                  slidesPerView={"auto"}
-                  spaceBetween={8}
-                  onSwiper={setThumbsSwiper}
-                  watchSlidesProgress={true}
-                  modules={[Mousewheel, Thumbs]}
-                >
-                  {product?.images.map((item, index) => (
-                    <SwiperSlide key={index} className="max-h-16 max-w-16">
-                      <Image
-                        src={product.images[0].url}
-                        alt={item.altText || "product"}
-                        width={300}
-                        height={300}
-                        className="w-16 h-16 object-center cursor-pointer object-scale-down p-2 rounded-lg bg-neutral-lighter hover:bg-neutral-light transition-all"
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className="sm:grow max-sm:w-full sm:ps-4 max-sm:mb-2">
-                  <div className="w-full sm:h-80 h-60 bg-neutral-lighter rounded-lg p-4 overflow-hidden">
+      {detailsLoading ? (
+        <LoadingProductSingle />
+      ) : (
+        <>
+          {!!product && (
+            <div className="container my-section max-sm:mt-sm-section">
+              <div className="-m-2 flex items-start max-lg:flex-wrap">
+                <div className="p-2 lg:grow max-lg:w-full">
+                  <div className="flex max-sm:flex-wrap mb-4">
                     <Swiper
-                      modules={[Thumbs]}
-                      thumbs={{ swiper: thumbsSwiper }}
-                      className="!max-w-full h-full"
+                      className="sm:h-80 sm:w-16 w-full shrink-0 max-sm:order-last"
+                      mousewheel={true}
                       breakpoints={{
                         576: {
                           direction: "vertical",
                         },
                       }}
-                      slidesPerView={1}
+                      slidesPerView={"auto"}
                       spaceBetween={8}
+                      onSwiper={setThumbsSwiper}
+                      watchSlidesProgress={true}
+                      modules={[Mousewheel, Thumbs]}
                     >
                       {product?.images.map((item, index) => (
-                        <SwiperSlide key={index}>
-                          <Image
-                            src={product.images[0].url}
-                            alt={item.altText || "product"}
-                            width={300}
-                            height={300}
-                            className="w-full h-full object-center object-scale-down"
-                          />
+                        <SwiperSlide key={index} className="max-h-16 max-w-16 group">
+                          <div className="p-1.5 w-16 h-16 rounded-xl cursor-pointer group-[&.swiper-slide-thumb-active]:bg-primary-light! bg-neutral-lighter hover:bg-neutral-light transition-all">
+                            <Image
+                              src={product.images[0].url}
+                              alt={item.altText || "product"}
+                              width={56}
+                              height={56}
+                              className="object-center object-cover rounded-lg w-full h-full"
+                            />
+                          </div>
                         </SwiperSlide>
                       ))}
                     </Swiper>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <Heading className="mb-2">{product?.name}</Heading>
-                <ShopRating
-                  size="lg"
-                  disabled
-                  className="mb-4"
-                  productRate={product?.rate.rate}
-                  users={product?.rate.users}
-                />
-                <Text className="mb-4 text-justify">
-                  {product?.description}
-                </Text>
-                <ul className="flex flex-wrap -m-1 mb-4">
-                  {product?.specs.map((item, index) => (
-                    <li className="p-1 grow" key={index}>
-                      <div className="p-3 bg-neutral-light rounded-lg">
-                        <Text color="dim" className="mb-1.5">
-                          {item.label}
-                        </Text>
-                        <Text color="black">{item.value}</Text>
+                    <div className="sm:grow max-sm:w-full sm:ps-4 max-sm:mb-2">
+                      <div className="w-full sm:h-80 h-60 bg-neutral-lighter rounded-lg p-4 overflow-hidden">
+                        <Swiper
+                          modules={[Thumbs]}
+                          thumbs={{ swiper: thumbsSwiper }}
+                          className="!max-w-full h-full"
+                          breakpoints={{
+                            576: {
+                              direction: "vertical",
+                            },
+                          }}
+                          slidesPerView={1}
+                          spaceBetween={8}
+                        >
+                          {product?.images.map((item, index) => (
+                            <SwiperSlide key={index}>
+                              <Image
+                                src={product.images[0].url}
+                                alt={item.altText || "product"}
+                                width={300}
+                                height={300}
+                                className="w-full h-full object-center object-scale-down"
+                              />
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-                <Tabs
-                  wrapclass="flex items-center hide-scrollbar overflow-x-auto border border-t-0 border-neutral-light rounded-lg mb-4"
-                  renderCell={renderCell}
-                  tabs={tabsItems}
-                  changeTab={(id) => setActiveTab(id)}
-                />
-                {activeTab === "description" && (
-                  <Card color="transparent" hasBorder>
-                    <HeaderSection shape size="h4" className="mb-sm-section">
-                      Description
-                    </HeaderSection>
-                    <Text>{product?.description}</Text>
-                  </Card>
-                )}
-                {activeTab === "specifications" && (
-                  <Card color="transparent" hasBorder>
-                    <HeaderSection shape size="h4" className="mb-sm-section">
-                      Specifications
-                    </HeaderSection>
-                    {product?.specs && (
-                      <ul>
-                        {product?.specs.map((item, index) => (
-                          <li
-                            key={index}
-                            className="flex group mb-4 last:mb-0 max-sm:flex-wrap"
-                          >
-                            <Text
-                              color="black"
-                              weight="bold"
-                              className="lg:w-50 sm:w-32 w-full max-sm:mb-3 shrink-0"
-                            >
+                    </div>
+                  </div>
+                  <div>
+                    <Heading className="mb-2">{product?.name}</Heading>
+                    <ShopRating
+                      size="lg"
+                      disabled
+                      className="mb-4"
+                      productRate={product?.rate.rate}
+                      users={product?.rate.users}
+                    />
+                    <Text className="mb-4 text-justify">
+                      {product?.description}
+                    </Text>
+                    <ul className="flex flex-wrap -m-1 mb-4">
+                      {product?.specs.map((item, index) => (
+                        <li className="p-1 grow" key={index}>
+                          <div className="p-3 bg-neutral-light rounded-lg">
+                            <Text color="dim" className="mb-1.5">
                               {item.label}
                             </Text>
-                            <Text className="border-b group-last:border-b-0 border-b-neutral-light grow pb-4">
-                              {item.value}
-                            </Text>
-                          </li>
-                        ))}
-                      </ul>
+                            <Text color="black">{item.value}</Text>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <Tabs
+                      wrapclass="flex items-center hide-scrollbar overflow-x-auto border border-t-0 border-neutral-light rounded-lg mb-4"
+                      renderCell={renderCell}
+                      tabs={tabsItems}
+                      changeTab={(id) => setActiveTab(id)}
+                    />
+                    {activeTab === "description" && (
+                      <Card color="transparent" hasBorder>
+                        <HeaderSection
+                          shape
+                          size="h4"
+                          className="mb-sm-section"
+                        >
+                          Description
+                        </HeaderSection>
+                        <Text>{product?.description}</Text>
+                      </Card>
                     )}
-                  </Card>
-                )}
-                {activeTab === "tags" && (
-                  <Card color="transparent" hasBorder>
-                    <HeaderSection shape size="h4" className="mb-sm-section">
-                      Blog Tags
-                    </HeaderSection>
-                    {!!product?.tags && (
-                      <ul className="flex flex-wrap gap-2">
-                        {product?.tags.map((item, index: number) => (
-                          <li key={index}>
-                            <Btn
-                              size="sm"
-                              variant="lightness"
-                              color="black"
-                              as={Link}
-                              href={`/blog?tag=${item?.slug}`}
-                            >
-                              {item?.name}
-                            </Btn>
-                          </li>
-                        ))}
-                      </ul>
+                    {activeTab === "specifications" && (
+                      <Card color="transparent" hasBorder>
+                        <HeaderSection
+                          shape
+                          size="h4"
+                          className="mb-sm-section"
+                        >
+                          Specifications
+                        </HeaderSection>
+                        {product?.specs && (
+                          <ul>
+                            {product?.specs.map((item, index) => (
+                              <li
+                                key={index}
+                                className="flex group mb-4 last:mb-0 max-sm:flex-wrap"
+                              >
+                                <Text
+                                  color="black"
+                                  weight="bold"
+                                  className="lg:w-50 sm:w-32 w-full max-sm:mb-3 shrink-0"
+                                >
+                                  {item.label}
+                                </Text>
+                                <Text className="border-b group-last:border-b-0 border-b-neutral-light grow pb-4">
+                                  {item.value}
+                                </Text>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </Card>
                     )}
-                  </Card>
-                )}
-                {activeTab === "comments" && !!product?.slug && (
-                  <ShopCommentsWrap slug={product.slug} />
-                )}
+                    {activeTab === "tags" && (
+                      <Card color="transparent" hasBorder>
+                        <HeaderSection
+                          shape
+                          size="h4"
+                          className="mb-sm-section"
+                        >
+                          Blog Tags
+                        </HeaderSection>
+                        {!!product?.tags && (
+                          <ul className="flex flex-wrap gap-2">
+                            {product?.tags.map((item, index: number) => (
+                              <li key={index}>
+                                <Btn
+                                  size="sm"
+                                  variant="lightness"
+                                  color="black"
+                                  as={Link}
+                                  href={`/blog?tag=${item?.slug}`}
+                                >
+                                  {item?.name}
+                                </Btn>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </Card>
+                    )}
+                    {activeTab === "comments" && !!product?.slug && (
+                      <ShopCommentsWrap slug={product.slug} />
+                    )}
+                  </div>
+                </div>
+                <div className="lg:p-2 lg:w-78 w-full sticky lg:top-0 shrink-0 max-lg:z-40 max-lg:bg-white max-lg:shadow-card max-lg:bottom-0 max-lg:fixed max-lg:start-0">
+                  <ShopProductsPriceBox
+                    colors={colors}
+                    variants={variants}
+                    slug={id}
+                    id={product.id}
+                  />
+                </div>
               </div>
             </div>
-            <div className="lg:p-2 lg:w-78 w-full sticky lg:top-0 shrink-0 max-lg:z-40 max-lg:bg-white max-lg:shadow-card max-lg:bottom-0 max-lg:fixed max-lg:start-0">
-              <ShopProductsPriceBox colors={colors} variants={variants} slug={id} id={product.id}/>
-            </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
-      </>
-    }
       <ShopSectionsProductsWrap
         queryKeys={["layout_data", "related_product"]}
         isLoading={relatedProductsLoading}

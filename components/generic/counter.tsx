@@ -12,7 +12,8 @@ export default function Counter({
   max,
   num,
   className,
-  productId,
+  itemId,
+  variantId,
   queryKeys,
 }: CounterPropsType) {
   const [number, setNumber] = useState(num);
@@ -43,10 +44,10 @@ export default function Counter({
   const changeCount = (type: "add" | "reduce" | "remove") => {
     if (type === "add" || type === "reduce") {
       const quantity = type === "add" ? num + 1 : num - 1;
-      setQuantityInCartMutation.mutate({ itemId: productId, quantity });
+      setQuantityInCartMutation.mutate({ itemId: itemId,variantId, quantity });
       return;
     }
-    removeItemFromCartMutation.mutate(productId);
+    removeItemFromCartMutation.mutate({id:itemId as string,variantId});
   };
 
   const isLoading= setQuantityInCartMutation.isPending || removeItemFromCartMutation.isPending
@@ -55,7 +56,7 @@ export default function Counter({
     <div
       className={clsx(
         className,
-        "flex items-center w-fit bg-white shadow-lighter-alpha p-1 rounded-full overflow-hidden",
+        "flex items-center w-fit bg-white shadow-card p-1 rounded-full overflow-hidden",
       )}
     >
       {count === min && (

@@ -7,7 +7,7 @@ import Checkbox from "@/components/generic/checkbox";
 import Heading from "@/components/generic/heading";
 import PriceRange from "@/components/generic/priceRange";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { SidebarPropsType } from "./types";
 import { getBrandsService, getCategoriesService } from "@/services/generic";
 import { useQuery } from "@tanstack/react-query";
@@ -28,7 +28,6 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
     queryFn: getBrandsService,
   });
 
-  const searchParams = useSearchParams();
   const { setManyParams, getParamList } = useSetParams();
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
     getParamList("category"),
@@ -37,12 +36,16 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
     getParamList("brand"),
   );
 
-  const minPrice = Number(searchParams.get("minPrice"));
-  const maxPrice = Number(searchParams.get("maxPrice"));
   const [priceRange, setPriceRange] = useState<number[]>(() => [
-    minPrice || price?.min || 0,
-    maxPrice || price?.max || 10000,
+    price?.min || 0,
+    price?.max || 10000,
   ]);
+
+  useEffect(() => {
+    if (price) {
+      setPriceRange([price?.min, price?.max]);
+    }
+  }, [price]);
 
   const handleCheckCategory = ({
     type,
@@ -268,8 +271,8 @@ export default function ShopSidebar({ price }: SidebarPropsType) {
                 </Heading>
                 <div className="p-4 max-h-[180px] overflow-y-auto custom-scroll">
                   <PriceRange
-                    min={minPrice||price.min}
-                    max={maxPrice||price.max}
+                    min={price.min}
+                    max={price.max}
                     onChange={changePriceRange}
                   />
                 </div>

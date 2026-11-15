@@ -39,7 +39,10 @@ export default function ShopProductsPage() {
         minPrice: minPrice ? Number(minPrice) : undefined,
       }),
   });
+  
 
+  console.log(data);
+  
   return (
     <div className="container my-section">
       <div className="flex flex-wrap items-start -m-2">

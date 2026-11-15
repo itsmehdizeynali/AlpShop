@@ -48,7 +48,7 @@ export default function ShopWishlistPage() {
           <>
             {data?.items.map((item: WishlistItemType, index: number) => (
               <div
-                className="p-1 xl:w-1/5 md:w-1/4 sm:w-1/3 w-full"
+                className="p-1 xl:w-1/6 lg:w-1/5 md:w-1/4 sm:w-1/3 w-full"
                 key={index}
               >
                 <WidgetProductCard

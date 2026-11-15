@@ -29,26 +29,26 @@ export default function WidgetProductRowCard({
       <div className="grow flex">
         <Link
           href={`/products/${item.product.slug}`}
-          className="block lg:me-4 me-3 shrink-0"
+          className="block lg:me-4 me-3 shrink-0 rounded-lg overflow-hidden self-start"
         >
           <Image
             src={item.product.images[0].url}
             width={100}
             height={100}
             className={clsx(
-              "lg:h-30 lg:w-30 h-24 w-24 object-scale-down object-center",
+              "lg:h-30 lg:w-30 h-24 w-24 object-cover object-center",
             )}
             alt="product"
           />
         </Link>
-        <div className="flex flex-col justify-between grow me-2">
+        <div className="flex flex-col justify-between grow">
           <Heading
             as={Link}
             href={`/products/${item.product.slug}`}
             variant="h6"
-            className="mb-2.5 line-clamp-2!"
+            className="mb-2.5 line-clamp-2! lg:-me-31 sm:-me-29"
           >
-            {item.product.name} frfkrflrnfl klrnflen fwkn
+            {item.product.name}
           </Heading>
           <div>
             {(!!item.variant?.color || !!item.variant?.size) && (
@@ -69,7 +69,7 @@ export default function WidgetProductRowCard({
             )}
             <ShopRating
               disabled
-              className="lg:mb-2 mb-1 max-sm:hidden"
+              className="lg:mb-2 mb-1"
               productRate={item.product.rate.rate}
               users={item.product.rate.users}
             />
@@ -91,7 +91,7 @@ export default function WidgetProductRowCard({
       </div>
       <div className="sm:self-end">
         <Counter
-          productId={item?.id}
+          itemId={item?.id}
           queryKeys={queryKeys}
           num={item?.quantity}
           max={item.product.stock}

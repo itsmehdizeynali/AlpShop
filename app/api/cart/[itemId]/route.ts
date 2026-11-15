@@ -1,19 +1,33 @@
 import { prisma } from "@/lib/prisma";
 import { getAuthUser } from "@/lib/auth-utils";
+import { getDefaultVariant } from "@/lib/cart";
 import { NextResponse } from "next/server";
 
-// The :itemId segment accepts EITHER a cart item's own id OR a product's id
-// (optionally paired with ?variantId=... for products that have variants) - so
-// the single-product page, which only knows the productId, and the cart page,
-// which has the cart item's id, can both call the exact same route/function.
+// The :itemId segment accepts EITHER a cart item's own id OR a product's id - so the
+// cart page (which has the cart item's id), the single-product page (productId +
+// the chosen variantId) and a product card with no picker (productId only) can all
+// call the exact same route/function.
+//
+// With a productId:
+//   - variantId given  -> that exact variant's line
+//   - variantId absent -> the product's FIRST variant (first in-stock color + size,
+//     the same rule "add to cart" uses), or the plain line if it has no variants
 async function resolveCartItem(idOrProductId: string, userId: string, variantId?: string | null) {
   const byItemId = await prisma.cartItem.findFirst({
     where: { id: idOrProductId, cart: { userId } },
   });
   if (byItemId) return byItemId;
 
+  let targetVariantId: string | null = variantId ?? null;
+  if (!targetVariantId) {
+    const fallback = await getDefaultVariant(idOrProductId);
+    // fallbackVariantId: if every variant has since sold out, still find the line that
+    // add-to-cart created earlier so it can be reduced/removed
+    targetVariantId = fallback.variantId ?? fallback.fallbackVariantId;
+  }
+
   return prisma.cartItem.findFirst({
-    where: { productId: idOrProductId, variantId: variantId ?? null, cart: { userId } },
+    where: { productId: idOrProductId, variantId: targetVariantId, cart: { userId } },
   });
 }
 

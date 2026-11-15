@@ -17,5 +17,5 @@ export interface HeaderPropsType {
   className: string;
 }
 export interface FooterPropsType {
-  className: string;
+  className?: string;
 }

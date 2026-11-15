@@ -35,19 +35,19 @@ export default function WidgetProductCard({
   const addToCartMutation = useMutation({
     mutationFn: addToCartService,
     onSuccess: () => {
-      handelQueryKeys()
+      handelQueryKeys();
     },
   });
   const addToWishlistMutation = useMutation({
     mutationFn: addToWishlistService,
     onSuccess: () => {
-      handelQueryKeys()
+      handelQueryKeys();
     },
   });
   const removeFromWishlistMutation = useMutation({
     mutationFn: removeFromWishlistService,
     onSuccess: () => {
-      handelQueryKeys()
+      handelQueryKeys();
     },
   });
 
@@ -59,24 +59,25 @@ export default function WidgetProductCard({
     addToWishlistMutation.mutate(product.id);
   };
   const handelAddToCartBtn = () => {
-    addToCartMutation.mutate({productId:product.id});
+    addToCartMutation.mutate({ productId: product.id });
   };
 
   return (
     <Card
       color={color}
       className={clsx(
-        { "max-sm:flex-row": responsive },
-        "relative flex flex-col h-full",
+        { "max-sm:flex-row max-sm:items-center max-sm:p-2!": responsive },
+        "relative flex flex-col h-full p-3!",
       )}
       hasBorder={hasBorder}
     >
       {!!product?.discount && (
         <Chip
           color={spacial ? "primary" : "secondary"}
+          rounded
           className={clsx(
             { "max-sm:hidden": responsive },
-            "!absolute lg:top-4 top-3 lg:start-4 start-3 z-10",
+            "!absolute top-2 start-2 z-10",
           )}
         >
           {product.discount}%
@@ -85,26 +86,28 @@ export default function WidgetProductCard({
       <Btn
         icon={product.isWishlisted ? "icon-heart" : "icon-heart1"}
         square
-        variant="text"
-        color="danger"
+        size="xs"
+        color={product.isWishlisted ? "danger" : "white"}
+        rounded
         className={clsx(
-          product.isWishlisted ? "opacity-100" : "opacity-20",
-          "hover:!opacity-80 lg:top-4 top-3 lg:end-4 end-3 z-10 !absolute",
+          { "shadow-card": !product.isWishlisted },
+          "top-1 end-1 z-10 !absolute",
         )}
+        loading={addToWishlistMutation.isPending}
         onClick={handelWishlistBtn}
       />
       <Link
         href={`/products/${product.slug}`}
-        className={clsx("block mb-3", {
-          "max-sm:mb-0 max-sm:me-2": responsive,
-        })}
+        className={clsx("block mb-3 rounded-lg overflow-hidden shrink-0",
+           responsive?"max-sm:mb-0 max-sm:me-2 sm:w-full":"w-full",
+        )}
       >
         <Image
           src={product.images[0].url}
           width={180}
           height={180}
           className={clsx(
-            "w-full lg:h-[180px] h-[150px] object-scale-down object-center",
+            "w-full lg:h-[180px] h-[150px] shrink-0 object-cover object-center",
             {
               "max-sm:!w-20 max-sm:!h-20": responsive,
             },
@@ -117,7 +120,10 @@ export default function WidgetProductCard({
           as={Link}
           href={`/products/${product.slug}`}
           variant="h6"
-          className="mb-2.5 !line-clamp-2"
+          className={clsx(
+            { "pe-8": responsive },
+            "mb-2.5 !line-clamp-2",
+          )}
         >
           {product.name}
         </Heading>
@@ -131,9 +137,9 @@ export default function WidgetProductCard({
           <div className="flex items-center">
             <Price>{product.price}</Price>
             {!(product.realPrice - product.price === 0) && (
-            <Text as="del" size="xs" className="ms-2">
-              ${product.realPrice}
-            </Text>
+              <Text as="del" size="xs" className="ms-2">
+                ${product.realPrice}
+              </Text>
             )}
             {!product.isInCart && spacial && (
               <Btn

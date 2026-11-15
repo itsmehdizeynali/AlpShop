@@ -3,6 +3,7 @@ import { getAuthUser } from "@/lib/auth-utils";
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { enrichForUser, productInclude, withRate } from "@/lib/product";
+import { getDefaultVariant } from "@/lib/cart";
 
 async function getOrCreateCart(userId: string) {
   return prisma.cart.upsert({
@@ -63,6 +64,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
+    // Which variant? If the caller picked one (variantId), use it. If not (e.g. the
+    // add button on a product card, with no color/size picker), use the product's
+    // first in-stock variant: first available color + its first available size.
+    let resolvedVariantId: string | null = variantId ?? null;
+    if (resolvedVariantId) {
+      const chosen = await prisma.productVariant.findUnique({
+        where: { id: resolvedVariantId },
+        select: { productId: true },
+      });
+      if (!chosen || chosen.productId !== productId) {
+        return NextResponse.json(
+          { error: "variantId does not belong to this product" },
+          { status: 400 },
+        );
+      }
+    } else {
+      const fallback = await getDefaultVariant(productId);
+      if (fallback.hasVariants) {
+        if (!fallback.variantId) {
+          return NextResponse.json({ error: "Out of stock" }, { status: 400 });
+        }
+        resolvedVariantId = fallback.variantId;
+      }
+    }
+
     const cart = await prisma.cart.upsert({
       where: { userId: authUser.userId },
       update: {},
@@ -73,7 +99,7 @@ export async function POST(req: Request) {
       where: {
         cartId: cart.id,
         productId,
-        variantId: variantId ?? null,
+        variantId: resolvedVariantId,
       },
     });
 
@@ -83,7 +109,7 @@ export async function POST(req: Request) {
           data: { quantity: existingItem.quantity + qty },
         })
       : await prisma.cartItem.create({
-          data: { cartId: cart.id, productId, variantId, quantity: qty },
+          data: { cartId: cart.id, productId, variantId: resolvedVariantId, quantity: qty },
         });
 
     return NextResponse.json({ item }, { status: 201 });

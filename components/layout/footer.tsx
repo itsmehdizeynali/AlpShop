@@ -5,11 +5,18 @@ import Logo from "../generic/logo";
 import Text from "../generic/text";
 import clsx from "clsx";
 import type { FooterPropsType } from "./types";
+import { usePathname } from "next/navigation";
 
 export default function LayoutFooter({ className = "" }: FooterPropsType) {
+  
+    const path = usePathname();
+    const removeLayout = path.startsWith("/products/");
   return (
     <footer className={clsx(className, "py-section bg-neutral-lighter")}>
-      <div className="container">
+      <div 
+        className={clsx("container",
+          removeLayout ? "max-lg:mb-16 max-sm:mb-24" : "max-lg:mb-15",
+        )}>
         <div className="lg:-m-6 -m-3 flex max-lg:flex-wrap items-start justify-between">
           <div className="lg:w-[300px] shrink-0 w-full lg:p-6 p-3">
             <Logo className="mb-4" size="sm" />

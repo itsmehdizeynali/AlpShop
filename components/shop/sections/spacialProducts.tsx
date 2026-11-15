@@ -53,11 +53,11 @@ export default function ShopSectionsSpacialProducts() {
                 freeMode: true,
               },
               992: {
-                slidesPerView: 4,
+                slidesPerView: 4.5,
                 freeMode: false,
               },
               1200: {
-                slidesPerView: 5,
+                slidesPerView: 5.5,
                 freeMode: false,
               },
             }}
