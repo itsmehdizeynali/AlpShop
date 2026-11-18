@@ -26,7 +26,6 @@ export default function ShopCartPayment({
     queryKey: ["Addresses"],
     queryFn: getAddressesService,
   });
-  console.log(addresses);
   const QueryClient = useQueryClient();
 
   const checkoutMutation = useMutation({

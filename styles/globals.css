@@ -364,10 +364,13 @@
 html {
   scroll-behavior: smooth;
 }
+body {
+  @apply flex flex-col
+}
 
 body,
 html {
-  @apply text-left font-medium font-Muil text-black min-h-screen bg-white;
+  @apply text-left font-medium font-Muil text-black min-h-screen bg-white ;
   direction: ltr;
 }
 

@@ -22,7 +22,6 @@ export default function ShopAccountInformation({
     },
   });
 
-  console.log("25",information);
   
   return (
     <div className="p-2 lg:w-78 w-full shrink-0 lg:sticky lg:top-0">

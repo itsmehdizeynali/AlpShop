@@ -40,8 +40,6 @@ export default function ShopAccountAddressesPage() {
     selectAddressMutation.mutate({ id, isDefault: true });
   };
 
-  console.log(addresses);
-
   return (
     <div className="container my-section">
       <Heading className="text-center mb-4">Addersses</Heading>

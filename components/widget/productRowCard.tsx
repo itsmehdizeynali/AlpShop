@@ -15,7 +15,6 @@ export default function WidgetProductRowCard({
   item,
   queryKeys,
 }: ProductRowCardPropsType) {
-  console.log(item);
 
   return (
     <Card

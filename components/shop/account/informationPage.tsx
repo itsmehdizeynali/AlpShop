@@ -34,8 +34,6 @@ export default function ShopAccountInformationPage() {
     queryKey: ["information"],
     queryFn: getProfileService,
   });
-
-  console.log(information);
   
 
   const changeInformationMutation = useMutation({
@@ -46,7 +44,6 @@ export default function ShopAccountInformationPage() {
   });
 
   const submitFn = (data: AccountInformationForms) => {
-    console.log(data);
     changeInformationMutation.mutate(data);
   };
 

@@ -40,8 +40,6 @@ export default function ShopProductsPage() {
       }),
   });
   
-
-  console.log(data);
   
   return (
     <div className="container my-section">

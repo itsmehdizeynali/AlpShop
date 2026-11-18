@@ -47,7 +47,7 @@ export default function LayoutHeader({ className = "" }: HeaderPropsType) {
               </li>
               <li className="border-e border-neutral-light even:border-0 nth-[2]:me-auto last:border-0">
                 <Link
-                  href="info@alpShop.com"
+                  href="email:info@alpShop.com"
                   className="flex items-center text-base font-light py-5 px-5 hover:bg-neutral-lighter transition-all"
                 >
                   <i className="icon-email me-4 text-primary text-2xl font-medium"></i>

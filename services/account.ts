@@ -15,14 +15,12 @@ export const updateProfileService = async (data: {
   countryPhoneCode?: string;
 }) => {
   const response = await apiClient.put(API_ENDPOINTS.PROFILE, data);
-  console.log(response.data);
   
   return response?.data;
 };
 
 export const getAccountStatsService = async () => {
   const response = await apiClient.get(API_ENDPOINTS.ACCOUNT.STATS);
-  console.log(response.data);
 
   return response?.data?.stats as statsDataType;
 };
@@ -30,7 +28,6 @@ export const getAccountStatsService = async () => {
 
 export const getOrdersService = async () => {
   const response = await apiClient.get(API_ENDPOINTS.ORDERS.BASE);
-  console.log(response.data);
 
   return response?.data ;
 };

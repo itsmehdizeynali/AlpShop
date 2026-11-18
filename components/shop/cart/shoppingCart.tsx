@@ -9,7 +9,6 @@ export default function ShopCartShoppingCart({
   isLoading = false,
 }: shoppingCartPropsType) {
   
-  console.log(items);
   
   return (
     <div className="p-2 grow">

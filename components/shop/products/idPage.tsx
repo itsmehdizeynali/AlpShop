@@ -14,19 +14,27 @@ import Tabs from "@/components/generic/tabs";
 import clsx from "clsx";
 import { getProductService } from "@/services/product";
 import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { getProductsService } from "@/services/generic";
 import ShopSectionsProductsWrap from "../sections/productsWrap";
 import ShopCommentsWrap from "../generic/commentsWrap";
 import LoadingProductSingle from "@/components/loading/productSingle";
 import ShopProductsPriceBox from "./priceBox";
+import {
+  addToWishlistService,
+  removeFromWishlistService,
+} from "@/services/wishlist";
 
 type TabsItemType = { id: string; name: string };
 
 export default function ShopProductsIdPage() {
   const { id } = useParams<{ id: string }>();
-  const { data: product, isLoading: detailsLoading } = useQuery({
+  const {
+    data: product,
+    isLoading: detailsLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["product_details", id],
     queryFn: () => getProductService(id),
   });
@@ -38,6 +46,7 @@ export default function ShopProductsIdPage() {
   const relatedProducts = related?.products.filter(
     (item) => item.id !== product?.id,
   );
+  
 
   const [activeTab, setActiveTab] = useState<string>("description");
   const tabsItems: TabsItemType[] = [
@@ -80,7 +89,26 @@ export default function ShopProductsIdPage() {
   const variants = product?.variantGroups.filter(
     (item) => item.title !== "color",
   );
-  
+
+  const addToWishlistMutation = useMutation({
+    mutationFn: addToWishlistService,
+    onSuccess: () => {
+      refetch();
+    },
+  });
+  const removeFromWishlistMutation = useMutation({
+    mutationFn: removeFromWishlistService,
+    onSuccess: () => {
+      refetch();
+    },
+  });
+  const handelWishlistBtn = () => {
+    if (product?.isWishlisted) {
+      removeFromWishlistMutation.mutate(product.id);
+      return;
+    }
+    if (product?.id) addToWishlistMutation.mutate(product.id);
+  };
 
   return (
     <>
@@ -108,7 +136,10 @@ export default function ShopProductsIdPage() {
                       modules={[Mousewheel, Thumbs]}
                     >
                       {product?.images.map((item, index) => (
-                        <SwiperSlide key={index} className="max-h-16 max-w-16 group">
+                        <SwiperSlide
+                          key={index}
+                          className="max-h-16 max-w-16 group"
+                        >
                           <div className="p-1.5 w-16 h-16 rounded-xl cursor-pointer group-[&.swiper-slide-thumb-active]:bg-primary-light! bg-neutral-lighter hover:bg-neutral-light transition-all">
                             <Image
                               src={product.images[0].url}
@@ -121,7 +152,22 @@ export default function ShopProductsIdPage() {
                         </SwiperSlide>
                       ))}
                     </Swiper>
-                    <div className="sm:grow max-sm:w-full sm:ps-4 max-sm:mb-2">
+                    <div className="sm:grow max-sm:w-full sm:ps-4 max-sm:mb-2 relative">
+                      <Btn
+                        icon={
+                          product.isWishlisted ? "icon-heart" : "icon-heart1"
+                        }
+                        square
+                        size="xs"
+                        color={product.isWishlisted ? "danger" : "white"}
+                        rounded
+                        className={clsx(
+                          { "shadow-card": !product.isWishlisted },
+                          "top-1 end-1 z-10 !absolute",
+                        )}
+                        loading={addToWishlistMutation.isPending}
+                        onClick={handelWishlistBtn}
+                      />
                       <div className="w-full sm:h-80 h-60 bg-neutral-lighter rounded-lg p-4 overflow-hidden">
                         <Swiper
                           modules={[Thumbs]}

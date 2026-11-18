@@ -14,7 +14,6 @@ export const getProvincesService = async (countryCode?: string) => {
 
 export const getCitiesService = async (provinceId: string) => {
   const response = await apiClient.get(API_ENDPOINTS.GEO.CITIES, { params: { province: provinceId } });
-  console.log(response.data);
   
   return response?.data?.cities;
 };

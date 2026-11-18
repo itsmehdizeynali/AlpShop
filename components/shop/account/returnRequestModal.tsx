@@ -20,7 +20,6 @@ export default function ShopAccountReturnRequestModal({
     mutationFn: ({ orderId, reason }: { orderId: string; reason: string }) =>
       requestReturnService({ orderId, reason }),
     onSuccess: (data) => {
-      console.log(data);
       router.push("/account");
     },
   });

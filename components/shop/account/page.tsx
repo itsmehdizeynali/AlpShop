@@ -121,7 +121,6 @@ export default function ShopAccountPage() {
       })
     : undefined;
 
-  console.log(information);
 
   const { accountStats } = dataShopPages({ stats });
 

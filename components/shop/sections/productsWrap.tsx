@@ -15,6 +15,7 @@ export default function ShopSectionsProductsWrap({
   isLoading = false,
   queryKeys,
 }: ProductsWrapPropsType) {
+  
   return (
     <div className={clsx(className, "overflow-hidden")}>
       <div className="container">
@@ -36,7 +37,7 @@ export default function ShopSectionsProductsWrap({
               />
             ))}
           </div>
-        ) : !!products ? (
+        ) : !!products?.length ? (
           <Swiper
             className="max-lg:!overflow-visible"
             modules={[Navigation]}

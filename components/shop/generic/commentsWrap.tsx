@@ -35,9 +35,7 @@ export default function ShopCommentsWrap({
     });
 
     
-    
     const comments = data?.pages.flatMap((page) => page.comments);
-    console.log(data);
   return (
     <>
       {!!comments?.length ? (

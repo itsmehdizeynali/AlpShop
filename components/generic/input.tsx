@@ -77,7 +77,6 @@ export default function Input({
           {list.items.map((item, index) => (
             <Text
               onMouseDown={() => {
-                console.log("dfslnr");
                 list.onSelect(item);
               }}
               color="black"

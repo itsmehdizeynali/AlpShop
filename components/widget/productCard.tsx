@@ -24,6 +24,7 @@ export default function WidgetProductCard({
   responsive = false,
   queryKeys,
 }: ProductCardPropsType) {
+  
   const QueryClient = useQueryClient();
 
   const handelQueryKeys = () => {
@@ -93,7 +94,7 @@ export default function WidgetProductCard({
           { "shadow-card": !product.isWishlisted },
           "top-1 end-1 z-10 !absolute",
         )}
-        loading={addToWishlistMutation.isPending}
+        loading={addToWishlistMutation.isPending||removeFromWishlistMutation.isPending}
         onClick={handelWishlistBtn}
       />
       <Link

@@ -42,8 +42,6 @@ export default function ShopProductsPriceBox({
       }),
   });
 
-  console.log(variants, colors);
-
   const QueryClient = useQueryClient();
   const addToCartMutation = useMutation({
     mutationFn: addToCartService,
